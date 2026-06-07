@@ -49,6 +49,19 @@ def main():
     for t in tickets:
         t["name"] = re.sub(r"  +", " ", t["name"]).strip()
 
+    # Tickets that cover the whole network (e.g. All Line Rover) come from NR
+    # with an empty `stations` array plus an applies_to_all_stations flag --
+    # list every station in the network explicitly instead, which is more
+    # accurate for the map than relying on the flag alone. Do this before
+    # applying remove/add_stations overrides so they can also be used to
+    # tweak these network-wide lists (e.g. to drop a station NR considers
+    # out of scope despite the "all stations" flag)
+    all_station_names = sorted(coords)
+    for t in tickets:
+        if t.get("applies_to_all_stations") and not t["stations"]:
+            t["stations"] = all_station_names
+            print(f"{t['name']!r}: populated with all {len(all_station_names)} network stations")
+
     # Apply overrides
     remove_map = overrides.get("remove_stations", {})
     for t in tickets:
@@ -92,16 +105,6 @@ def main():
         if t["id"] in pricing_map:
             t["pricing"] = pricing_map[t["id"]]
             print(f"Override pricing for {t['name']!r}: {len(t['pricing'])} price tier(s) supplied manually")
-
-    # Tickets that cover the whole network (e.g. All Line Rover) come from NR
-    # with an empty `stations` array plus an applies_to_all_stations flag --
-    # list every station in the network explicitly instead, which is more
-    # accurate for the map than relying on the flag alone
-    all_station_names = sorted(coords)
-    for t in tickets:
-        if t.get("applies_to_all_stations") and not t["stations"]:
-            t["stations"] = all_station_names
-            print(f"{t['name']!r}: populated with all {len(all_station_names)} network stations")
 
     # Sort alphabetically for the sidebar legend
     tickets.sort(key=lambda t: t["name"].lower())
