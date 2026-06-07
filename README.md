@@ -50,13 +50,19 @@ Add entries to `overrides.json` and re-run `build_html.py`:
 {
   "remove_stations": {
     "ticket-slug": ["Incorrectly Listed Station"]
+  },
+  "station_coords": {
+    "Station With Wrong Coordinates": [51.1234, -0.5678]
   }
 }
 ```
 
+`remove_stations` drops a station from a specific ticket's coverage area; `station_coords` overrides a station's lat/lon everywhere on the map (for cases where NR's own station page has an error -- a direct edit to `coords.json` would just be overwritten the next time `fetch_coords.py` runs).
+
 Known corrections:
 - `thames-rover-7-day`: Denby Dale (a West Yorkshire station incorrectly listed)
 - `freedom-of-severn-solent-8-in-15-day-rover`, `freedom-of-severn-solent-3-in-7-day-rover`: Penmere (incorrectly listed)
+- Burnham-on-Crouch: NR's own station page places it in the North Sea (`51.8378, 2.3082`, ~110km from Essex); corrected to its real location (`51.6335, 0.8143`)
 
 ## Data sources
 

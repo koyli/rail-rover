@@ -58,6 +58,15 @@ def main():
             t["stations"] = [s for s in t["stations"] if s not in removals]
             print(f"Override {t['name']!r}: removed {before - len(t['stations'])} station(s)")
 
+    # NR's own station pages occasionally have wrong coordinates (e.g.
+    # Burnham-on-Crouch is published in the North Sea, ~110km from its
+    # actual location) -- correct those here rather than in coords.json,
+    # since fetch_coords.py would silently overwrite a direct edit there
+    for name, coord in overrides.get("station_coords", {}).items():
+        if name in coords and coords[name] != coord:
+            print(f"Override station coordinates {name!r}: {coords[name]} -> {coord}")
+        coords[name] = coord
+
     # Tickets that cover the whole network (e.g. All Line Rover) come from NR
     # with an empty `stations` array plus an applies_to_all_stations flag --
     # list every station in the network explicitly instead, which is more
