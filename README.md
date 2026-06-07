@@ -48,6 +48,16 @@ Add entries to `overrides.json` and re-run `build_html.py`:
 
 ```json
 {
+  "add_tickets": [
+    {
+      "id": "ticket-slug",
+      "name": "Ticket Name",
+      "url": "https://www.nationalrail.co.uk/...",
+      "description": "Plain text description.",
+      "operator": "Operator One, Operator Two",
+      "stations": ["Station One", "Station Two"]
+    }
+  ],
   "remove_stations": {
     "ticket-slug": ["Incorrectly Listed Station"]
   },
@@ -65,6 +75,7 @@ Add entries to `overrides.json` and re-run `build_html.py`:
 }
 ```
 
+- `add_tickets` injects a whole ticket that's missing from NR's "ranger-rover" promotions listing entirely (the thing `fetch_tickets.py` scrapes) -- e.g. tickets that live under NR's separate `ticket-types/tickets/` section instead, which has no station list or pricing embedded in the page. `stations`/`stations_complete`/`applies_to_all_stations`/`pricing` are optional and default to `[]`/`true`/`false`/`[]`; the other fields are required. Added tickets go through the same pipeline as scraped ones, so `remove_stations`/`add_stations`/`pricing` overrides can also target them by `id`
 - `remove_stations` drops a station from a specific ticket's coverage area
 - `add_stations` adds stations to a ticket's coverage area (for tickets whose NR page lists no stations at all, or is missing some) -- station names must match `coords.json` exactly (e.g. "Whitchurch (Shropshire)", not "Whitchurch"), or they won't get a map marker; `build_html.py` warns if an added name has no matching coordinates
 - `station_coords` overrides a station's lat/lon everywhere on the map (for cases where NR's own station page has an error -- a direct edit to `coords.json` would just be overwritten the next time `fetch_coords.py` runs)
@@ -75,6 +86,7 @@ Known corrections:
 - `freedom-of-severn-solent-8-in-15-day-rover`, `freedom-of-severn-solent-3-in-7-day-rover`: Penmere (incorrectly listed)
 - Burnham-on-Crouch: NR's own station page places it in the North Sea (`51.8378, 2.3082`, ~110km from Essex); corrected to its real location (`51.6335, 0.8143`)
 - `spirit-of-scotland-travelpass`: NR's page doesn't expose pricing (renders via a calculator widget); manually supplied as £155 (4 in 8 days) / £196 (8 in 15 days)
+- Transport for Greater Manchester Rail Ranger (GM1) and Day Saver (GM2/GM3/GM4): missing entirely from NR's ranger-rover promotions listing (they live under `ticket-types/tickets/` instead, e.g. `/ticket-types/tickets/gm1/`); added manually via `add_tickets` with their station coverage sourced from [TfGM's train station list](https://tfgm.com/ways-to-travel/train/stations) (97 stations, names matched to NR's `coords.json` regional-disambiguation conventions, e.g. "Eccles (Manchester)" not "Eccles"). GM2/GM3/GM4 are really one ticket product (train+bus / train+tram / train+bus+tram variants of the same Day Saver) sharing one NR content page, so they're represented as a single entry. Neither ticket exposes pricing on NR's site (calculator widget, as with Spirit of Scotland) -- not yet supplied
 
 ## Data sources
 

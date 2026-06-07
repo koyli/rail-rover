@@ -45,6 +45,20 @@ def main():
     with open(OVERRIDES_FILE) as f:
         overrides = json.load(f)
 
+    # NR's "ranger-rover" promotions listing (what fetch_tickets.py scrapes)
+    # doesn't include every ranger/ranger-style ticket -- e.g. the Transport
+    # for Greater Manchester tickets (GM1, GM2/3/4) live under a separate
+    # ticket-types section of the site with no station list or pricing
+    # embedded in the page at all. Inject whole tickets here; combine with
+    # add_stations/pricing overrides below to fill in their coverage and fares
+    for new_ticket in overrides.get("add_tickets", []):
+        new_ticket.setdefault("stations", [])
+        new_ticket.setdefault("stations_complete", True)
+        new_ticket.setdefault("applies_to_all_stations", False)
+        new_ticket.setdefault("pricing", [])
+        tickets.append(new_ticket)
+        print(f"Added ticket {new_ticket['name']!r} ({new_ticket['id']}) from overrides")
+
     # Clean up names
     for t in tickets:
         t["name"] = re.sub(r"  +", " ", t["name"]).strip()

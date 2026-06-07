@@ -1,4 +1,60 @@
 {
+  "add_tickets": [
+    {
+      "id": "transport-for-greater-manchester-rail-ranger",
+      "name": "Transport for Greater Manchester Rail Ranger",
+      "url": "https://www.nationalrail.co.uk/ticket-types/tickets/gm1/",
+      "description": "Off-peak one day ranger ticket valid only on National Rail trains in the Greater Manchester area.",
+      "operator": "CrossCountry, TransPennine Express, London Northwestern Railway, Northern, Avanti West Coast",
+      "stations": [
+        "Altrincham", "Appley Bridge", "Ardwick", "Ashburys", "Ashton-under-Lyne", "Atherton",
+        "Belle Vue", "Blackrod", "Bolton", "Bramhall", "Bredbury", "Brinnington", "Broadbottom",
+        "Bromley Cross (Lancs)", "Bryn", "Burnage", "Castleton (Manchester)", "Chassen Road",
+        "Cheadle Hulme", "Clifton (Manchester)", "Daisy Hill", "Davenport", "Deansgate", "Denton",
+        "Dinting", "East Didsbury", "Eccles (Manchester)", "Fairfield", "Farnworth", "Flixton",
+        "Flowery Field", "Gathurst", "Gatley", "Glazebrook", "Glossop", "Godley", "Gorton",
+        "Greenfield", "Guide Bridge", "Hadfield", "Hag Fold", "Hale (Manchester)",
+        "Hall-i'-th'-Wood", "Hattersley", "Hazel Grove", "Heald Green", "Heaton Chapel",
+        "Hindley", "Horwich Parkway", "Humphrey Park", "Hyde Central", "Hyde North",
+        "Ince (Manchester)", "Irlam", "Kearsley (Manchester)", "Levenshulme", "Littleborough",
+        "Lostock", "Manchester Airport", "Manchester Oxford Road", "Manchester Piccadilly",
+        "Manchester United Football Ground", "Manchester Victoria", "Marple", "Mauldeth Road",
+        "Middlewood", "Mills Hill (Manchester)", "Moorside", "Moses Gate", "Mossley (Manchester)",
+        "Moston", "Navigation Road", "Newton for Hyde", "Orrell", "Patricroft", "Pemberton",
+        "Reddish North", "Reddish South", "Rochdale", "Romiley", "Rose Hill Marple", "Ryder Brow",
+        "Salford Central", "Salford Crescent", "Smithy Bridge", "Stalybridge", "Stockport",
+        "Strines", "Swinton (Manchester)", "Trafford Park", "Urmston", "Walkden", "Westhoughton",
+        "Wigan North Western", "Wigan Wallgate", "Woodley", "Woodsmoor"
+      ]
+    },
+    {
+      "id": "transport-for-greater-manchester-day-saver",
+      "name": "Transport for Greater Manchester Day Saver",
+      "url": "https://www.nationalrail.co.uk/ticket-types/tickets/gm2/",
+      "description": "Off-peak multi-journey, multi-modal day ticket for train travel in the Greater Manchester area. GM2 - Train and bus. GM3 - Train and Metrolink (trams). GM4 - Trains, bus and Metrolink (trams).",
+      "operator": "Transport for Wales, CrossCountry, East Midlands Railway, Northern, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Altrincham", "Appley Bridge", "Ardwick", "Ashburys", "Ashton-under-Lyne", "Atherton",
+        "Belle Vue", "Blackrod", "Bolton", "Bramhall", "Bredbury", "Brinnington", "Broadbottom",
+        "Bromley Cross (Lancs)", "Bryn", "Burnage", "Castleton (Manchester)", "Chassen Road",
+        "Cheadle Hulme", "Clifton (Manchester)", "Daisy Hill", "Davenport", "Deansgate", "Denton",
+        "Dinting", "East Didsbury", "Eccles (Manchester)", "Fairfield", "Farnworth", "Flixton",
+        "Flowery Field", "Gathurst", "Gatley", "Glazebrook", "Glossop", "Godley", "Gorton",
+        "Greenfield", "Guide Bridge", "Hadfield", "Hag Fold", "Hale (Manchester)",
+        "Hall-i'-th'-Wood", "Hattersley", "Hazel Grove", "Heald Green", "Heaton Chapel",
+        "Hindley", "Horwich Parkway", "Humphrey Park", "Hyde Central", "Hyde North",
+        "Ince (Manchester)", "Irlam", "Kearsley (Manchester)", "Levenshulme", "Littleborough",
+        "Lostock", "Manchester Airport", "Manchester Oxford Road", "Manchester Piccadilly",
+        "Manchester United Football Ground", "Manchester Victoria", "Marple", "Mauldeth Road",
+        "Middlewood", "Mills Hill (Manchester)", "Moorside", "Moses Gate", "Mossley (Manchester)",
+        "Moston", "Navigation Road", "Newton for Hyde", "Orrell", "Patricroft", "Pemberton",
+        "Reddish North", "Reddish South", "Rochdale", "Romiley", "Rose Hill Marple", "Ryder Brow",
+        "Salford Central", "Salford Crescent", "Smithy Bridge", "Stalybridge", "Stockport",
+        "Strines", "Swinton (Manchester)", "Trafford Park", "Urmston", "Walkden", "Westhoughton",
+        "Wigan North Western", "Wigan Wallgate", "Woodley", "Woodsmoor"
+      ]
+    }
+  ],
   "remove_stations": {
       "thames-rover-7-day": ["Denby Dale"],
       "freedom-of-severn-solent-8-in-15-day-rover": ["Penmere"],
