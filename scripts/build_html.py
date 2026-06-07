@@ -67,6 +67,14 @@ def main():
             print(f"Override station coordinates {name!r}: {coords[name]} -> {coord}")
         coords[name] = coord
 
+    # Some tickets' NR pages don't expose pricing in the page data (e.g. it's
+    # rendered via an interactive calculator widget) -- supply it manually
+    pricing_map = overrides.get("pricing", {})
+    for t in tickets:
+        if t["id"] in pricing_map:
+            t["pricing"] = pricing_map[t["id"]]
+            print(f"Override pricing for {t['name']!r}: {len(t['pricing'])} price tier(s) supplied manually")
+
     # Tickets that cover the whole network (e.g. All Line Rover) come from NR
     # with an empty `stations` array plus an applies_to_all_stations flag --
     # list every station in the network explicitly instead, which is more

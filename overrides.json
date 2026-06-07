@@ -5,5 +5,11 @@
       "freedom-of-severn-solent-3-in-7-day-rover": ["Penmere"]   },
   "station_coords": {
       "Burnham-on-Crouch": [51.6335, 0.8143]
+  },
+  "pricing": {
+      "spirit-of-scotland-travelpass": [
+          {"label": "4 in 8 days", "adultPrice": 155},
+          {"label": "8 in 15 days", "adultPrice": 196}
+      ]
   }
 }

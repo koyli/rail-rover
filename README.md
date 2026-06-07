@@ -53,16 +53,24 @@ Add entries to `overrides.json` and re-run `build_html.py`:
   },
   "station_coords": {
     "Station With Wrong Coordinates": [51.1234, -0.5678]
+  },
+  "pricing": {
+    "ticket-slug": [
+      {"label": "4 in 8 days", "adultPrice": 155}
+    ]
   }
 }
 ```
 
-`remove_stations` drops a station from a specific ticket's coverage area; `station_coords` overrides a station's lat/lon everywhere on the map (for cases where NR's own station page has an error -- a direct edit to `coords.json` would just be overwritten the next time `fetch_coords.py` runs).
+- `remove_stations` drops a station from a specific ticket's coverage area
+- `station_coords` overrides a station's lat/lon everywhere on the map (for cases where NR's own station page has an error -- a direct edit to `coords.json` would just be overwritten the next time `fetch_coords.py` runs)
+- `pricing` replaces a ticket's whole price list (for tickets whose NR page renders prices through an interactive widget rather than embedding them in the page data, so `fetch_tickets.py` can't scrape them) -- entries use the same shape as scraped pricing (`label`, `adultPrice`, `childPrice`, `concessionPrice`, `railcardPrices`, ...); fields you don't supply just won't be shown
 
 Known corrections:
 - `thames-rover-7-day`: Denby Dale (a West Yorkshire station incorrectly listed)
 - `freedom-of-severn-solent-8-in-15-day-rover`, `freedom-of-severn-solent-3-in-7-day-rover`: Penmere (incorrectly listed)
 - Burnham-on-Crouch: NR's own station page places it in the North Sea (`51.8378, 2.3082`, ~110km from Essex); corrected to its real location (`51.6335, 0.8143`)
+- `spirit-of-scotland-travelpass`: NR's page doesn't expose pricing (renders via a calculator widget); manually supplied as £155 (4 in 8 days) / £196 (8 in 15 days)
 
 ## Data sources
 
