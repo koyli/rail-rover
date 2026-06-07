@@ -58,6 +58,16 @@ def main():
             t["stations"] = [s for s in t["stations"] if s not in removals]
             print(f"Override {t['name']!r}: removed {before - len(t['stations'])} station(s)")
 
+    # Tickets that cover the whole network (e.g. All Line Rover) come from NR
+    # with an empty `stations` array plus an applies_to_all_stations flag --
+    # list every station in the network explicitly instead, which is more
+    # accurate for the map than relying on the flag alone
+    all_station_names = sorted(coords)
+    for t in tickets:
+        if t.get("applies_to_all_stations") and not t["stations"]:
+            t["stations"] = all_station_names
+            print(f"{t['name']!r}: populated with all {len(all_station_names)} network stations")
+
     # Sort alphabetically for the sidebar legend
     tickets.sort(key=lambda t: t["name"].lower())
 
@@ -161,6 +171,14 @@ function fmtPrice(p) {{
   return '£' + (Number.isInteger(p) ? p : p.toFixed(2));
 }}
 
+function coverageLabel(ticket) {{
+  const n = ticket.stations.length;
+  if (n) return n + ' stations';
+  if (ticket.applies_to_all_stations) return 'network-wide';
+  if (ticket.validity_map_url) return 'see route map';
+  return 'coverage not listed';
+}}
+
 function adultPrice(ticket) {{
   if (!ticket.pricing || !ticket.pricing.length) return null;
   for (const p of ticket.pricing) {{
@@ -235,11 +253,11 @@ function hidePanel(){{ panel.style.display='none'; }}
 
 const listEl=document.getElementById('ticket-list');
 TICKETS.forEach(ticket=>{{
-  const color=COLORS[ticket.id]; const n=ticket.stations.length;
+  const color=COLORS[ticket.id];
   const ap = adultPrice(ticket);
   const apStr = ap != null ? ` &middot; ${{fmtPrice(ap)}}` : '';
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
-  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{n?n+' stations':'network-wide'}}${{apStr}}</div></div><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
+  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
   el.addEventListener('click',()=>{{
     if(activeTickets.has(ticket.id)){{ activeTickets.delete(ticket.id); map.removeLayer(ticketLayers[ticket.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}
     else {{ activeTickets.add(ticket.id); ticketLayers[ticket.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=color; }}
