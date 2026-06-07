@@ -12,7 +12,8 @@
         "Settle", "Horton-in-Ribblesdale", "Ribblehead", "Dent", "Garsdale",
         "Kirkby Stephen", "Appleby", "Langwathby", "Lazonby & Kirkoswald",
         "Armathwaite", "Carlisle", "Bradford Forster Square", "Frizinghall"
-    ]
+    ],
+      "cotswolds-one-day-discoverer" : ["Hanborough", "Combe (Oxon)" ]
   },
   "pricing": {
     "spirit-of-scotland-travelpass": [
