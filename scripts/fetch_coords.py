@@ -4,121 +4,91 @@ Build a station name -> [lat, lon] coordinate dictionary for all stations
 that appear in data/tickets_raw.json.
 
 Strategy:
-1. Bulk-fetch all UK railway stations from the OSM Overpass API.
-2. Direct name match, then fuzzy match (strip parentheticals, case-insensitive).
-3. A small hardcoded table covers stations with ampersands or unusual names
-   that OSM lists differently.
+  National Rail's own station directory is the authoritative source for both
+  station names AND coordinates -- and unlike OpenStreetMap, NR's data is
+  already disambiguated by region (e.g. "Whitchurch (Cardiff)" vs
+  "Whitchurch (Shropshire)" are distinct entries with their own coordinates).
+  An earlier OSM-based approach stripped these "(Region)" qualifiers to fuzzy
+  -match station names, which silently collapsed multiple distinct stations
+  onto a single OSM entry whenever OSM only tagged one regional variant with
+  the bare name (e.g. both Whitchurch stations matched OSM's solitary
+  "Whitchurch", which is actually in Hampshire).
+
+  For each station name we need:
+   1. Query NR's public station-search index (Algolia; the credentials are
+      a search-only key embedded in nationalrail.co.uk's page data) for an
+      exact name match, which yields a URL slug like "whitchurch-shropshire".
+   2. Fetch that station's detail page at nationalrail.co.uk/stations/{slug}/
+      and read the precise lat/lon out of its embedded __NEXT_DATA__ JSON.
 
 Outputs: data/coords.json
 """
 
-import json, re, urllib.request, urllib.parse
+import json, re, subprocess, time
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 TICKETS_FILE = Path(__file__).parent.parent / "data" / "tickets_raw.json"
 OUTPUT       = Path(__file__).parent.parent / "data" / "coords.json"
 
-OVERPASS_QUERY = """
-[out:json][timeout:90];
-(
-  node["railway"="station"](49,-8,61,2);
-  node["railway"="halt"](49,-8,61,2);
-);
-out body;
-"""
+ALGOLIA_URL = "https://uaidcukgz5-dsn.algolia.net/1/indexes/site-search-prod/query"
+ALGOLIA_KEY = "4a8ad6ab414cd909a260fc6d15d004f7"
+ALGOLIA_APP = "UAIDCUKGZ5"
+STATION_URL = "https://www.nationalrail.co.uk/stations/{slug}/"
 
-# Stations that OSM names differently from National Rail
-MANUAL = {
-    "Abergele & Pensarn":         [53.287, -3.585],
-    "Ansdell & Fairhaven":        [53.741, -2.970],
-    "Arrochar & Tarbet":          [56.197, -4.726],
-    "Barnsley":                   [53.554, -1.477],
-    "Birkenhead Hamilton Square": [53.393, -3.018],
-    "Cark & Cartmel":             [54.188, -2.908],
-    "Church & Oswaldtwistle":     [53.751, -2.375],
-    "Dore & Totley":              [53.326, -1.536],
-    "Dunkeld & Birnam":           [56.558, -3.578],
-    "Edinburgh":                  [55.952, -3.190],
-    "Elton & Orston":             [52.937, -0.906],
-    "Gillingham Kent":            [51.386,  0.549],
-    "Hall-i'-th'-Wood":           [53.597, -2.424],
-    "Hayes & Harlington":         [51.506, -0.422],
-    "Hope Derbyshire":            [53.346, -1.722],
-    "Hope Flintshire":            [53.100, -3.047],
-    "Hoveton & Wroxham":          [52.713,  1.406],
-    "Hull":                       [53.744, -0.347],
-    "IBM":                        [55.906, -4.393],
-    "Ince & Elton (Cheshire)":    [53.280, -2.830],
-    "Kings Sutton":               [52.040, -1.305],
-    "Kirkham & Wesham":           [53.787, -2.877],
-    "Lazonby & Kirkoswald":       [54.725, -2.714],
-    "Lisvane & Thornhill":        [51.544, -3.165],
-    "Meadowhall":                 [53.413, -1.421],
-    "North Llanrwst":             [53.125, -3.798],
-    "Partick":                    [55.872, -4.319],
-    "Pembrey & Burry Port":       [51.692, -4.240],
-    "Pontypool & New Inn":        [51.702, -3.014],
-    "Possilpark & Parkhouse":     [55.888, -4.259],
-    "Ramsgreave & Wilpshire":     [53.789, -2.447],
-    "Ravenglass for Eskdale":     [54.355, -3.407],
-    "Risca & Pontymister":        [51.607, -3.089],
-    "Sandal & Agbrigg":           [53.659, -1.494],
-    "Shepherds Well":             [51.199,  1.268],
-    "Stanlow & Thornton":         [53.267, -2.861],
-    "Steeton & Silsden":          [53.897, -1.933],
-    "Swinton (South Yorks)":      [53.509, -1.312],
-    "Trefforest Estate":          [51.581, -3.286],
-    "Ty Glas":                    [51.534, -3.196],
-    "Windsor & Eton Central":     [51.480, -0.618],
-}
+WORKERS = 5
 
 
-def fetch_osm():
-    print("Fetching UK station coordinates from OSM Overpass API...")
-    data = urllib.parse.urlencode({"data": OVERPASS_QUERY}).encode()
-    req  = urllib.request.Request(
-        "https://overpass-api.de/api/interpreter", data=data,
-        headers={"User-Agent": "RailRoverApp/1.0"}
-    )
-    with urllib.request.urlopen(req, timeout=120) as resp:
-        result = json.loads(resp.read().decode())
-
-    osm = {}
-    for el in result.get("elements", []):
-        name = el.get("tags", {}).get("name", "").strip()
-        lat, lon = el.get("lat"), el.get("lon")
-        if name and lat and lon:
-            if name not in osm or el.get("tags", {}).get("network") == "National Rail":
-                osm[name] = [round(lat, 4), round(lon, 4)]
-    print(f"  Got {len(osm)} named stations from OSM")
-    return osm
+def curl(args, data=None):
+    cmd = ["curl", "-s", "--max-time", "20"] + args
+    r = subprocess.run(cmd, input=data, capture_output=True, text=True)
+    return r.stdout
 
 
-def match_stations(needed, osm):
-    coords = {}
-    unmatched = []
+RETRIES = 4
 
-    for s in needed:
-        if s in osm:
-            coords[s] = osm[s]
-            continue
 
-        # Strip parenthetical suffix e.g. "(Cheshire)"
-        stripped = re.sub(r"\s*\([^)]+\)\s*$", "", s).strip()
-        osm_lower = {k.lower(): v for k, v in osm.items()}
+def algolia_search(name):
+    body = json.dumps({"query": name, "hitsPerPage": 5, "filters": "type:Station"})
+    for attempt in range(RETRIES):
+        out = curl([
+            "-X", "POST", ALGOLIA_URL,
+            "-H", f"X-Algolia-API-Key: {ALGOLIA_KEY}",
+            "-H", f"X-Algolia-Application-Id: {ALGOLIA_APP}",
+            "-H", "Content-Type: application/json",
+            "-H", "Referer: https://www.nationalrail.co.uk/",
+            "-d", body,
+        ])
+        try:
+            hits = json.loads(out).get("hits", [])
+            if hits:
+                return hits
+        except Exception:
+            pass
+        time.sleep(0.5 * (attempt + 1))
+    return []
 
-        if stripped in osm:
-            coords[s] = osm[stripped]
-        elif s + " Station" in osm:
-            coords[s] = osm[s + " Station"]
-        elif s.lower() in osm_lower:
-            coords[s] = osm_lower[s.lower()]
-        elif stripped.lower() in osm_lower:
-            coords[s] = osm_lower[stripped.lower()]
-        else:
-            unmatched.append(s)
 
-    return coords, unmatched
+def station_location(slug):
+    for attempt in range(RETRIES):
+        html = curl([STATION_URL.format(slug=slug)])
+        m = re.search(r'"location":\{"lat":(-?[\d.]+),"lon":(-?[\d.]+)\}', html)
+        if m:
+            return [round(float(m.group(1)), 4), round(float(m.group(2)), 4)]
+        time.sleep(0.5 * (attempt + 1))
+    return None
+
+
+def lookup(name):
+    hits = algolia_search(name)
+    match = next((h for h in hits if h.get("name", "").strip().lower() == name.strip().lower()), None)
+    if not match:
+        return name, None, f"no exact match (candidates: {[h.get('name') for h in hits[:3]]})"
+    slug = match["url"].strip("/").split("/")[-1]
+    coord = station_location(slug)
+    if not coord:
+        return name, None, f"matched slug={slug} but no location data on its page"
+    return name, coord, None
 
 
 def main():
@@ -128,24 +98,43 @@ def main():
     needed = sorted({s for t in tickets for s in t["stations"]})
     print(f"Need coordinates for {len(needed)} unique stations")
 
-    osm = fetch_osm()
-    coords, unmatched = match_stations(needed, osm)
+    # Resume from a previous partial run if coords.json already has entries
+    # (NR's search API rate-limits under concurrency, so a first pass may
+    # leave some stations unmatched -- re-running only retries those).
+    coords = {}
+    if OUTPUT.exists():
+        with open(OUTPUT) as f:
+            coords = {k: v for k, v in json.load(f).items() if k in needed}
+    todo = [n for n in needed if n not in coords]
+    print(f"  {len(coords)} already cached, looking up {len(todo)} remaining "
+          f"against National Rail's authoritative station directory...")
 
-    # Apply manual table
-    for name, coord in MANUAL.items():
-        if name in needed:
-            coords[name] = coord
-            if name in unmatched:
-                unmatched.remove(name)
+    unmatched = []
+    done = 0
+    t0 = time.time()
+    with ThreadPoolExecutor(max_workers=WORKERS) as ex:
+        futures = {ex.submit(lookup, name): name for name in todo}
+        for fut in as_completed(futures):
+            name, coord, err = fut.result()
+            done += 1
+            if coord:
+                coords[name] = coord
+            else:
+                unmatched.append((name, err))
+            if done % 100 == 0:
+                elapsed = time.time() - t0
+                print(f"  {done}/{len(todo)} ({elapsed:.0f}s elapsed)", flush=True)
+
+    print(f"\nMatched {len(coords)}/{len(needed)} total ({time.time()-t0:.0f}s for this run)")
 
     if unmatched:
-        print(f"\nWARNING: {len(unmatched)} stations still unmatched:")
-        for s in unmatched:
-            print(f"  {s}")
+        print(f"\nWARNING: {len(unmatched)} stations could not be matched:")
+        for name, err in unmatched:
+            print(f"  {name}: {err}")
 
     OUTPUT.parent.mkdir(exist_ok=True)
     with open(OUTPUT, "w") as f:
-        json.dump(coords, f, indent=2, ensure_ascii=False)
+        json.dump(dict(sorted(coords.items())), f, indent=2, ensure_ascii=False)
     print(f"\nSaved {len(coords)} coordinates to {OUTPUT}")
 
 

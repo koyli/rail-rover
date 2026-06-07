@@ -33,7 +33,7 @@ scripts/
 # 1. Scrape all tickets from National Rail (~95 tickets, takes ~30s)
 python3 scripts/fetch_tickets.py
 
-# 2. Fetch station coordinates from OpenStreetMap (~1,800 stations)
+# 2. Fetch station coordinates from National Rail's station directory (~1,850 stations)
 python3 scripts/fetch_coords.py
 
 # 3. Generate index.html
@@ -60,4 +60,4 @@ Known corrections:
 ## Data sources
 
 - Ticket data: [National Rail promotions](https://www.nationalrail.co.uk/ticket-types/promotions/) via embedded `__NEXT_DATA__` JSON
-- Station coordinates: [OpenStreetMap](https://www.openstreetmap.org/) via Overpass API, with manual additions for ~40 stations with non-standard names
+- Station coordinates: [National Rail's station directory](https://www.nationalrail.co.uk/stations/) — each station's exact lat/lon is read from its detail page (`/stations/{slug}/`), with the slug looked up via NR's public station-search index. This is NR's own authoritative data, already disambiguated by region (e.g. "Whitchurch (Cardiff)" vs "Whitchurch (Shropshire)" each get their own correct coordinates rather than colliding on a shared base name, which an earlier OpenStreetMap-based approach was prone to)
