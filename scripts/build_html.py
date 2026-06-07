@@ -45,6 +45,10 @@ def main():
     with open(OVERRIDES_FILE) as f:
         overrides = json.load(f)
 
+    # Clean up names
+    for t in tickets:
+        t["name"] = re.sub(r"  +", " ", t["name"]).strip()
+
     # Apply overrides
     remove_map = overrides.get("remove_stations", {})
     for t in tickets:
@@ -54,9 +58,8 @@ def main():
             t["stations"] = [s for s in t["stations"] if s not in removals]
             print(f"Override {t['name']!r}: removed {before - len(t['stations'])} station(s)")
 
-    # Clean up names
-    for t in tickets:
-        t["name"] = re.sub(r"  +", " ", t["name"]).strip()
+    # Sort alphabetically for the sidebar legend
+    tickets.sort(key=lambda t: t["name"].lower())
 
     colors = gen_colors(len(tickets))
     COLORS = {t["id"]: colors[i] for i, t in enumerate(tickets)}
