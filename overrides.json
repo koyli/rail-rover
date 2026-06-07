@@ -6,10 +6,18 @@
   "station_coords": {
       "Burnham-on-Crouch": [51.6335, 0.8143]
   },
+  "add_stations": {
+    "settle-carlisle-line-day-ranger": [
+        "Leeds", "Kirkstall Forge", "Apperley Bridge", "Shipley (Yorks)", "Saltaire", "Bingley", "Crossflatts", "Keighley", "Steeton & Silsden", "Cononley", "Skipton", "Gargrave", "Hellifield", "Long Preston", 
+        "Settle", "Horton-in-Ribblesdale", "Ribblehead", "Dent", "Garsdale",
+        "Kirkby Stephen", "Appleby", "Langwathby", "Lazonby & Kirkoswald",
+        "Armathwaite", "Carlisle", "Bradford Forster Square", "Frizinghall"
+    ]
+  },
   "pricing": {
-      "spirit-of-scotland-travelpass": [
-          {"label": "4 in 8 days", "adultPrice": 155},
-          {"label": "8 in 15 days", "adultPrice": 196}
-      ]
+    "spirit-of-scotland-travelpass": [
+        {"label": "4 in 8 days", "adultPrice": 155},
+        {"label": "8 in 15 days", "adultPrice": 196}
+    ]
   }
 }
