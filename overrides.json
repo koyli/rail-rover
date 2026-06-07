@@ -1,6 +1,25 @@
 {
   "add_tickets": [
     {
+      "id": "sy-connect",
+      "name": "SY Connect+",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/sy-connect/",
+      "description": "Unlimited day travel on local bus, tram and train services within the South Yorkshire TravelMaster zone, plus Denby Dale.",
+      "operator": "CrossCountry, East Midlands Railway, TransPennine Express, Northern",
+      "stations": [
+        "Adwick", "Barnsley", "Bentley (South Yorkshire)", "Bolton-upon-Dearne",
+        "Chapeltown (South Yorkshire)", "Conisbrough", "Darnall", "Darton", "Denby Dale",
+        "Dodworth", "Doncaster", "Dore & Totley", "Elsecar", "Goldthorpe",
+        "Hatfield & Stainforth", "Kirk Sandall", "Kiveton Bridge", "Kiveton Park",
+        "Meadowhall", "Mexborough", "Penistone", "Rotherham Central", "Sheffield",
+        "Silkstone Common", "Swinton (South Yorks)", "Thorne North", "Thorne South",
+        "Thurnscoe", "Wombwell", "Woodhouse"
+      ],
+      "pricing": [
+        {"label": "1 Day", "adultPrice": 12.20}
+      ]
+    },
+    {
       "id": "transport-for-greater-manchester-rail-ranger",
       "name": "Transport for Greater Manchester Rail Ranger",
       "url": "https://www.nationalrail.co.uk/ticket-types/tickets/gm1/",
