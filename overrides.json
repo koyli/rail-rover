@@ -2,7 +2,9 @@
   "remove_stations": {
       "thames-rover-7-day": ["Denby Dale"],
       "freedom-of-severn-solent-8-in-15-day-rover": ["Penmere"],
-      "freedom-of-severn-solent-3-in-7-day-rover": ["Penmere"]   },
+      "freedom-of-severn-solent-3-in-7-day-rover": ["Penmere"],
+      "all-line-rover-7-days" : ["Southsea Hoverport"],
+      "all-line-rover-14-days" : ["Southsea Hoverport"]},
   "station_coords": {
       "Burnham-on-Crouch": [51.6335, 0.8143]
   },
