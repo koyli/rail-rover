@@ -58,6 +58,24 @@ def main():
             t["stations"] = [s for s in t["stations"] if s not in removals]
             print(f"Override {t['name']!r}: removed {before - len(t['stations'])} station(s)")
 
+    # Some tickets' NR pages don't list their stations at all (e.g. Settle &
+    # Carlisle Line Day Ranger has an empty `stations` array and only a PDF
+    # route map) -- supply the missing ones manually. Names must match
+    # coords.json exactly (e.g. "Appleby" vs a disambiguated regional variant)
+    # or they simply won't have a map marker
+    add_map = overrides.get("add_stations", {})
+    for t in tickets:
+        additions = add_map.get(t["id"], [])
+        if additions:
+            existing = set(t["stations"])
+            new = [s for s in additions if s not in existing]
+            t["stations"] = t["stations"] + new
+            print(f"Override {t['name']!r}: added {len(new)} station(s)")
+            unknown = [s for s in new if s not in coords]
+            if unknown:
+                print(f"  WARNING: {len(unknown)} added station(s) have no coordinates "
+                      f"(check spelling against coords.json): {unknown}")
+
     # NR's own station pages occasionally have wrong coordinates (e.g.
     # Burnham-on-Crouch is published in the North Sea, ~110km from its
     # actual location) -- correct those here rather than in coords.json,

@@ -51,6 +51,9 @@ Add entries to `overrides.json` and re-run `build_html.py`:
   "remove_stations": {
     "ticket-slug": ["Incorrectly Listed Station"]
   },
+  "add_stations": {
+    "ticket-slug": ["Missing Station One", "Missing Station Two"]
+  },
   "station_coords": {
     "Station With Wrong Coordinates": [51.1234, -0.5678]
   },
@@ -63,6 +66,7 @@ Add entries to `overrides.json` and re-run `build_html.py`:
 ```
 
 - `remove_stations` drops a station from a specific ticket's coverage area
+- `add_stations` adds stations to a ticket's coverage area (for tickets whose NR page lists no stations at all, or is missing some) -- station names must match `coords.json` exactly (e.g. "Whitchurch (Shropshire)", not "Whitchurch"), or they won't get a map marker; `build_html.py` warns if an added name has no matching coordinates
 - `station_coords` overrides a station's lat/lon everywhere on the map (for cases where NR's own station page has an error -- a direct edit to `coords.json` would just be overwritten the next time `fetch_coords.py` runs)
 - `pricing` replaces a ticket's whole price list (for tickets whose NR page renders prices through an interactive widget rather than embedding them in the page data, so `fetch_tickets.py` can't scrape them) -- entries use the same shape as scraped pricing (`label`, `adultPrice`, `childPrice`, `concessionPrice`, `railcardPrices`, ...); fields you don't supply just won't be shown
 
