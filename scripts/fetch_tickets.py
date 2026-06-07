@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+"""
+Fetch all rover/ranger tickets from National Rail.
+
+The NR website is a Next.js app. All data (including full station lists,
+bypassing the "Show more" toggle) is embedded in __NEXT_DATA__ JSON.
+
+Outputs: data/tickets_raw.json
+"""
+
+import subprocess, json, re, time, sys
+from pathlib import Path
+
+BASE_URL = "https://www.nationalrail.co.uk"
+LISTING_URL = BASE_URL + "/ticket-types/promotions/?promotionType=ranger-rover&page={page}"
+DETAIL_URL  = BASE_URL + "/tickets-railcards-offers/promotions/{slug}/"
+
+OUTPUT = Path(__file__).parent.parent / "data" / "tickets_raw.json"
+
+
+def fetch_html(url):
+    r = subprocess.run(["curl", "-s", "--max-time", "15", url], capture_output=True, text=True)
+    return r.stdout
+
+
+def extract_next_data(html):
+    m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, re.DOTALL)
+    if not m:
+        return None
+    return json.loads(m.group(1))
+
+
+def rich_text(node):
+    if not node:
+        return ""
+    if isinstance(node, dict):
+        if node.get("nodeType") == "text":
+            return node.get("value", "")
+        return " ".join(rich_text(c) for c in node.get("content", [])).strip()
+    return ""
+
+
+def get_stations(promo):
+    stations = set()
+    for field in ["applicableZoneOfStationsCollection",
+                  "applicableOriginStationsCollection",
+                  "applicableDestinationStationsCollection"]:
+        for item in (promo.get(field) or {}).get("items", []):
+            name = item.get("name", "").strip()
+            if name:
+                stations.add(name)
+    return sorted(stations)
+
+
+def get_pricing(promo):
+    items = (promo.get("pricingCollection") or {}).get("items", [])
+    result = []
+    for p in items:
+        label = rich_text((p.get("validityNotes") or {}).get("json", {})).strip() or None
+        entry = {"label": label}
+        for key in ["adultPrice", "childPrice", "concessionPrice", "familyPrice", "groupPrice"]:
+            v = p.get(key)
+            if v is not None:
+                entry[key] = v
+        rc_items = (p.get("railcardDiscountPricesCollection") or {}).get("items", [])
+        if rc_items:
+            discounts = []
+            for rc in rc_items:
+                cards = [c["railcardName"] for c in (rc.get("railcardsCollection") or {}).get("items", []) if c.get("railcardName")]
+                price = rc.get("priceWithRailcard")
+                if price is not None:
+                    discounts.append({"railcards": cards, "price": price})
+            if discounts:
+                entry["railcardPrices"] = discounts
+        result.append(entry)
+    return result
+
+
+def collect_slugs():
+    slugs = []
+    for page in range(1, 20):
+        data = extract_next_data(fetch_html(LISTING_URL.format(page=page)))
+        if not data:
+            break
+        results = data["props"]["pageProps"].get("allPromotionResults", [])
+        if not results:
+            break
+        for p in results:
+            slugs.append(p["slug"])
+        print(f"  Page {page}: {len(results)} tickets", flush=True)
+        time.sleep(0.5)
+    return slugs
+
+
+def fetch_ticket(slug):
+    html = fetch_html(DETAIL_URL.format(slug=slug))
+    data = extract_next_data(html)
+    if not data:
+        return None
+    promo = data.get("props", {}).get("pageProps", {}).get("promotion", {})
+    if not promo:
+        return None
+
+    operators = [o["operatorName"] for o in
+                 (promo.get("applicableOperatorsCollection") or {}).get("items", [])
+                 if o.get("operatorName")]
+
+    return {
+        "id": slug,
+        "name": promo.get("promotionName", ""),
+        "url": DETAIL_URL.format(slug=slug),
+        "description": rich_text((promo.get("summary") or {}).get("json", {})),
+        "operator": ", ".join(operators),
+        "stations": get_stations(promo),
+        "stations_complete": True,
+        "applies_to_all_stations": promo.get("appliesToAllStations", False),
+        "validity_map_url": promo.get("areaMap") or None,
+        "pricing": get_pricing(promo),
+    }
+
+
+def main():
+    print("Collecting ticket slugs...")
+    slugs = collect_slugs()
+    print(f"Total: {len(slugs)} tickets\n")
+
+    tickets = []
+    for i, slug in enumerate(slugs):
+        ticket = fetch_ticket(slug)
+        if not ticket:
+            print(f"[{i+1}/{len(slugs)}] {slug}: FAILED", flush=True)
+            continue
+        adult = next((p.get("adultPrice") for p in ticket["pricing"] if p.get("adultPrice")), None)
+        print(f"[{i+1}/{len(slugs)}] {ticket['name']}: {len(ticket['stations'])} stations"
+              + (f", adult=£{adult}" if adult else ""), flush=True)
+        tickets.append(ticket)
+        time.sleep(0.25)
+
+    OUTPUT.parent.mkdir(exist_ok=True)
+    with open(OUTPUT, "w") as f:
+        json.dump(tickets, f, indent=2, ensure_ascii=False)
+    print(f"\nSaved {len(tickets)} tickets to {OUTPUT}")
+
+
+if __name__ == "__main__":
+    main()
