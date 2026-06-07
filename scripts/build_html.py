@@ -196,12 +196,15 @@ function coverageLabel(ticket) {{
   return 'coverage not listed';
 }}
 
-function adultPrice(ticket) {{
+function priceSummary(ticket) {{
   if (!ticket.pricing || !ticket.pricing.length) return null;
-  for (const p of ticket.pricing) {{
-    if (p.adultPrice != null) return p.adultPrice;
-  }}
-  return null;
+  const prices = ticket.pricing.map(p => p.adultPrice).filter(p => p != null);
+  if (!prices.length) return null;
+  const min = Math.min(...prices), max = Math.max(...prices);
+  // Some tickets (e.g. Spirit of Scotland) have multiple genuinely different
+  // fares -- show the full span rather than just the first one, so the
+  // headline number isn't mistaken for "the" price
+  return min === max ? fmtPrice(min) : `${{fmtPrice(min)}}–${{fmtPrice(max)}}`;
 }}
 
 function buildPriceTooltip(ticket) {{
@@ -258,9 +261,9 @@ function showPanel(name,tids){{
   panelName.textContent=name; panelList.innerHTML='';
   tids.forEach(id=>{{
     const t=TICKETS.find(x=>x.id===id); if(!t) return;
-    const ap = adultPrice(t);
+    const price = priceSummary(t);
     const row=document.createElement('div'); row.className='hover-ticket';
-    row.innerHTML=`<div class="hover-dot" style="background:${{COLORS[id]}}"></div><span class="hover-ticket-name">${{t.name}}</span>${{ap!=null?`<span class="hover-ticket-price">${{fmtPrice(ap)}}</span>`:''}}`;
+    row.innerHTML=`<div class="hover-dot" style="background:${{COLORS[id]}}"></div><span class="hover-ticket-name">${{t.name}}</span>${{price!=null?`<span class="hover-ticket-price">${{price}}</span>`:''}}`;
     panelList.appendChild(row);
   }});
   if(!tids.length) panelList.innerHTML='<span style="color:#506070;font-size:10.5px;font-style:italic">No tickets</span>';
@@ -271,8 +274,8 @@ function hidePanel(){{ panel.style.display='none'; }}
 const listEl=document.getElementById('ticket-list');
 TICKETS.forEach(ticket=>{{
   const color=COLORS[ticket.id];
-  const ap = adultPrice(ticket);
-  const apStr = ap != null ? ` &middot; ${{fmtPrice(ap)}}` : '';
+  const price = priceSummary(ticket);
+  const apStr = price != null ? ` &middot; ${{price}}` : '';
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
   el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
   el.addEventListener('click',()=>{{
