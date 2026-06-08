@@ -84,6 +84,14 @@
       "Burnham-on-Crouch": [51.6335, 0.8143]
   },
   "add_stations": {
+    "spirit-of-scotland-travelpass": [
+      "Cameron Bridge", "Leven",
+      "Shawfair", "Eskbank", "Newtongrange", "Gorebridge", "Stow", "Galashiels", "Tweedbank",
+      "Exhibition Centre",
+      "Caldercruix", "Blackridge", "Armadale (West Lothian)",
+      "Buchanan Street", "Cowcaddens", "St George's Cross", "Kelvinbridge", "Hillhead", "Kelvinhall",
+      "Govan", "Ibrox", "Cessnock", "Kinning Park", "Shields Road", "West Street", "Bridge Street", "St Enoch"
+    ],
     "central-scotland-rover": [
       "Bridge of Allan", "Dunblane",
       "Cameron Bridge", "Leven",
