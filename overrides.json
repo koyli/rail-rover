@@ -20,6 +20,37 @@
       ]
     },
     {
+      "id": "day-save-southern",
+      "name": "DaySave - Southern",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/day-save-southern/",
+      "description": "Unlimited Off-Peak day travel on Southern train services across Sussex, Surrey and the south coast, including Brighton, Eastbourne, Worthing, Chichester and the surrounding countryside. Available for individuals or groups of up to four adults; up to four accompanying children may travel with the ticket holder for just £2 each.",
+      "operator": "Southern",
+      "stations": [
+        "Aldrington", "Amberley", "Angmering", "Arundel", "Ashtead", "Balcombe", "Banstead",
+        "Barnham", "Berwick (Sussex)", "Bexhill", "Billingshurst", "Bishopstone (Sussex)",
+        "Bognor Regis", "Box Hill & Westhumble", "Brighton", "Burgess Hill", "Buxted",
+        "Chichester", "Christs Hospital", "Collington", "Cooden Beach", "Cooksbridge",
+        "Crawley", "Crowborough", "Doleham", "Dorking (Main)", "Dormans", "Durrington-on-Sea",
+        "Earlswood Surrey", "East Grinstead", "East Worthing", "Eastbourne", "Emsworth",
+        "Epsom (Surrey)", "Epsom Downs", "Eridge", "Ewell East", "Falmer", "Faygate",
+        "Fishbourne (Sussex)", "Fishersgate", "Ford", "Gatwick Airport", "Glynde", "Godstone",
+        "Goring-by-Sea", "Hampden Park (Sussex)", "Hassocks", "Haywards Heath", "Hever",
+        "Holmwood", "Horley", "Horsham", "Hove", "Hurst Green", "Ifield", "Lancing",
+        "Leatherhead", "Lewes", "Lingfield", "Littlehampton", "Littlehaven",
+        "London Road (Brighton)", "Merstham", "Moulsecoomb", "Newhaven Harbour",
+        "Newhaven Town", "Normans Bay", "Nutbourne", "Nutfield", "Ore", "Oxted",
+        "Pevensey & Westham", "Pevensey Bay", "Plumpton", "Polegate", "Portslade",
+        "Preston Park", "Pulborough", "Redhill", "Reigate", "Rye (Sussex)",
+        "Salfords (Surrey)", "Seaford Sussex", "Shoreham-by-Sea", "Southbourne",
+        "Southease", "Southwick", "Three Bridges", "Three Oaks", "Uckfield", "Warblington",
+        "Warnham", "West Worthing", "Winchelsea", "Wivelsfield", "Woldingham", "Worthing"
+      ],
+      "pricing": [
+        {"label": "1 Day Off-Peak", "adultPrice": 26.00},
+        {"label": "1 Day Off-Peak Group (3-4 adults)", "groupPrice": 52.00}
+      ]
+    },
+    {
       "id": "transport-for-greater-manchester-rail-ranger",
       "name": "Transport for Greater Manchester Rail Ranger",
       "url": "https://www.nationalrail.co.uk/ticket-types/tickets/gm1/",
