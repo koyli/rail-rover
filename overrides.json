@@ -84,6 +84,18 @@
       "Burnham-on-Crouch": [51.6335, 0.8143]
   },
   "add_stations": {
+    "central-scotland-rover": [
+      "Bridge of Allan", "Dunblane",
+      "Cameron Bridge", "Leven",
+      "Brunstane", "Shawfair", "Eskbank", "Newtongrange", "Gorebridge", "Stow", "Galashiels", "Tweedbank",
+      "Hyndland", "Partick", "Exhibition Centre", "Anderston", "Glasgow Central",
+      "Airdrie", "Drumgelloch", "Caldercruix", "Blackridge", "Armadale (West Lothian)",
+      "Shieldmuir", "Wishaw",
+      "Hamilton Central", "Hamilton West",
+      "Coatbridge Central", "Coatbridge Sunnyside",
+      "Buchanan Street", "Cowcaddens", "St George's Cross", "Kelvinbridge", "Hillhead", "Kelvinhall",
+      "Govan", "Ibrox", "Cessnock", "Kinning Park", "Shields Road", "West Street", "Bridge Street", "St Enoch"
+    ],
     "settle-carlisle-line-day-ranger": [
         "Leeds", "Kirkstall Forge", "Apperley Bridge", "Shipley (Yorks)", "Saltaire", "Bingley", "Crossflatts", "Keighley", "Steeton & Silsden", "Cononley", "Skipton", "Gargrave", "Hellifield", "Long Preston", 
         "Settle", "Horton-in-Ribblesdale", "Ribblehead", "Dent", "Garsdale",
