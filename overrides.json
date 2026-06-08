@@ -123,6 +123,19 @@
       "Stanford-le-Hope", "Stratford (London)", "Thorpe Bay", "Tilbury Town", "Upminster",
       "West Ham", "West Horndon", "Westcliff"
     ],
+      "derbyshire-wayfarer-ranger" : [
+          "Buxton", "Dove Holes", "Chapel-en-le-Frith", "Whaley Bridge",
+          "Furness Vale", "New Mills Newtown", "New Mills Central", "Chinley",
+          "Edale", "Hope", "Bamford", "Hathersage", "Grindleford", "Dore",
+          "Dronfield"
+      ],
+      "derbyshire-wayfarer-ranger-from-nottingham-or-beeston" : [
+          "Buxton", "Dove Holes", "Chapel-en-le-Frith", "Whaley Bridge",
+          "Furness Vale", "New Mills Newtown", "New Mills Central", "Chinley",
+          "Edale", "Hope", "Bamford", "Hathersage", "Grindleford", "Dore",
+          "Dronfield"
+      ],
+
     "spirit-of-scotland-travelpass": [
       "Cameron Bridge", "Leven",
       "Shawfair", "Eskbank", "Newtongrange", "Gorebridge", "Stow", "Galashiels", "Tweedbank",
