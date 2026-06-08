@@ -82,6 +82,7 @@ Add entries to `overrides.json` and re-run `build_html.py`:
 - `pricing` replaces a ticket's whole price list (for tickets whose NR page renders prices through an interactive widget rather than embedding them in the page data, so `fetch_tickets.py` can't scrape them) -- entries use the same shape as scraped pricing (`label`, `adultPrice`, `childPrice`, `concessionPrice`, `railcardPrices`, ...); fields you don't supply just won't be shown
 
 Known corrections:
+- `c-2-c-senior-rover`: NR's page lists no stations at all (`stations: []`, despite `stations_complete: true`); populated with all 28 stations on c2c's network from [c2c's own routes & stations page](https://www.c2c-online.co.uk/stations-and-services/before-your-journey/our-routes-and-stations/) (its station-finder dropdown), including London Liverpool Street and Stratford (London) -- c2c's alternative/weekend termini, confirmed as genuinely served via their own station pages, not just nearby interchanges; names matched to `coords.json`'s conventions (e.g. "Chafford Hundred Lakeside", "London Liverpool Street", "Stratford (London)")
 - `thames-rover-7-day`: Denby Dale (a West Yorkshire station incorrectly listed)
 - `freedom-of-severn-solent-8-in-15-day-rover`, `freedom-of-severn-solent-3-in-7-day-rover`: Penmere (incorrectly listed)
 - Burnham-on-Crouch: NR's own station page places it in the North Sea (`51.8378, 2.3082`, ~110km from Essex); corrected to its real location (`51.6335, 0.8143`)

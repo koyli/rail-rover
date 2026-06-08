@@ -115,6 +115,14 @@
       "Burnham-on-Crouch": [51.6335, 0.8143]
   },
   "add_stations": {
+    "c-2-c-senior-rover": [
+      "Barking", "Basildon", "Benfleet", "Chafford Hundred Lakeside", "Chalkwell",
+      "Dagenham Dock", "East Tilbury", "Grays", "Laindon", "Leigh-on-Sea", "Limehouse",
+      "London Fenchurch Street", "London Liverpool Street", "Ockendon", "Pitsea", "Purfleet",
+      "Rainham (Essex)", "Shoeburyness", "Southend Central", "Southend East",
+      "Stanford-le-Hope", "Stratford (London)", "Thorpe Bay", "Tilbury Town", "Upminster",
+      "West Ham", "West Horndon", "Westcliff"
+    ],
     "spirit-of-scotland-travelpass": [
       "Cameron Bridge", "Leven",
       "Shawfair", "Eskbank", "Newtongrange", "Gorebridge", "Stow", "Galashiels", "Tweedbank",
