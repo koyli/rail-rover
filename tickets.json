@@ -8036,6 +8036,51 @@
     "validity_map_url": "https://tfw.wales/sites/default/files/2024-07/Explore-Cambrian-Coast-V2_ENG-2024.pdf"
   },
   {
+    "id": "mayflower-line-ranger",
+    "name": "Mayflower Line Ranger",
+    "url": "https://www.greateranglia.co.uk/tickets-fares/discounts/rangers-rovers/mayflower-line-ranger",
+    "description": "A Ranger ticket for the Mayflower line",
+    "operator": "Greater Anglia",
+    "validity_note": "",
+    "stations": [
+      "Dovercourt",
+      "Harwich International",
+      "Harwich Town",
+      "Ipswich",
+      "Manningtree",
+      "Mistley",
+      "Wrabness"
+    ],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": null
+  },
+  {
+    "id": "sunshine-coast-line-ranger",
+    "name": "Sunshine Coast Line Ranger",
+    "url": "https://www.greateranglia.co.uk/tickets-fares/discounts/rangers-rovers/sunshine-coast-line-ranger",
+    "description": "A Ranger ticket for the Sunshine Coast line",
+    "operator": "Greater Anglia",
+    "validity_note": "",
+    "stations": [
+      "Alresford",
+      "Clacton-on-Sea",
+      "Colchester",
+      "Colchester Town",
+      "Frinton-on-Sea",
+      "Great Bentley",
+      "Hythe",
+      "Kirby Cross",
+      "Thorpe-le-Soken",
+      "Walton-on-the-Naze",
+      "Weeley",
+      "Wivenhoe"
+    ],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": null
+  },
+  {
     "id": "explore-west-wales",
     "name": "Explore West Wales",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/explore-west-wales/",
