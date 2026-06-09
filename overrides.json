@@ -86,7 +86,11 @@
       "stations": [
         "Dovercourt", "Harwich International", "Harwich Town",
         "Ipswich", "Manningtree", "Mistley", "Wrabness"
-      ]
+      ],
+      "pricing": [
+          {"label": "1 Day Off-Peak", "adultPrice": 11.50}
+          ]
+
     },
     {
       "id": "sunshine-coast-line-ranger",
@@ -98,7 +102,11 @@
         "Alresford (Essex)", "Clacton-on-Sea", "Colchester", "Colchester Town",
         "Frinton-on-Sea", "Great Bentley", "Hythe (Essex)", "Kirby Cross",
         "Thorpe-le-Soken", "Walton-on-the-Naze", "Weeley", "Wivenhoe"
-      ]
+      ],
+      "pricing": [
+          {"label": "1 Day Off-Peak", "adultPrice": 13.10}
+          ]
+
     },
     {
       "id": "transport-for-greater-manchester-day-saver",
