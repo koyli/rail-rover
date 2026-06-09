@@ -86,13 +86,13 @@
       "validity_note": "Valid every day at all times. One journey around the circuit in either direction.",
       "stations": [
           "Aberdovey", "Abererch", "Abergele & Pensarn", "Albrighton",
-          "Barmouth", "Betws-y-Coed", "Birmingham New Street", "Blaenau Ffestiniog", "Birkenhead Central", "Bow Street", "Borth", "Buckley",
+          "Bangor", "Barmouth", "Betws-y-Coed", "Bidston", "Birmingham New Street", "Blaenau Ffestiniog", "Birkenhead Central", "Bow Street", "Borth", "Buckley",
           "Caergwrle", "Caersws", "Cefn-y-Bedd", "Chester", "Chirk", "Codsall", "Colwyn Bay", "Cosford", "Crewe", "Criccieth",
           "Dolgarrog", "Dolwyddelan", "Dovey Junction", "Dyffryn Ardudwy", 
         "Fairbourne", "Flint",
         "Glan Conwy", "Gobowen", "Gwersyllt",
-        "Harlech", "Hawarden", "Hawarden Bridge", "Hope Flintshire", "Hooton",
-          "Llanaber", "Llanbedr", "Llandanwg", "Llandecwyn", "Llandudno Junction", "Llanrwst", "Liverpool Lime Street", "Llwyngwril",
+          "Harlech", "Hawarden", "Hawarden Bridge", "Holyhead", "Hope Flintshire", "Hooton",
+          "Llanaber", "Llanbedr", "Llandanwg", "Llandecwyn", "Llandudno", "Llandudno Junction", "Llanrwst", "Liverpool Lime Street", "Llwyngwril",
         "Machynlleth", "Manchester Piccadilly", "Minffordd", "Morfa Mawddach",
         "Nantwich", "Newtown (Powys)", "North Llanrwst",
         "Oakengates",
@@ -100,7 +100,7 @@
         "Rhyl", "Roman Bridge", "Ruabon", "Runcorn",
         "Shifnal", "Shotton", "Shrewsbury", "Stockport",
           "Talybont", "Tal-y-Cafn", "Talsarnau", "Telford Central", "Tonfanau", "Tygwyn", "Tywyn",
-        "Warrington Bank Quay", "Wellington (Shropshire)", "Welshpool", "Whitchurch (Shropshire)", "Wilmslow", "Wolverhampton", "Wrexham General", "Wrenbury"
+          "Warrington Bank Quay", "Wellington (Shropshire)", "Welshpool", "Wem",, "Whitchurch (Shropshire)", "Wilmslow", "Wolverhampton", "Wrexham General", "Wrenbury"
       ],
       "stations_complete": false,
       "pricing": [
