@@ -78,6 +78,29 @@
       ]
     },
     {
+      "id": "mayflower-line-ranger",
+      "name": "Mayflower Line Ranger",
+      "url": "https://www.greateranglia.co.uk/tickets-fares/discounts/rangers-rovers/mayflower-line-ranger",
+      "description": "A Ranger ticket for the Mayflower line",
+      "operator": "Greater Anglia",
+      "stations": [
+        "Dovercourt", "Harwich International", "Harwich Town",
+        "Ipswich", "Manningtree", "Mistley", "Wrabness"
+      ]
+    },
+    {
+      "id": "sunshine-coast-line-ranger",
+      "name": "Sunshine Coast Line Ranger",
+      "url": "https://www.greateranglia.co.uk/tickets-fares/discounts/rangers-rovers/sunshine-coast-line-ranger",
+      "description": "A Ranger ticket for the Sunshine Coast line",
+      "operator": "Greater Anglia",
+      "stations": [
+        "Alresford (Essex)", "Clacton-on-Sea", "Colchester", "Colchester Town",
+        "Frinton-on-Sea", "Great Bentley", "Hythe (Essex)", "Kirby Cross",
+        "Thorpe-le-Soken", "Walton-on-the-Naze", "Weeley", "Wivenhoe"
+      ]
+    },
+    {
       "id": "transport-for-greater-manchester-day-saver",
       "name": "Transport for Greater Manchester Day Saver",
       "url": "https://www.nationalrail.co.uk/ticket-types/tickets/gm2/",
