@@ -78,6 +78,37 @@
       ]
     },
     {
+      "id": "ffestiniog-round-robin",
+      "name": "Ffestiniog Round Robin",
+      "url": "https://tfw.wales/ways-to-travel/rail/ticket-types/rovers-and-rangers/ffestiniog-round-robin",
+      "description": "A circular journey in either direction on Transport for Wales services around the circuit Shrewsbury – Chester – Llandudno Junction – Blaenau Ffestiniog – Machynlleth – Shrewsbury, including a single journey on the Ffestiniog Railway. Also valid from Birmingham, Manchester, Liverpool and Wolverhampton via designated routes.",
+      "operator": "Transport for Wales",
+      "validity_note": "Valid every day at all times. One journey around the circuit in either direction.",
+      "stations": [
+        "Aberdovey", "Abergele & Pensarn", "Albrighton",
+        "Barmouth", "Betws-y-Coed", "Birmingham New Street", "Blaenau Ffestiniog", "Birkenhead Central", "Buckley",
+        "Caergwrle", "Caersws", "Cefn-y-Bedd", "Chester", "Chirk", "Codsall", "Colwyn Bay", "Cosford", "Crewe",
+        "Dolgarrog", "Dolwyddelan", "Dovey Junction",
+        "Fairbourne", "Flint",
+        "Glan Conwy", "Gobowen", "Gwersyllt",
+        "Harlech", "Hawarden", "Hawarden Bridge", "Hope Flintshire", "Hooton",
+        "Llanaber", "Llanbedr", "Llandecwyn", "Llandudno Junction", "Llanrwst", "Liverpool Lime Street", "Llwyngwril",
+        "Machynlleth", "Manchester Piccadilly", "Minffordd", "Morfa Mawddach",
+        "Nantwich", "Newtown (Powys)", "North Llanrwst",
+        "Oakengates",
+        "Penhelig", "Penrhyndeudraeth", "Pensarn (Gwynedd)", "Penyffordd", "Pont-y-Pant", "Porthmadog", "Prestatyn",
+        "Rhyl", "Roman Bridge", "Ruabon", "Runcorn",
+        "Shifnal", "Shotton", "Shrewsbury", "Stockport",
+        "Tal-y-Cafn", "Talsarnau", "Telford Central", "Tonfanau", "Tygwyn", "Tywyn",
+        "Warrington Bank Quay", "Wellington (Shropshire)", "Welshpool", "Whitchurch (Shropshire)", "Wilmslow", "Wolverhampton", "Wrexham General", "Wrenbury"
+      ],
+      "stations_complete": false,
+      "pricing": [
+        {"label": "From Manchester/Birmingham/Liverpool/Wolverhampton", "adultPrice": 52.10, "childPrice": 26.05},
+        {"label": "From all other stations", "adultPrice": 46.30, "childPrice": 23.15}
+      ]
+    },
+    {
       "id": "mayflower-line-ranger",
       "name": "Mayflower Line Ranger",
       "url": "https://www.greateranglia.co.uk/tickets-fares/discounts/rangers-rovers/mayflower-line-ranger",
