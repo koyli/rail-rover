@@ -197,9 +197,8 @@
           "Edale", "Hope Derbyshire", "Bamford", "Hathersage", "Grindleford", "Dore & Totley",
           "Dronfield"
       ],
-      "heart-of-england-7-day-rover" : ["Nantwich", "Prees", "Wem", "Whitchurch (Shropshire)", "Wrenbury",  "Yorton"],
-      "heart-of-england-3-in-7-day-rover" : ["Nantwich", "Prees", "Wem", "Whitchurch (Shropshire)", "Wrenbury",  "Yorton"],
-
+      "heart-of-england-7-day-rover" : ["Heyford", "Kings Sutton", "Nantwich", "Prees",  "Tackley", "Wem", "Whitchurch (Shropshire)", "Wrenbury",  "Yorton"],
+      "heart-of-england-3-in-7-day-rover" : ["Heyford", "Kings Sutton", "Nantwich", "Prees",  "Tackley", "Wem", "Whitchurch (Shropshire)", "Wrenbury",  "Yorton"],
     "spirit-of-scotland-travelpass": [
       "Cameron Bridge", "Leven",
       "Shawfair", "Eskbank", "Newtongrange", "Gorebridge", "Stow", "Galashiels", "Tweedbank",
