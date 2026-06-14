@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT          = Path(__file__).parent.parent
 TICKETS_FILE  = ROOT / "data" / "tickets_raw.json"
 COORDS_FILE   = ROOT / "data" / "coords.json"
+ROVER_PRICES_FILE = ROOT / "data" / "rover_prices.json"
 OVERRIDES_FILE = ROOT / "overrides.json"
 OUTPUT        = ROOT / "index.html"
 
@@ -111,6 +112,18 @@ def main():
         if name in coords and coords[name] != coord:
             print(f"Override station coordinates {name!r}: {coords[name]} -> {coord}")
         coords[name] = coord
+
+    # National Rail's promo pages are sometimes stale or don't expose pricing
+    # at all (e.g. calculator widgets) -- where scripts/fetch_rover_prices.py
+    # found a confident match in the RSP fares feed's Rail Rovers file, that
+    # current adult/child fare takes precedence over the scraped price
+    if ROVER_PRICES_FILE.exists():
+        with open(ROVER_PRICES_FILE) as f:
+            rover_prices = json.load(f)
+        for t in tickets:
+            if t["id"] in rover_prices:
+                t["pricing"] = rover_prices[t["id"]]
+                print(f"Rail Rovers feed pricing for {t['name']!r}: {t['pricing']}")
 
     # Some tickets' NR pages don't expose pricing in the page data (e.g. it's
     # rendered via an interactive calculator widget) -- supply it manually

@@ -21,10 +21,13 @@ overrides.json      # Manual corrections to errors in National Rail's data
 data/
   tickets_raw.json  # Scraped ticket data (stations, pricing) — output of fetch_tickets.py
   coords.json       # Station name -> [lat, lon] — output of fetch_coords.py
+  rover_prices.json # Ticket id -> pricing[] — output of fetch_rover_prices.py
 scripts/
-  fetch_tickets.py  # Scrapes NR website for all tickets (reads __NEXT_DATA__ JSON)
-  fetch_coords.py   # Fetches station coordinates from OSM Overpass API
-  build_html.py     # Generates index.html from the data files
+  fetch_tickets.py       # Scrapes NR website for all tickets (reads __NEXT_DATA__ JSON)
+  fetch_coords.py        # Fetches station coordinates from OSM Overpass API
+  download_fares.sh      # Downloads the RSP Fares Data Feed (fares.zip) -- needs NRDP credentials
+  fetch_rover_prices.py  # Extracts current rover/ranger pricing from the feed's Rail Rovers file
+  build_html.py          # Generates index.html from the data files
 ```
 
 ## Rebuilding from scratch
@@ -36,11 +39,32 @@ python3 scripts/fetch_tickets.py
 # 2. Fetch station coordinates for the entire National Rail network (~2,610 stations, takes ~8min)
 python3 scripts/fetch_coords.py
 
-# 3. Generate index.html
+# 3. (Optional) Get current rover/ranger pricing from the RSP Fares Data Feed
+NRDP_USERNAME=you@example.com OUTPUT_FILE=data/fares.zip ./scripts/download_fares.sh
+unzip -o data/fares.zip -d data/fares
+python3 scripts/fetch_rover_prices.py
+
+# 4. Generate index.html
 python3 scripts/build_html.py
 ```
 
 The scripts write to `data/` and read `overrides.json` automatically.
+
+## Rover/ranger pricing from the RSP Fares Data Feed
+
+`fetch_rover_prices.py` parses the feed's Rail Rovers file (`RJFAFnnn.TRR`,
+record types `R`/`P` -- RSP spec RSPS5045 02-00 section 4.12) and matches its
+~750 rover/ranger products against `tickets_raw.json` by name. For matches
+scoring ≥0.85 (~57 of the 95 tickets, mostly day rangers and named multi-day
+rovers), it writes the current adult/child standard-class fare (no railcard)
+to `data/rover_prices.json`. `build_html.py` applies this as each matched
+ticket's pricing, taking precedence over the NR scrape -- but
+`overrides.json`'s `pricing` block, if present for the same ticket id, still
+wins over both (e.g. `spirit-of-scotland-travelpass`, which has two pricing
+tiers the feed match doesn't capture).
+
+Requires `data/fares/RJFAF*.TRR`, which isn't checked in (the full feed is
+~300MB); regenerate it via `download_fares.sh` + unzip as shown above.
 
 ## Correcting NR data errors
 
