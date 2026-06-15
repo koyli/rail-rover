@@ -322,8 +322,11 @@ function go() {
 
 goBtn.addEventListener('click', go);
 
+// The published rail-explorer-data branch is the primary source (no 404s
+// there in normal operation); data/<name> is a local-development fallback
+// for when that's unreachable, so it's only tried after a failure.
 async function loadDataset() {
-  for (const url of ['data/timetable_export.json.gz', DATA_BASE + 'timetable_export.json.gz']) {
+  for (const url of [DATA_BASE + 'timetable_export.json.gz', 'data/timetable_export.json.gz']) {
     try {
       return await Reachability.loadDataset(url);
     } catch (e) {
@@ -334,10 +337,10 @@ async function loadDataset() {
 }
 
 // tickets.json/coords.json/station_crs.json are regenerated alongside the
-// timetable dataset; try a local copy first (for development), then fall
-// back to the published rail-explorer-data branch.
+// timetable dataset and published on the rail-explorer-data branch; fall
+// back to a local copy (for development) if that's unreachable.
 async function loadGeneratedJson(name) {
-  for (const url of [`data/${name}`, DATA_BASE + name]) {
+  for (const url of [DATA_BASE + name, `data/${name}`]) {
     const resp = await fetch(url);
     if (resp.ok) return resp.json();
   }
