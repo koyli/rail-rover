@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rail Explorer &mdash; Reachable in a Day</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; }
+    #sidebar { width: 320px; min-width: 320px; display: flex; flex-direction: column; background: #16213e; border-right: 1px solid #0f3460; overflow-y: auto; }
+    #sidebar-header { padding: 14px 16px; background: #0f3460; }
+    #sidebar-header h1 { font-size: 14px; font-weight: 700; color: #fff; }
+    #sidebar-header p { font-size: 11px; color: #90a8c0; margin-top: 3px; line-height: 1.4; }
+    #controls { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #0f3460; }
+    .field label { display: block; font-size: 10.5px; color: #7090a8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .field select, .field input { width: 100%; padding: 6px 8px; background: #1a2a4a; border: 1px solid #1a4a8a; color: #e0e0e0; border-radius: 3px; font-size: 12px; }
+    .field select:focus, .field input:focus { outline: none; border-color: #3a7adf; }
+    #go-btn { padding: 8px 0; border: none; background: #2a5adf; color: #fff; font-size: 12.5px; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 4px; }
+    #go-btn:hover { background: #3a6aef; }
+    #go-btn:disabled { background: #2a3a5a; color: #6080a0; cursor: default; }
+    #status { padding: 8px 16px; font-size: 11px; color: #7090a8; min-height: 14px; }
+    #results { flex: 1; overflow-y: auto; padding: 4px 0; }
+    .result-item { display: flex; align-items: center; gap: 10px; padding: 6px 16px; font-size: 11.5px; }
+    .result-swatch { width: 11px; height: 11px; min-width: 11px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); }
+    .result-name { flex: 1; color: #c8d8e8; }
+    .result-name.start { font-weight: 700; color: #fff; }
+    .result-time { color: #90b8d8; font-size: 11px; }
+    .result-changes { color: #506070; font-size: 10px; margin-left: 6px; }
+    .result-return { color: #6090b0; font-size: 10px; margin-left: 6px; white-space: nowrap; }
+    #legend { padding: 10px 16px; border-top: 1px solid #0f3460; font-size: 10px; color: #7090a8; }
+    #legend-gradient { height: 8px; border-radius: 4px; margin: 6px 0; background: linear-gradient(to right, #2ecc71, #f1c40f, #e74c3c); }
+    #legend-labels { display: flex; justify-content: space-between; }
+    #map-wrap { flex: 1; position: relative; }
+    #map { width: 100%; height: 100%; }
+    .leaflet-tooltip { background: #0f1e3c !important; border: 1px solid #1a4a8a !important; color: #c0d8f0 !important; font-size: 11px !important; padding: 4px 8px !important; border-radius: 3px !important; box-shadow: 0 2px 6px rgba(0,0,0,0.4) !important; line-height: 1.6; }
+    .leaflet-tooltip::before { border-top-color: #1a4a8a !important; }
+  </style>
+</head>
+<body>
+<div id="sidebar">
+  <div id="sidebar-header">
+    <h1>Rail Explorer</h1>
+    <p>Pick a ticket, a starting station, and a date/time to see everywhere
+       you could reach by train that day.</p>
+  </div>
+  <div id="controls">
+    <div class="field">
+      <label for="ticket-select">Ticket</label>
+      <select id="ticket-select"></select>
+    </div>
+    <div class="field">
+      <label for="station-select">Start station</label>
+      <select id="station-select"></select>
+    </div>
+    <div class="field">
+      <label for="date-input">Date</label>
+      <input type="date" id="date-input">
+    </div>
+    <div class="field">
+      <label for="time-input">Start time</label>
+      <input type="time" id="time-input" value="09:00">
+    </div>
+    <div class="field">
+      <label for="mode-select">Journey type</label>
+      <select id="mode-select">
+        <option value="one-way">One-way (reachable by end of day)</option>
+        <option value="return">Return same day</option>
+      </select>
+    </div>
+    <button id="go-btn">Show reachable stations</button>
+  </div>
+  <div id="status"></div>
+  <div id="results"></div>
+  <div id="legend">
+    <div>Arrival time on selected day</div>
+    <div id="legend-gradient"></div>
+    <div id="legend-labels"><span id="legend-from"></span><span id="legend-to">end of day</span></div>
+  </div>
+</div>
+<div id="map-wrap">
+  <div id="map"></div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="reachability.js"></script>
+<script>
+// Dataset is generated weekly by a GitHub Actions workflow and published on
+// the rail-explorer-data branch (kept out of main's history). Fall back to
+// a local copy (data/timetable_export.json.gz) for local development.
+const DATA_BASE = 'https://raw.githubusercontent.com/koyli/rail-rover/rail-explorer-data/';
+
+let TICKETS = [];
+let COORDS = {};
+let STATION_CRS = {};
+let TOC_OPERATORS = {};
+let DATASET = null;
+let CRS_TO_IDX = new Map();
+
+const map = L.map('map').setView([53.5, -2.5], 6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  maxZoom: 18,
+}).addTo(map);
+
+const markers = {}; // station name -> L.CircleMarker
+let markerLayer = L.layerGroup().addTo(map);
+
+const ticketSelect = document.getElementById('ticket-select');
+const stationSelect = document.getElementById('station-select');
+const dateInput = document.getElementById('date-input');
+const timeInput = document.getElementById('time-input');
+const modeSelect = document.getElementById('mode-select');
+const goBtn = document.getElementById('go-btn');
+const statusEl = document.getElementById('status');
+const resultsEl = document.getElementById('results');
+const legendFrom = document.getElementById('legend-from');
+
+function todayStr() {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+}
+dateInput.value = todayStr();
+
+function usableStations(ticket) {
+  return ticket.stations.filter(s => STATION_CRS[s] && COORDS[s]);
+}
+
+function populateTickets() {
+  const usable = TICKETS
+    .filter(t => usableStations(t).length >= 2)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  for (const t of usable) {
+    const opt = document.createElement('option');
+    opt.value = t.id;
+    opt.textContent = `${t.name} (${usableStations(t).length} stations)`;
+    ticketSelect.appendChild(opt);
+  }
+  populateStations();
+}
+
+function populateStations() {
+  stationSelect.innerHTML = '';
+  const ticket = TICKETS.find(t => t.id === ticketSelect.value);
+  if (!ticket) return;
+  for (const s of usableStations(ticket).sort()) {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    stationSelect.appendChild(opt);
+  }
+}
+
+ticketSelect.addEventListener('change', () => {
+  populateStations();
+  drawStations();
+});
+
+function drawStations(reachableData) {
+  markerLayer.clearLayers();
+  Object.keys(markers).forEach(k => delete markers[k]);
+
+  const ticket = TICKETS.find(t => t.id === ticketSelect.value);
+  if (!ticket) return;
+  const startStation = stationSelect.value;
+
+  const bounds = [];
+  for (const name of usableStations(ticket)) {
+    const coord = COORDS[name];
+    let color = '#556';
+    let fillOpacity = 0.5;
+    let radius = 5;
+    let label = name;
+
+    if (name === startStation) {
+      color = '#fff';
+      radius = 8;
+      label = `${name} (start)`;
+    } else if (reachableData && reachableData[name]) {
+      const info = reachableData[name];
+      color = arrivalColor(info.arrival);
+      fillOpacity = 0.9;
+      const changeStr = info.changes === 0 ? 'direct' : `${info.changes} change${info.changes === 1 ? '' : 's'}`;
+      let summary = `<b>${name}</b>: arrive ${formatTime(info.arrival)} (${changeStr})`;
+      if (info.return_by !== undefined) {
+        summary += `, return by ${formatTime(info.return_by)}`;
+      }
+      label = summary + itineraryHtml(info);
+    }
+
+    const marker = L.circleMarker(coord, {
+      radius, fillColor: color, fillOpacity, color: '#222', weight: 1,
+    });
+    marker.bindTooltip(label, { permanent: false, direction: 'top', offset: [0, -6] });
+    marker.addTo(markerLayer);
+    markers[name] = marker;
+    bounds.push(coord);
+  }
+
+  if (bounds.length) map.fitBounds(bounds, { padding: [30, 30] });
+}
+
+function arrivalColor(arrivalMinutes) {
+  const startMinutes = parseTimeToMinutes(timeInput.value);
+  const span = Math.max(24 * 60 - startMinutes, 1);
+  let frac = (arrivalMinutes - startMinutes) / span;
+  frac = Math.max(0, Math.min(1, frac));
+  // green (soon) -> yellow -> red (end of day)
+  const hue = 130 - frac * 130; // 130=green, 0=red
+  return `hsl(${hue}, 70%, 50%)`;
+}
+
+function parseTimeToMinutes(t) {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+
+function legLines(itinerary) {
+  return itinerary.map(leg =>
+    `${leg.from} ${formatTime(leg.dep)} &rarr; ${leg.to} ${formatTime(leg.arr)}`
+  );
+}
+
+function itineraryHtml(info) {
+  if (!info.itinerary || !info.itinerary.length) return '';
+  let lines = legLines(info.itinerary);
+  if (info.return_itinerary) {
+    lines.push('&mdash;');
+    lines = lines.concat(legLines(info.return_itinerary));
+  }
+  return '<br>' + lines.join('<br>');
+}
+
+function formatTime(minutes) {
+  const h = String(Math.floor(minutes / 60)).padStart(2, '0');
+  const m = String(minutes % 60).padStart(2, '0');
+  return `${h}:${m}`;
+}
+
+function renderResults(reachableData) {
+  resultsEl.innerHTML = '';
+  const ticket = TICKETS.find(t => t.id === ticketSelect.value);
+  const startStation = stationSelect.value;
+
+  const startRow = document.createElement('div');
+  startRow.className = 'result-item';
+  startRow.innerHTML = `<div class="result-swatch" style="background:#fff"></div><div class="result-name start">${startStation}</div><div class="result-time">start</div>`;
+  resultsEl.appendChild(startRow);
+
+  const entries = Object.entries(reachableData).sort((a, b) => a[1].arrival - b[1].arrival);
+  for (const [name, info] of entries) {
+    const row = document.createElement('div');
+    row.className = 'result-item';
+    const changeStr = info.changes === 0 ? 'direct' : `${info.changes}×`;
+    let extra = '';
+    if (info.return_by !== undefined) {
+      extra = `<div class="result-return">back by ${formatTime(info.return_by)}</div>`;
+    }
+    row.innerHTML = `<div class="result-swatch" style="background:${arrivalColor(info.arrival)}"></div><div class="result-name">${name}</div><div class="result-time">${formatTime(info.arrival)}</div><div class="result-changes">${changeStr}</div>${extra}`;
+    resultsEl.appendChild(row);
+  }
+
+  const unreached = usableStations(ticket).length - 1 - entries.length;
+  if (unreached > 0) {
+    const row = document.createElement('div');
+    row.className = 'result-item';
+    row.style.color = '#506070';
+    row.innerHTML = `<div class="result-swatch" style="background:#556"></div><div class="result-name" style="color:#506070">${unreached} station${unreached === 1 ? '' : 's'} not reachable</div>`;
+    resultsEl.appendChild(row);
+  }
+}
+
+function allowedTocIdxs(ticket) {
+  if (!ticket.operator) return null;
+  const allowedNames = new Set(ticket.operator.split(', '));
+  const allowedCifTocs = new Set();
+  for (const [toc, names] of Object.entries(TOC_OPERATORS)) {
+    if (names.some(n => allowedNames.has(n))) allowedCifTocs.add(toc);
+  }
+  const result = new Set();
+  DATASET.tocs.forEach((toc, idx) => { if (allowedCifTocs.has(toc)) result.add(idx); });
+  return result;
+}
+
+function go() {
+  const ticketId = ticketSelect.value;
+  const station = stationSelect.value;
+  const date = dateInput.value;
+  const time = timeInput.value;
+  const mode = modeSelect.value;
+  if (!ticketId || !station || !date || !time || !DATASET) return;
+
+  legendFrom.textContent = time;
+  statusEl.textContent = 'Calculating...';
+  try {
+    const ticket = TICKETS.find(t => t.id === ticketId);
+    const crsFilter = new Set();
+    const crsToName = new Map();
+    for (const name of usableStations(ticket)) {
+      const idx = CRS_TO_IDX.get(STATION_CRS[name]);
+      if (idx !== undefined) {
+        crsFilter.add(idx);
+        if (!crsToName.has(idx)) crsToName.set(idx, name);
+      }
+    }
+    const startCrsIdx = CRS_TO_IDX.get(STATION_CRS[station]);
+    if (startCrsIdx === undefined) {
+      statusEl.textContent = `Error: ${station} has no timetable data`;
+      return;
+    }
+    const resultMap = Reachability.reachable(DATASET, {
+      crsFilter, crsToName, startCrsIdx, dateStr: date, startTimeStr: time, mode,
+      allowedTocs: allowedTocIdxs(ticket),
+    });
+    const data = Object.fromEntries(resultMap);
+    statusEl.textContent = `${Object.keys(data).length} station(s) reachable`;
+    drawStations(data);
+    renderResults(data);
+  } catch (e) {
+    statusEl.textContent = `Error: ${e}`;
+  }
+}
+
+goBtn.addEventListener('click', go);
+
+async function loadDataset() {
+  for (const url of ['data/timetable_export.json.gz', DATA_BASE + 'timetable_export.json.gz']) {
+    try {
+      return await Reachability.loadDataset(url);
+    } catch (e) {
+      console.warn(`Could not load dataset from ${url}:`, e);
+    }
+  }
+  throw new Error('Could not load timetable dataset');
+}
+
+// tickets.json/coords.json/station_crs.json are regenerated alongside the
+// timetable dataset; try a local copy first (for development), then fall
+// back to the published rail-explorer-data branch.
+async function loadGeneratedJson(name) {
+  for (const url of [`data/${name}`, DATA_BASE + name]) {
+    const resp = await fetch(url);
+    if (resp.ok) return resp.json();
+  }
+  throw new Error(`Could not load data/${name}`);
+}
+
+async function init() {
+  statusEl.textContent = 'Loading timetable data...';
+  goBtn.disabled = true;
+
+  [TICKETS, COORDS, STATION_CRS, TOC_OPERATORS] = await Promise.all([
+    loadGeneratedJson('tickets.json'),
+    loadGeneratedJson('coords.json'),
+    loadGeneratedJson('station_crs.json'),
+    fetch('data/toc_operators.json').then(r => r.json()),
+  ]);
+  delete TOC_OPERATORS._comment;
+  populateTickets();
+  drawStations();
+
+  try {
+    DATASET = await loadDataset();
+    CRS_TO_IDX = new Map(DATASET.crs.map((c, i) => [c, i]));
+    statusEl.textContent = '';
+  } catch (e) {
+    statusEl.textContent = `Error loading timetable data: ${e}`;
+    return;
+  }
+  goBtn.disabled = false;
+}
+
+init();
+</script>
+</body>
+</html>
