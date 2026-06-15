@@ -1,8 +1,9 @@
 # Rail Rover & Ranger Map
 
 Interactive map of all UK rail rover and ranger tickets, sourced from [National Rail](https://www.nationalrail.co.uk/ticket-types/promotions/?promotionType=ranger-rover).
+Interactive map of places reachable in a day (one way or return) per rover ticket (rail-explorer).
 
-**Live:** https://koyli.github.io/rail-rover/
+**Live:** https://koyli.github.io/rail-rover/ and  https://koyli.github.io/rail-rover/rail-explorer/
 
 ## What it does
 
