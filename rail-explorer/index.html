@@ -12,6 +12,8 @@
     #sidebar-header { padding: 14px 16px; background: #0f3460; }
     #sidebar-header h1 { font-size: 14px; font-weight: 700; color: #fff; }
     #sidebar-header p { font-size: 11px; color: #90a8c0; margin-top: 3px; line-height: 1.4; }
+    #sidebar-header a.nav-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; color: #90b8d8; text-decoration: none; }
+    #sidebar-header a.nav-link:hover { color: #fff; }
     #controls { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid #0f3460; }
     .field label { display: block; font-size: 10.5px; color: #7090a8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
     .field select, .field input { width: 100%; padding: 6px 8px; background: #1a2a4a; border: 1px solid #1a4a8a; color: #e0e0e0; border-radius: 3px; font-size: 12px; }
@@ -64,6 +66,7 @@
     <h1>Rail Explorer</h1>
     <p>Pick a ticket, a starting station, and a date/time to see everywhere
        you could reach by train that day.</p>
+    <a class="nav-link" href="../"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg> Rail Rover map</a>
   </div>
   <div id="controls">
     <div class="field">
@@ -402,13 +405,16 @@ function updateUrlState() {
 // go() once the dataset has loaded.
 function applyUrlState() {
   const params = new URLSearchParams(location.search);
-  if (!params.has('ticket') || !params.has('station')) return false;
+  if (!params.has('ticket')) return false;
 
   if (TICKETS.some(t => t.id === params.get('ticket'))) {
     ticketSelect.value = params.get('ticket');
   }
   populateStations();
-  if ([...stationSelect.options].some(o => o.value === params.get('station'))) {
+  // If no station is given (e.g. a link from the rail-rover map that only
+  // names a ticket), fall back to whichever station populateStations()
+  // selected first.
+  if (params.has('station') && [...stationSelect.options].some(o => o.value === params.get('station'))) {
     stationSelect.value = params.get('station');
   }
   if (params.has('date')) dateInput.value = params.get('date');

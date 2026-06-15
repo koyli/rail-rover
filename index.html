@@ -12,6 +12,8 @@
     #sidebar-header { padding: 14px 16px; background: #0f3460; }
     #sidebar-header h1 { font-size: 14px; font-weight: 700; color: #fff; }
     #sidebar-header p { font-size: 11px; color: #90a8c0; margin-top: 3px; line-height: 1.4; }
+    #sidebar-header a.nav-link { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; color: #90b8d8; text-decoration: none; }
+    #sidebar-header a.nav-link:hover { color: #fff; }
     #sidebar-controls { padding: 8px 16px; display: flex; gap: 8px; border-bottom: 1px solid #0f3460; }
     .ctrl-btn { flex: 1; padding: 5px 0; border: 1px solid #1a4a8a; background: #1a2a4a; color: #90b8d8; font-size: 11px; cursor: pointer; border-radius: 3px; }
     .ctrl-btn:hover { background: #1a3a6a; color: #fff; }
@@ -58,6 +60,7 @@
   <div id="sidebar-header">
     <h1>Rail Rovers &amp; Rangers</h1>
     <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply.</p>
+    <a class="nav-link" href="rail-explorer/"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg> Rail Explorer</a>
   </div>
   <div id="sidebar-controls">
     <button class="ctrl-btn" onclick="selectAll()">Select All</button>
@@ -170,7 +173,7 @@ TICKETS.forEach(ticket=>{
   const price = priceSummary(ticket);
   const apStr = price != null ? ` &middot; ${price}` : '';
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
-  el.innerHTML=`<div class="ticket-swatch" style="background:${color}"></div><div class="ticket-info"><div class="ticket-name">${ticket.name}</div><div class="ticket-meta">${ticket.operator||'National Rail'} &middot; ${coverageLabel(ticket)}${apStr}</div></div><a class="ticket-link" href="${ticket.url}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${buildPriceTooltip(ticket)}`;
+  el.innerHTML=`<div class="ticket-swatch" style="background:${color}"></div><div class="ticket-info"><div class="ticket-name">${ticket.name}</div><div class="ticket-meta">${ticket.operator||'National Rail'} &middot; ${coverageLabel(ticket)}${apStr}</div></div><a class="ticket-link" href="rail-explorer/?ticket=${encodeURIComponent(ticket.id)}" target="_blank" rel="noopener" title="Explore where this ticket can take you" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></a><a class="ticket-link" href="${ticket.url}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${buildPriceTooltip(ticket)}`;
   el.addEventListener('click',()=>{
     if(activeTickets.has(ticket.id)){ activeTickets.delete(ticket.id); map.removeLayer(ticketLayers[ticket.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }
     else { activeTickets.add(ticket.id); ticketLayers[ticket.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=color; }
