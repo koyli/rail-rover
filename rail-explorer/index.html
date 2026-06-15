@@ -117,6 +117,7 @@ let STATION_CRS = {};
 let TOC_OPERATORS = {};
 let DATASET = null;
 let CRS_TO_IDX = new Map();
+let CRS_TO_COORDS = new Map();
 
 const map = L.map('map').setView([53.5, -2.5], 6);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -278,7 +279,9 @@ function showRoute(name, info) {
   const allCoords = [];
   const draw = (itinerary, color) => {
     if (!itinerary || !itinerary.length) return;
-    const coords = [COORDS[itinerary[0].from], ...itinerary.map(leg => COORDS[leg.to])].filter(Boolean);
+    const coords = itinerary
+      .flatMap(leg => (leg.path && leg.path.length ? leg.path.map(crs => CRS_TO_COORDS.get(crs)) : [COORDS[leg.from], COORDS[leg.to]]))
+      .filter(Boolean);
     if (coords.length < 2) return;
     L.polyline(coords, { color, weight: 3, opacity: 0.85 }).addTo(routeLayer);
     allCoords.push(...coords);
@@ -450,6 +453,9 @@ async function init() {
     fetch('data/toc_operators.json').then(r => r.json()),
   ]);
   delete TOC_OPERATORS._comment;
+  for (const [name, crs] of Object.entries(STATION_CRS)) {
+    if (COORDS[name] && !CRS_TO_COORDS.has(crs)) CRS_TO_COORDS.set(crs, COORDS[name]);
+  }
   populateTickets();
   const hasQuery = applyUrlState();
   if (!hasQuery) drawStations();

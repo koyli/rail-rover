@@ -68,14 +68,24 @@ const Reachability = (() => {
       const [uidIdx, , , , , tocIdx, stops] = chosen;
       if (allowedTocs && !allowedTocs.has(tocIdx)) continue;
 
-      const covered = stops.filter(([crsIdx]) => crsFilter.has(crsIdx));
-      for (let i = 0; i < covered.length - 1; i++) {
-        const [crsA, , depA] = covered[i];
-        const [crsB, arrB] = covered[i + 1];
-        if (depA === -1 || arrB === -1 || crsA === crsB) continue;
-        let edges = graph.get(crsA);
-        if (!edges) graph.set(crsA, (edges = []));
-        edges.push([depA, arrB, crsB, uidIdx]);
+      // Find consecutive pairs of crsFilter stops, keeping the full
+      // (universal-set) sequence of stops between them so the route can be
+      // drawn through intermediate stations the train passes through.
+      let prevIdx = -1;
+      for (let i = 0; i < stops.length; i++) {
+        const [crsIdx] = stops[i];
+        if (!crsFilter.has(crsIdx)) continue;
+        if (prevIdx >= 0) {
+          const [crsA, , depA] = stops[prevIdx];
+          const [crsB, arrB] = stops[i];
+          if (depA !== -1 && arrB !== -1 && crsA !== crsB) {
+            const path = stops.slice(prevIdx, i + 1).map(([c]) => c);
+            let edges = graph.get(crsA);
+            if (!edges) graph.set(crsA, (edges = []));
+            edges.push([depA, arrB, crsB, uidIdx, path]);
+          }
+        }
+        prevIdx = i;
       }
     }
 
@@ -124,47 +134,50 @@ const Reachability = (() => {
     return 0;
   }
 
-  function collapseLegs(edges, crsToName) {
-    // edges: [[fromCrsIdx, depTime, toCrsIdx, arrTime, uidIdx], ...] in travel order
+  function collapseLegs(edges, crsToName, crsCodes) {
+    // edges: [[fromCrsIdx, depTime, toCrsIdx, arrTime, uidIdx, path], ...] in travel order
     const legs = [];
-    for (const [fromIdx, dep, toIdx, arr, uid] of edges) {
+    for (const [fromIdx, dep, toIdx, arr, uid, path] of edges) {
       const last = legs[legs.length - 1];
       if (last && last._uid === uid) {
         last.to = toIdx;
         last.arr = arr;
+        last._path.push(...path.slice(1));
       } else {
-        legs.push({ from: fromIdx, dep, to: toIdx, arr, _uid: uid });
+        legs.push({ from: fromIdx, dep, to: toIdx, arr, _uid: uid, _path: path.slice() });
       }
     }
     for (const leg of legs) {
+      leg.path = leg._path.map(crsIdx => crsCodes[crsIdx]);
       leg.from = crsToName.get(leg.from) ?? leg.from;
       leg.to = crsToName.get(leg.to) ?? leg.to;
       delete leg._uid;
+      delete leg._path;
     }
     return legs;
   }
 
-  function reconstructItinerary(prevEdge, crsToName, startCrs, destCrs) {
+  function reconstructItinerary(prevEdge, crsToName, crsCodes, startCrs, destCrs) {
     const edges = [];
     let node = destCrs;
     while (node !== startCrs) {
-      const [fromCrs, dep, arr, uid] = prevEdge.get(node);
-      edges.push([fromCrs, dep, node, arr, uid]);
+      const [fromCrs, dep, arr, uid, path] = prevEdge.get(node);
+      edges.push([fromCrs, dep, node, arr, uid, path]);
       node = fromCrs;
     }
     edges.reverse();
-    return collapseLegs(edges, crsToName);
+    return collapseLegs(edges, crsToName, crsCodes);
   }
 
-  function reconstructReturnItinerary(prevEdgeBack, crsToName, startCrs, destCrs) {
+  function reconstructReturnItinerary(prevEdgeBack, crsToName, crsCodes, startCrs, destCrs) {
     const edges = [];
     let node = destCrs;
     while (node !== startCrs) {
-      const [nextCrs, dep, arr, uid] = prevEdgeBack.get(node);
-      edges.push([node, dep, nextCrs, arr, uid]);
+      const [nextCrs, dep, arr, uid, path] = prevEdgeBack.get(node);
+      edges.push([node, dep, nextCrs, arr, uid, path]);
       node = nextCrs;
     }
-    return collapseLegs(edges, crsToName);
+    return collapseLegs(edges, crsToName, crsCodes);
   }
 
   // Latest-departure-to-still-get-home search over the reversed graph.
@@ -172,10 +185,10 @@ const Reachability = (() => {
   function latestReturn(graph, startCrs) {
     const reverseGraph = new Map();
     for (const [src, edges] of graph) {
-      for (const [dep, arr, dest, uid] of edges) {
+      for (const [dep, arr, dest, uid, path] of edges) {
         let list = reverseGraph.get(dest);
         if (!list) reverseGraph.set(dest, (list = []));
-        list.push([arr, dep, src, uid]);
+        list.push([arr, dep, src, uid, path]);
       }
     }
 
@@ -187,10 +200,10 @@ const Reachability = (() => {
       const [negG, crs] = pq.pop();
       const gx = -negG;
       if (gx < (g.get(crs) ?? -1)) continue;
-      for (const [arr, dep, src, uid] of (reverseGraph.get(crs) || [])) {
+      for (const [arr, dep, src, uid, path] of (reverseGraph.get(crs) || [])) {
         if (arr <= gx && dep > (g.get(src) ?? -1)) {
           g.set(src, dep);
-          prevEdgeBack.set(src, [crs, dep, arr, uid]);
+          prevEdgeBack.set(src, [crs, dep, arr, uid, path]);
           pq.push([-dep, src]);
         }
       }
@@ -218,21 +231,21 @@ const Reachability = (() => {
 
     const best = new Map([[startCrsIdx, [startMinutes, 0]]]); // crs -> [arrival, trains]
     const prevUid = new Map([[startCrsIdx, null]]);
-    const prevEdge = new Map(); // crs -> [fromCrs, dep, arr, uid]
+    const prevEdge = new Map(); // crs -> [fromCrs, dep, arr, uid, path]
     const pq = new PriorityQueue();
     pq.push([startMinutes, 0, startCrsIdx]);
     while (pq.length) {
       const [t, trains, crs] = pq.pop();
       const b = best.get(crs);
       if (t > b[0] || (t === b[0] && trains > b[1])) continue;
-      for (const [dep, arr, dest, uid] of (graph.get(crs) || [])) {
+      for (const [dep, arr, dest, uid, path] of (graph.get(crs) || [])) {
         if (dep < t || arr > END_OF_DAY) continue;
         const newTrains = uid === prevUid.get(crs) ? trains : trains + 1;
         const cur = best.get(dest);
         if (!cur || arr < cur[0] || (arr === cur[0] && newTrains < cur[1])) {
           best.set(dest, [arr, newTrains]);
           prevUid.set(dest, uid);
-          prevEdge.set(dest, [crs, dep, arr, uid]);
+          prevEdge.set(dest, [crs, dep, arr, uid, path]);
           pq.push([arr, newTrains, dest]);
         }
       }
@@ -255,9 +268,9 @@ const Reachability = (() => {
       const entry = { arrival, changes: Math.max(trains - 1, 0) };
       if (mode === 'return') {
         entry.return_by = returnBy.get(crs);
-        entry.return_itinerary = reconstructReturnItinerary(returnPrevEdge, crsToName, startCrsIdx, crs);
+        entry.return_itinerary = reconstructReturnItinerary(returnPrevEdge, crsToName, dataset.crs, startCrsIdx, crs);
       }
-      entry.itinerary = reconstructItinerary(prevEdge, crsToName, startCrsIdx, crs);
+      entry.itinerary = reconstructItinerary(prevEdge, crsToName, dataset.crs, startCrsIdx, crs);
       result.set(name, entry);
     }
     return result;
