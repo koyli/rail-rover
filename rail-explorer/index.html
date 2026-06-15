@@ -53,7 +53,7 @@
       }
       #sidebar.open { transform: translateX(0); }
       #sidebar-toggle {
-        display: block; position: absolute; top: 10px; left: 10px; z-index: 900;
+        display: block; position: absolute; top: 10px; left: 10px; z-index: 1001;
         background: #0f3460; color: #fff; border: 1px solid #1a4a8a; border-radius: 4px;
         padding: 8px 12px; font-size: 13px; font-weight: 600; cursor: pointer;
       }
@@ -144,7 +144,15 @@ const legendFrom = document.getElementById('legend-from');
 const sidebar = document.getElementById('sidebar');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 
-sidebarToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+sidebarToggle.addEventListener('click', () => {
+  const open = sidebar.classList.toggle('open');
+  sidebarToggle.innerHTML = open ? '&times; Close' : '&#9776; Rail Explorer';
+});
+
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarToggle.innerHTML = '&#9776; Rail Explorer';
+}
 
 function todayStr() {
   const d = new Date();
@@ -237,7 +245,7 @@ function drawStations(reachableData) {
       marker.on('click', () => {
         stationSelect.value = name;
         go();
-        sidebar.classList.remove('open');
+        closeSidebar();
       });
     }
     marker.addTo(markerLayer);
@@ -349,7 +357,7 @@ function renderResults(reachableData) {
     row.innerHTML = `<div class="result-swatch" style="background:${arrivalColor(info.arrival)}"></div><div class="result-name">${name}</div><div class="result-time">${formatTime(info.arrival)}</div><div class="result-changes">${changeStr}</div>${extra}`;
     row.addEventListener('click', () => {
       showRoute(name, info);
-      sidebar.classList.remove('open');
+      closeSidebar();
     });
     row.addEventListener('mouseenter', () => previewRoute(info));
     row.addEventListener('mouseleave', () => clearPreview());
