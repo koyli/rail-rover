@@ -1,0 +1,17 @@
+{
+  "station_crs": {
+    "Althorne (Essex)": "ALN",
+    "Althorpe": "ALP",
+    "Burnside (South Lanarkshire)": "BUI",
+    "Chapeltown (South Yorkshire)": "CLN",
+    "Penrith (North Lakes)": "PNR",
+    "Radcliffe (Nottinghamshire)": "RDF",
+    "Queens Road (Peckham)": "QRP",
+    "Gillingham Kent": "GLM",
+    "Earlswood West Midlands": "EWD",
+    "Hope Derbyshire": "HOP",
+    "Hope Flintshire": "HPE",
+    "Okehampton Interchange": "OKE",
+    "Seaford Sussex": "SEF"
+  }
+}

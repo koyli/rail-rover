@@ -1,0 +1,6 @@
+config.json
+data/cif/
+data/timetable.db
+data/*.zip
+__pycache__/
+*.pyc
