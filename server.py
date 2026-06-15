@@ -43,10 +43,12 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_error(400, "Missing required query parameters: ticket, station, date, time")
             return
 
+        mode = params.get("mode", ["one-way"])[0]
+
         try:
             conn = sqlite3.connect(reachability.DB_FILE)
             try:
-                result = reachability.reachable(ticket, station, date, time_str, conn=conn)
+                result = reachability.reachable(ticket, station, date, time_str, mode=mode, conn=conn)
             finally:
                 conn.close()
         except ValueError as e:
