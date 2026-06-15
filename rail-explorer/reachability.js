@@ -157,32 +157,41 @@ const Reachability = (() => {
     return legs;
   }
 
-  function reconstructItinerary(prevEdge, crsToName, crsCodes, startCrs, destCrs) {
+  // State keys combine a station's crsIdx with a bitmask of which
+  // "restricted pair" stations have been visited so far on this path, so
+  // that routes which pass through both members of a not-valid-together
+  // pair (see `restrictedPairs` in reachable()) can be excluded.
+  const MASK_SPACE = 1 << 16; // supports up to 16 restricted stations per ticket
+  function stateKey(crs, mask) { return crs * MASK_SPACE + mask; }
+  function stateCrs(key) { return Math.floor(key / MASK_SPACE); }
+  function stateMask(key) { return key % MASK_SPACE; }
+
+  function reconstructItinerary(prevEdge, crsToName, crsCodes, startKey, destKey) {
     const edges = [];
-    let node = destCrs;
-    while (node !== startCrs) {
-      const [fromCrs, dep, arr, uid, path] = prevEdge.get(node);
-      edges.push([fromCrs, dep, node, arr, uid, path]);
-      node = fromCrs;
+    let node = destKey;
+    while (node !== startKey) {
+      const [fromCrs, dep, arr, uid, path, fromMask] = prevEdge.get(node);
+      edges.push([fromCrs, dep, stateCrs(node), arr, uid, path]);
+      node = stateKey(fromCrs, fromMask);
     }
     edges.reverse();
     return collapseLegs(edges, crsToName, crsCodes);
   }
 
-  function reconstructReturnItinerary(prevEdgeBack, crsToName, crsCodes, startCrs, destCrs) {
+  function reconstructReturnItinerary(prevEdgeBack, crsToName, crsCodes, startKey, destKey) {
     const edges = [];
-    let node = destCrs;
-    while (node !== startCrs) {
-      const [nextCrs, dep, arr, uid, path] = prevEdgeBack.get(node);
-      edges.push([node, dep, nextCrs, arr, uid, path]);
-      node = nextCrs;
+    let node = destKey;
+    while (node !== startKey) {
+      const [nextCrs, dep, arr, uid, path, nextMask] = prevEdgeBack.get(node);
+      edges.push([stateCrs(node), dep, nextCrs, arr, uid, path]);
+      node = stateKey(nextCrs, nextMask);
     }
     return collapseLegs(edges, crsToName, crsCodes);
   }
 
   // Latest-departure-to-still-get-home search over the reversed graph.
-  // Returns { g: Map<crsIdx, latestDepartureMinute>, prevEdgeBack: Map<crsIdx, [nextCrs, dep, arr, uid]> }
-  function latestReturn(graph, startCrs) {
+  // Returns { g: Map<stateKey, latestDepartureMinute>, prevEdgeBack: Map<stateKey, [nextCrs, dep, arr, uid, path, nextMask]> }
+  function latestReturn(graph, startCrs, startMask, maskOf, violates) {
     const reverseGraph = new Map();
     for (const [src, edges] of graph) {
       for (const [dep, arr, dest, uid, path] of edges) {
@@ -192,19 +201,24 @@ const Reachability = (() => {
       }
     }
 
-    const g = new Map([[startCrs, END_OF_DAY]]);
+    const startK = stateKey(startCrs, startMask);
+    const g = new Map([[startK, END_OF_DAY]]);
     const prevEdgeBack = new Map();
     const pq = new PriorityQueue();
-    pq.push([-END_OF_DAY, startCrs]);
+    pq.push([-END_OF_DAY, startCrs, startMask]);
     while (pq.length) {
-      const [negG, crs] = pq.pop();
+      const [negG, crs, mask] = pq.pop();
       const gx = -negG;
-      if (gx < (g.get(crs) ?? -1)) continue;
+      const k = stateKey(crs, mask);
+      if (gx < (g.get(k) ?? -1)) continue;
       for (const [arr, dep, src, uid, path] of (reverseGraph.get(crs) || [])) {
-        if (arr <= gx && dep > (g.get(src) ?? -1)) {
-          g.set(src, dep);
-          prevEdgeBack.set(src, [crs, dep, arr, uid, path]);
-          pq.push([-dep, src]);
+        const newMask = mask | maskOf(src);
+        if (violates(newMask)) continue;
+        const dk = stateKey(src, newMask);
+        if (arr <= gx && dep > (g.get(dk) ?? -1)) {
+          g.set(dk, dep);
+          prevEdgeBack.set(dk, [crs, dep, arr, uid, path, mask]);
+          pq.push([-dep, src, newMask]);
         }
       }
     }
@@ -220,58 +234,122 @@ const Reachability = (() => {
   //   dateStr: "YYYY-MM-DD"
   //   startTimeStr: "HH:MM"
   //   mode: "one-way" | "return"
+  //   restrictedPairs: [[crsIdxA, crsIdxB], ...] | undefined
+  //     -- pairs of stations the ticket is not valid for travelling
+  //     between (directly or via a route that passes through both)
   // returns Map<crsIdx, {arrival, changes, return_by?, itinerary, return_itinerary?}>
   function reachable(dataset, opts) {
-    const { crsFilter, crsToName, allowedTocs, startCrsIdx, dateStr, startTimeStr, mode } = opts;
+    const { crsFilter, crsToName, allowedTocs, startCrsIdx, dateStr, startTimeStr, mode, restrictedPairs } = opts;
     const { dayNumber, weekday } = dateInfo(dataset, dateStr);
     const [h, m] = startTimeStr.split(':').map(Number);
     const startMinutes = h * 60 + m;
 
     const graph = buildGraph(dataset, crsFilter, allowedTocs, dayNumber, weekday);
 
-    const best = new Map([[startCrsIdx, [startMinutes, 0]]]); // crs -> [arrival, trains]
-    const prevUid = new Map([[startCrsIdx, null]]);
-    const prevEdge = new Map(); // crs -> [fromCrs, dep, arr, uid, path]
+    // Bit-per-station mask of "restricted pair" members visited on the
+    // current path; a transition that would set both bits of any pair is
+    // rejected (see stateKey/latestReturn above).
+    const restrictedCrs = [...new Set((restrictedPairs || []).flat())];
+    const bitOf = new Map(restrictedCrs.map((c, i) => [c, i]));
+    const pairBits = (restrictedPairs || []).map(([a, b]) => [bitOf.get(a), bitOf.get(b)]);
+    const maskOf = crs => {
+      const bit = bitOf.get(crs);
+      return bit === undefined ? 0 : (1 << bit);
+    };
+    const violates = mask => pairBits.some(([a, b]) => (mask & (1 << a)) && (mask & (1 << b)));
+
+    const startMask = maskOf(startCrsIdx);
+    const startKey = stateKey(startCrsIdx, startMask);
+
+    const best = new Map([[startKey, [startMinutes, 0]]]); // stateKey -> [arrival, trains]
+    const prevUid = new Map([[startKey, null]]);
+    const prevEdge = new Map(); // stateKey -> [fromCrs, dep, arr, uid, path, fromMask]
     const pq = new PriorityQueue();
-    pq.push([startMinutes, 0, startCrsIdx]);
+    pq.push([startMinutes, 0, startCrsIdx, startMask]);
     while (pq.length) {
-      const [t, trains, crs] = pq.pop();
-      const b = best.get(crs);
+      const [t, trains, crs, mask] = pq.pop();
+      const k = stateKey(crs, mask);
+      const b = best.get(k);
       if (t > b[0] || (t === b[0] && trains > b[1])) continue;
       for (const [dep, arr, dest, uid, path] of (graph.get(crs) || [])) {
         if (dep < t || arr > END_OF_DAY) continue;
-        const newTrains = uid === prevUid.get(crs) ? trains : trains + 1;
-        const cur = best.get(dest);
+        const newMask = mask | maskOf(dest);
+        if (violates(newMask)) continue;
+        const newTrains = uid === prevUid.get(k) ? trains : trains + 1;
+        const dk = stateKey(dest, newMask);
+        const cur = best.get(dk);
         if (!cur || arr < cur[0] || (arr === cur[0] && newTrains < cur[1])) {
-          best.set(dest, [arr, newTrains]);
-          prevUid.set(dest, uid);
-          prevEdge.set(dest, [crs, dep, arr, uid, path]);
-          pq.push([arr, newTrains, dest]);
+          best.set(dk, [arr, newTrains]);
+          prevUid.set(dk, uid);
+          prevEdge.set(dk, [crs, dep, arr, uid, path, mask]);
+          pq.push([arr, newTrains, dest, newMask]);
         }
       }
     }
 
-    let returnBy = null, returnPrevEdge = null;
+    let returnG = null, returnPrevEdge = null;
     if (mode === 'return') {
-      ({ g: returnBy, prevEdgeBack: returnPrevEdge } = latestReturn(graph, startCrsIdx));
+      ({ g: returnG, prevEdgeBack: returnPrevEdge } = latestReturn(graph, startCrsIdx, startMask, maskOf, violates));
+    }
+
+    // Group reached states by station, ignoring the start station.
+    const byStation = new Map(); // crs -> [[mask, [arrival, trains]], ...]
+    for (const [k, v] of best) {
+      const crs = stateCrs(k);
+      if (crs === startCrsIdx) continue;
+      let list = byStation.get(crs);
+      if (!list) byStation.set(crs, (list = []));
+      list.push([stateMask(k), v]);
+    }
+
+    let returnByStation = null;
+    if (mode === 'return') {
+      returnByStation = new Map();
+      for (const [k, dep] of returnG) {
+        const crs = stateCrs(k);
+        let list = returnByStation.get(crs);
+        if (!list) returnByStation.set(crs, (list = []));
+        list.push([stateMask(k), dep]);
+      }
     }
 
     const result = new Map();
-    for (const [crs, [arrival, trains]] of best) {
-      if (crs === startCrsIdx) continue;
-      if (mode === 'return') {
-        const deadline = returnBy.get(crs);
-        if (deadline === undefined || arrival > deadline) continue;
-      }
+    for (const [crs, states] of byStation) {
       const name = crsToName.get(crs);
       if (!name) continue;
-      const entry = { arrival, changes: Math.max(trains - 1, 0) };
+
       if (mode === 'return') {
-        entry.return_by = returnBy.get(crs);
-        entry.return_itinerary = reconstructReturnItinerary(returnPrevEdge, crsToName, dataset.crs, startCrsIdx, crs);
+        // Find the best valid (outbound mask, return mask) combo: visiting
+        // both members of a restricted pair across the whole round trip
+        // (outbound + return) is disallowed, even if neither leg alone
+        // would violate it.
+        const rstates = returnByStation.get(crs) || [];
+        let chosen = null;
+        for (const [m1, [arrival, trains]] of states) {
+          for (const [m2, returnBy] of rstates) {
+            if (violates(m1 | m2)) continue;
+            if (arrival > returnBy) continue;
+            if (!chosen || arrival < chosen.arrival || (arrival === chosen.arrival && trains < chosen.trains)) {
+              chosen = { arrival, trains, returnBy, m1, m2 };
+            }
+          }
+        }
+        if (!chosen) continue;
+        const entry = { arrival: chosen.arrival, changes: Math.max(chosen.trains - 1, 0), return_by: chosen.returnBy };
+        entry.return_itinerary = reconstructReturnItinerary(returnPrevEdge, crsToName, dataset.crs, startKey, stateKey(crs, chosen.m2));
+        entry.itinerary = reconstructItinerary(prevEdge, crsToName, dataset.crs, startKey, stateKey(crs, chosen.m1));
+        result.set(name, entry);
+      } else {
+        let chosen = null;
+        for (const [mask, [arrival, trains]] of states) {
+          if (!chosen || arrival < chosen.arrival || (arrival === chosen.arrival && trains < chosen.trains)) {
+            chosen = { arrival, trains, mask };
+          }
+        }
+        const entry = { arrival: chosen.arrival, changes: Math.max(chosen.trains - 1, 0) };
+        entry.itinerary = reconstructItinerary(prevEdge, crsToName, dataset.crs, startKey, stateKey(crs, chosen.mask));
+        result.set(name, entry);
       }
-      entry.itinerary = reconstructItinerary(prevEdge, crsToName, dataset.crs, startCrsIdx, crs);
-      result.set(name, entry);
     }
     return result;
   }

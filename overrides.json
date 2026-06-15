@@ -1377,5 +1377,10 @@
         "adultPrice": 196
       }
     ]
+  },
+  "restricted_pairs": {
+    "cotswolds-one-day-discoverer": [
+      ["Oxford", "Swindon (Wilts)"]
+    ]
   }
 }

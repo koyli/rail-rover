@@ -60,16 +60,25 @@ def main():
     for name, coord in overrides.get("station_coords", {}).items():
         coords[name] = coord
 
+    restricted_pairs_map = overrides.get("restricted_pairs", {})
+
     out_tickets = []
     used_stations = set()
     for t in tickets:
         stations = sorted(set(t["stations"]))
-        out_tickets.append({
+        out_ticket = {
             "id": t["id"],
             "name": t["name"],
             "operator": t.get("operator", ""),
             "stations": stations,
-        })
+        }
+        pairs = [
+            pair for pair in restricted_pairs_map.get(t["id"], [])
+            if pair[0] in stations and pair[1] in stations
+        ]
+        if pairs:
+            out_ticket["restricted_pairs"] = pairs
+        out_tickets.append(out_ticket)
         used_stations.update(stations)
 
     out_coords = {name: coords[name] for name in used_stations if name in coords}

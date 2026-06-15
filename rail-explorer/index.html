@@ -412,9 +412,13 @@ function go() {
       statusEl.textContent = `Error: ${station} has no timetable data`;
       return;
     }
+    const restrictedPairs = (ticket.restricted_pairs || [])
+      .map(([a, b]) => [CRS_TO_IDX.get(STATION_CRS[a]), CRS_TO_IDX.get(STATION_CRS[b])])
+      .filter(([a, b]) => a !== undefined && b !== undefined);
     const resultMap = Reachability.reachable(DATASET, {
       crsFilter, crsToName, startCrsIdx, dateStr: date, startTimeStr: time, mode,
       allowedTocs: allowedTocIdxs(ticket),
+      restrictedPairs,
     });
     const data = Object.fromEntries(resultMap);
     statusEl.textContent = `${Object.keys(data).length} station(s) reachable`;

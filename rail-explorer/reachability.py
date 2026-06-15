@@ -116,6 +116,29 @@ def reachable(ticket_id, start_station, date_str, start_time_str, mode="one-way"
     toc_operators = _load_toc_operators()
     allowed_tocs = _allowed_tocs(ticket, toc_operators)
 
+    # Bit-per-station mask of "restricted pair" members visited on the
+    # current path; a transition that would set both bits of any pair is
+    # rejected, since the ticket isn't valid for travel between them
+    # (directly, or via a route that passes through both).
+    restricted_pairs = [
+        (name_to_crs[a], name_to_crs[b])
+        for a, b in ticket.get("restricted_pairs", [])
+        if a in name_to_crs and b in name_to_crs
+    ]
+    restricted_crs = sorted({c for pair in restricted_pairs for c in pair})
+    bit_of = {c: i for i, c in enumerate(restricted_crs)}
+    pair_bits = [(bit_of[a], bit_of[b]) for a, b in restricted_pairs]
+
+    def mask_of(crs):
+        bit = bit_of.get(crs)
+        return (1 << bit) if bit is not None else 0
+
+    def violates(mask):
+        return any((mask & (1 << a)) and (mask & (1 << b)) for a, b in pair_bits)
+
+    start_mask = mask_of(start_crs)
+    start_key = (start_crs, start_mask)
+
     own_conn = conn is None
     if own_conn:
         conn = sqlite3.connect(DB_FILE)
@@ -125,47 +148,85 @@ def reachable(ticket_id, start_station, date_str, start_time_str, mode="one-way"
 
         # earliest-arrival Dijkstra; second key is number of distinct trains
         # taken so far (1 for the first train, +1 each time the uid changes)
-        best = {start_crs: (start_minutes, 0)}  # crs -> (arrival, trains)
-        prev_uid = {start_crs: None}
-        prev_edge = {start_crs: None}  # crs -> (from_crs, dep_time, arr_time, uid)
-        pq = [(start_minutes, 0, start_crs)]
+        best = {start_key: (start_minutes, 0)}  # (crs, mask) -> (arrival, trains)
+        prev_uid = {start_key: None}
+        prev_edge = {}  # (crs, mask) -> (from_crs, dep_time, arr_time, uid, from_mask)
+        pq = [(start_minutes, 0, start_crs, start_mask)]
         while pq:
-            t, trains, crs = heapq.heappop(pq)
-            if t > best[crs][0] or (t == best[crs][0] and trains > best[crs][1]):
+            t, trains, crs, mask = heapq.heappop(pq)
+            key = (crs, mask)
+            if t > best[key][0] or (t == best[key][0] and trains > best[key][1]):
                 continue
             for dep_time, arr_time, dest, uid in graph.get(crs, []):
                 if dep_time < t or arr_time > END_OF_DAY:
                     continue
-                new_trains = trains if uid == prev_uid.get(crs) else trains + 1
-                cur = best.get(dest)
+                new_mask = mask | mask_of(dest)
+                if violates(new_mask):
+                    continue
+                new_trains = trains if uid == prev_uid.get(key) else trains + 1
+                dest_key = (dest, new_mask)
+                cur = best.get(dest_key)
                 if cur is None or arr_time < cur[0] or (arr_time == cur[0] and new_trains < cur[1]):
-                    best[dest] = (arr_time, new_trains)
-                    prev_uid[dest] = uid
-                    prev_edge[dest] = (crs, dep_time, arr_time, uid)
-                    heapq.heappush(pq, (arr_time, new_trains, dest))
+                    best[dest_key] = (arr_time, new_trains)
+                    prev_uid[dest_key] = uid
+                    prev_edge[dest_key] = (crs, dep_time, arr_time, uid, mask)
+                    heapq.heappush(pq, (arr_time, new_trains, dest, new_mask))
 
         if mode == "return":
-            return_by, return_prev_edge = _latest_return(graph, start_crs)
+            return_g, return_prev_edge = _latest_return(graph, start_crs, start_mask, mask_of, violates)
         else:
-            return_by = return_prev_edge = None
+            return_g = return_prev_edge = None
 
-        result = {}
-        for crs, (arrival, trains) in best.items():
+        # Group reached states by station, ignoring the start station.
+        by_station = {}  # crs -> [(mask, (arrival, trains)), ...]
+        for (crs, mask), v in best.items():
             if crs == start_crs:
                 continue
-            if mode == "return":
-                deadline = return_by.get(crs)
-                if deadline is None or arrival > deadline:
-                    continue
+            by_station.setdefault(crs, []).append((mask, v))
+
+        return_by_station = None
+        if mode == "return":
+            return_by_station = {}
+            for (crs, mask), dep in return_g.items():
+                return_by_station.setdefault(crs, []).append((mask, dep))
+
+        result = {}
+        for crs, states in by_station.items():
             name = crs_to_name.get(crs)
-            if name:
+            if not name:
+                continue
+
+            if mode == "return":
+                # Visiting both members of a restricted pair across the
+                # whole round trip (outbound + return) is disallowed, even
+                # if neither leg alone would violate it.
+                rstates = return_by_station.get(crs, [])
+                chosen = None
+                for m1, (arrival, trains) in states:
+                    for m2, return_by in rstates:
+                        if violates(m1 | m2):
+                            continue
+                        if arrival > return_by:
+                            continue
+                        if chosen is None or arrival < chosen[0] or (arrival == chosen[0] and trains < chosen[1]):
+                            chosen = (arrival, trains, return_by, m1, m2)
+                if chosen is None:
+                    continue
+                arrival, trains, return_by, m1, m2 = chosen
+                entry = {"arrival": arrival, "changes": max(trains - 1, 0), "return_by": return_by}
+                entry["return_itinerary"] = _reconstruct_return_itinerary(
+                    return_prev_edge, crs_to_name, start_key, (crs, m2))
+                entry["itinerary"] = _reconstruct_itinerary(prev_edge, crs_to_name, start_key, (crs, m1))
+            else:
+                chosen = None
+                for mask, (arrival, trains) in states:
+                    if chosen is None or arrival < chosen[0] or (arrival == chosen[0] and trains < chosen[1]):
+                        chosen = (arrival, trains, mask)
+                arrival, trains, mask = chosen
                 entry = {"arrival": arrival, "changes": max(trains - 1, 0)}
-                if mode == "return":
-                    entry["return_by"] = return_by[crs]
-                    entry["return_itinerary"] = _reconstruct_return_itinerary(
-                        return_prev_edge, crs_to_name, start_crs, crs)
-                entry["itinerary"] = _reconstruct_itinerary(prev_edge, crs_to_name, start_crs, crs)
-                result[name] = entry
+                entry["itinerary"] = _reconstruct_itinerary(prev_edge, crs_to_name, start_key, (crs, mask))
+
+            result[name] = entry
         return result
     finally:
         if own_conn:
@@ -194,65 +255,80 @@ def _collapse_legs(edges, crs_to_name):
     return legs
 
 
-def _reconstruct_itinerary(prev_edge, crs_to_name, start_crs, dest_crs):
+def _reconstruct_itinerary(prev_edge, crs_to_name, start_key, dest_key):
     """
-    Walk prev_edge back from dest_crs to start_crs and return the
+    Walk prev_edge back from dest_key to start_key and return the
     collapsed outbound itinerary in travel order (start -> dest).
+
+    Keys are (crs, mask) pairs (see `reachable`'s restricted-pair masking).
     """
     edges = []  # (from_crs, dep_time, to_crs, arr_time, uid), dest -> start order
-    node = dest_crs
-    while node != start_crs:
-        from_crs, dep_time, arr_time, uid = prev_edge[node]
-        edges.append((from_crs, dep_time, node, arr_time, uid))
-        node = from_crs
+    node = dest_key
+    while node != start_key:
+        from_crs, dep_time, arr_time, uid, from_mask = prev_edge[node]
+        edges.append((from_crs, dep_time, node[0], arr_time, uid))
+        node = (from_crs, from_mask)
     edges.reverse()
     return _collapse_legs(edges, crs_to_name)
 
 
-def _reconstruct_return_itinerary(prev_edge_back, crs_to_name, start_crs, dest_crs):
+def _reconstruct_return_itinerary(prev_edge_back, crs_to_name, start_key, dest_key):
     """
-    Walk prev_edge_back forward from dest_crs to start_crs and return the
+    Walk prev_edge_back forward from dest_key to start_key and return the
     collapsed return itinerary in travel order (dest -> start).
+
+    Keys are (crs, mask) pairs (see `reachable`'s restricted-pair masking).
     """
     edges = []  # (from_crs, dep_time, to_crs, arr_time, uid), dest -> start order
-    node = dest_crs
-    while node != start_crs:
-        next_crs, dep_time, arr_time, uid = prev_edge_back[node]
-        edges.append((node, dep_time, next_crs, arr_time, uid))
-        node = next_crs
+    node = dest_key
+    while node != start_key:
+        next_crs, dep_time, arr_time, uid, next_mask = prev_edge_back[node]
+        edges.append((node[0], dep_time, next_crs, arr_time, uid))
+        node = (next_crs, next_mask)
     return _collapse_legs(edges, crs_to_name)
 
 
-def _latest_return(graph, start_crs):
+def _latest_return(graph, start_crs, start_mask, mask_of, violates):
     """
-    For each crs, the latest minute at which a homeward train (one that
-    eventually leads back to start_crs by END_OF_DAY) departs that
-    station, and the next hop taken on that homeward journey. Computed by
-    a "latest arrival" search over the reversed graph, seeded with
+    For each (crs, mask) state, the latest minute at which a homeward train
+    (one that eventually leads back to start_crs by END_OF_DAY) departs
+    that station, and the next hop taken on that homeward journey. Computed
+    by a "latest arrival" search over the reversed graph, seeded with
     start_crs reachable at END_OF_DAY (being there is always fine).
 
-    Returns (g, prev_edge_back) where g[crs] is the latest departure
-    minute and prev_edge_back[crs] = (next_crs, dep_time, arr_time, uid)
-    is the edge taken from crs towards start_crs.
+    `mask` tracks restricted-pair stations visited along the path back to
+    start_crs (see `reachable`); a transition that would set both bits of a
+    restricted pair is rejected via `violates`.
+
+    Returns (g, prev_edge_back) where g[(crs, mask)] is the latest
+    departure minute and prev_edge_back[(crs, mask)] =
+    (next_crs, dep_time, arr_time, uid, next_mask) is the edge taken from
+    crs towards start_crs.
     """
     reverse_graph = {}
     for src, edges in graph.items():
         for dep_time, arr_time, dest, uid in edges:
             reverse_graph.setdefault(dest, []).append((arr_time, dep_time, src, uid))
 
-    g = {start_crs: END_OF_DAY}
+    start_key = (start_crs, start_mask)
+    g = {start_key: END_OF_DAY}
     prev_edge_back = {}
-    pq = [(-END_OF_DAY, start_crs)]
+    pq = [(-END_OF_DAY, start_crs, start_mask)]
     while pq:
-        neg_g, crs = heapq.heappop(pq)
+        neg_g, crs, mask = heapq.heappop(pq)
         gx = -neg_g
-        if gx < g.get(crs, -1):
+        key = (crs, mask)
+        if gx < g.get(key, -1):
             continue
         for arr_time, dep_time, src, uid in reverse_graph.get(crs, []):
-            if arr_time <= gx and dep_time > g.get(src, -1):
-                g[src] = dep_time
-                prev_edge_back[src] = (crs, dep_time, arr_time, uid)
-                heapq.heappush(pq, (-dep_time, src))
+            new_mask = mask | mask_of(src)
+            if violates(new_mask):
+                continue
+            dest_key = (src, new_mask)
+            if arr_time <= gx and dep_time > g.get(dest_key, -1):
+                g[dest_key] = dep_time
+                prev_edge_back[dest_key] = (crs, dep_time, arr_time, uid, mask)
+                heapq.heappush(pq, (-dep_time, src, new_mask))
     return g, prev_edge_back
 
 
