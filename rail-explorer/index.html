@@ -189,6 +189,7 @@ ticketSelect.addEventListener('change', () => {
 function drawStations(reachableData) {
   markerLayer.clearLayers();
   routeLayer.clearLayers();
+  pinnedRoute = null;
   Object.keys(markers).forEach(k => delete markers[k]);
 
   const ticket = TICKETS.find(t => t.id === ticketSelect.value);
@@ -224,8 +225,15 @@ function drawStations(reachableData) {
     });
     marker.bindTooltip(label, { permanent: false, direction: 'top', offset: [0, -6] });
     if (name !== startStation) {
-      marker.on('mouseover', () => marker.setStyle({ weight: 2.5 }));
-      marker.on('mouseout', () => marker.setStyle({ weight: 1 }));
+      const info = reachableData && reachableData[name];
+      marker.on('mouseover', () => {
+        marker.setStyle({ weight: 2.5 });
+        if (info) previewRoute(info);
+      });
+      marker.on('mouseout', () => {
+        marker.setStyle({ weight: 1 });
+        if (info) clearPreview();
+      });
       marker.on('click', () => {
         stationSelect.value = name;
         go();
@@ -277,7 +285,11 @@ function formatTime(minutes) {
   return `${h}:${m}`;
 }
 
-function showRoute(name, info) {
+// The itinerary currently "pinned" by a click, so hover previews can revert
+// to it (rather than to nothing) when the mouse moves away.
+let pinnedRoute = null; // { name, info } | null
+
+function drawRoute(info, { fit }) {
   routeLayer.clearLayers();
   const allCoords = [];
   const draw = (itinerary, color) => {
@@ -291,10 +303,28 @@ function showRoute(name, info) {
   };
   draw(info.itinerary, '#4aa3ff');
   if (info.return_itinerary) draw(info.return_itinerary, '#ffb84a');
-  if (allCoords.length) map.fitBounds(allCoords, { padding: [40, 40] });
+  if (fit && allCoords.length) map.fitBounds(allCoords, { padding: [40, 40] });
+}
 
+function showRoute(name, info) {
+  pinnedRoute = { name, info };
+  drawRoute(info, { fit: true });
   const marker = markers[name];
   if (marker) marker.openTooltip();
+}
+
+// Preview a route on hover without disturbing the map view or the pinned
+// (clicked) route.
+function previewRoute(info) {
+  drawRoute(info, { fit: false });
+}
+
+function clearPreview() {
+  if (pinnedRoute) {
+    drawRoute(pinnedRoute.info, { fit: false });
+  } else {
+    routeLayer.clearLayers();
+  }
 }
 
 function renderResults(reachableData) {
@@ -321,6 +351,8 @@ function renderResults(reachableData) {
       showRoute(name, info);
       sidebar.classList.remove('open');
     });
+    row.addEventListener('mouseenter', () => previewRoute(info));
+    row.addEventListener('mouseleave', () => clearPreview());
     resultsEl.appendChild(row);
   }
 
