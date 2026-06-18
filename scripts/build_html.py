@@ -188,13 +188,20 @@ def main():
     .ticket-meta {{ font-size: 10px; color: #506070; margin-top: 2px; }}
     .ticket-item.active .ticket-meta {{ color: #7090a8; }}
     .ticket-link {{ display: inline-flex; align-items: center; justify-content: center; margin-top: 1px; opacity: 0.4; transition: opacity 0.12s; color: #90b8d8; text-decoration: none; flex-shrink: 0; }}
-    .ticket-item:hover .ticket-link {{ opacity: 0.85; }}
-    .ticket-link:hover {{ opacity: 1 !important; color: #fff; }}
     .price-tooltip {{ display: none; position: absolute; left: 318px; top: 0; z-index: 2000; background: rgba(10,20,50,0.97); border: 1px solid #1a4a8a; border-radius: 6px; padding: 9px 12px; min-width: 180px; max-width: 260px; font-size: 10.5px; pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.6); white-space: nowrap; }}
     .ticket-item:hover .price-tooltip, .price-tooltip.show {{ display: block; }}
     .price-toggle {{ display: inline-flex; align-items: center; justify-content: center; margin-top: 1px; opacity: 0.4; transition: opacity 0.12s; color: #90b8d8; flex-shrink: 0; background: none; border: none; cursor: pointer; padding: 0; font-size: 13px; }}
-    .ticket-item:hover .price-toggle {{ opacity: 0.85; }}
-    .price-toggle:hover, .price-toggle.show {{ opacity: 1 !important; color: #fff; }}
+    .price-toggle.show {{ opacity: 1 !important; color: #fff; }}
+    @media (hover: hover) and (pointer: fine) {{
+      .ticket-item:hover .ticket-link {{ opacity: 0.85; }}
+      .ticket-link:hover {{ opacity: 1 !important; color: #fff; }}
+      .ticket-item:hover .price-toggle {{ opacity: 0.85; }}
+      .price-toggle:hover {{ opacity: 1 !important; color: #fff; }}
+    }}
+    @media (hover: none), (pointer: coarse) {{
+      .ticket-link, .price-toggle {{ opacity: 0.7; padding: 7px; font-size: 16px; }}
+      .ticket-link svg, .price-toggle svg {{ width: 15px; height: 15px; }}
+    }}
     .price-tooltip-title {{ font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 6px; border-bottom: 1px solid #1a4a8a; padding-bottom: 5px; }}
     .price-row {{ display: flex; justify-content: space-between; gap: 14px; margin-bottom: 3px; color: #90b8d8; }}
     .price-row .plabel {{ color: #6080a0; }}
