@@ -167,6 +167,8 @@ def main():
     #sidebar-header {{ padding: 14px 16px; background: #0f3460; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }}
     #sidebar-header h1 {{ font-size: 14px; font-weight: 700; color: #fff; }}
     #sidebar-header p {{ font-size: 11px; color: #90a8c0; margin-top: 3px; line-height: 1.4; }}
+    #sidebar-header a.nav-link {{ display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 11px; color: #90b8d8; text-decoration: none; }}
+    #sidebar-header a.nav-link:hover {{ color: #fff; }}
     #sidebar-close {{ display: none; flex-shrink: 0; width: 26px; height: 26px; border: none; background: transparent; color: #90a8c0; font-size: 18px; line-height: 1; cursor: pointer; }}
     #sidebar-toggle {{ display: none; position: absolute; top: 10px; left: 10px; z-index: 2500; width: 36px; height: 36px; border: 1px solid #1a4a8a; border-radius: 6px; background: rgba(15,30,60,0.96); color: #c0d8f0; font-size: 16px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }}
     #sidebar-controls {{ padding: 8px 16px; display: flex; gap: 8px; border-bottom: 1px solid #0f3460; }}
@@ -227,6 +229,7 @@ def main():
     <div>
       <h1>Rail Rovers &amp; Rangers</h1>
       <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply.</p>
+      <a class="nav-link" href="rail-explorer/"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg> Rail Explorer</a>
     </div>
     <button id="sidebar-close" onclick="toggleSidebar()" aria-label="Close ticket list">&#10005;</button>
   </div>
@@ -357,7 +360,7 @@ TICKETS.forEach(ticket=>{{
   const apStr = price != null ? ` &middot; ${{price}}` : '';
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
   const priceToggleHtml = isTouch ? `<button class="price-toggle" title="Show prices" onclick="event.stopPropagation();this.classList.toggle('show');this.parentElement.querySelector('.price-tooltip').classList.toggle('show')">&pound;</button>` : '';
-  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div>${{priceToggleHtml}}<a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
+  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div>${{priceToggleHtml}}<a class="ticket-link" href="rail-explorer/?ticket=${{encodeURIComponent(ticket.id)}}" target="_blank" rel="noopener" title="Explore where this ticket can take you" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></a><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
   el.addEventListener('click',()=>{{
     if(activeTickets.has(ticket.id)){{ activeTickets.delete(ticket.id); map.removeLayer(ticketLayers[ticket.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}
     else {{ activeTickets.add(ticket.id); ticketLayers[ticket.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=color; }}
