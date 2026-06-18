@@ -163,10 +163,12 @@ def main():
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{ display: flex; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; }}
-    #sidebar {{ width: 310px; min-width: 310px; display: flex; flex-direction: column; background: #16213e; border-right: 1px solid #0f3460; }}
-    #sidebar-header {{ padding: 14px 16px; background: #0f3460; }}
+    #sidebar {{ width: 310px; min-width: 310px; display: flex; flex-direction: column; background: #16213e; border-right: 1px solid #0f3460; transition: transform 0.2s ease; }}
+    #sidebar-header {{ padding: 14px 16px; background: #0f3460; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }}
     #sidebar-header h1 {{ font-size: 14px; font-weight: 700; color: #fff; }}
     #sidebar-header p {{ font-size: 11px; color: #90a8c0; margin-top: 3px; line-height: 1.4; }}
+    #sidebar-close {{ display: none; flex-shrink: 0; width: 26px; height: 26px; border: none; background: transparent; color: #90a8c0; font-size: 18px; line-height: 1; cursor: pointer; }}
+    #sidebar-toggle {{ display: none; position: absolute; top: 10px; left: 10px; z-index: 2500; width: 36px; height: 36px; border: 1px solid #1a4a8a; border-radius: 6px; background: rgba(15,30,60,0.96); color: #c0d8f0; font-size: 16px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }}
     #sidebar-controls {{ padding: 8px 16px; display: flex; gap: 8px; border-bottom: 1px solid #0f3460; }}
     .ctrl-btn {{ flex: 1; padding: 5px 0; border: 1px solid #1a4a8a; background: #1a2a4a; color: #90b8d8; font-size: 11px; cursor: pointer; border-radius: 3px; }}
     .ctrl-btn:hover {{ background: #1a3a6a; color: #fff; }}
@@ -187,7 +189,10 @@ def main():
     .ticket-item:hover .ticket-link {{ opacity: 0.85; }}
     .ticket-link:hover {{ opacity: 1 !important; color: #fff; }}
     .price-tooltip {{ display: none; position: absolute; left: 318px; top: 0; z-index: 2000; background: rgba(10,20,50,0.97); border: 1px solid #1a4a8a; border-radius: 6px; padding: 9px 12px; min-width: 180px; max-width: 260px; font-size: 10.5px; pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.6); white-space: nowrap; }}
-    .ticket-item:hover .price-tooltip {{ display: block; }}
+    .ticket-item:hover .price-tooltip, .price-tooltip.show {{ display: block; }}
+    .price-toggle {{ display: inline-flex; align-items: center; justify-content: center; margin-top: 1px; opacity: 0.4; transition: opacity 0.12s; color: #90b8d8; flex-shrink: 0; background: none; border: none; cursor: pointer; padding: 0; font-size: 13px; }}
+    .ticket-item:hover .price-toggle {{ opacity: 0.85; }}
+    .price-toggle:hover, .price-toggle.show {{ opacity: 1 !important; color: #fff; }}
     .price-tooltip-title {{ font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 6px; border-bottom: 1px solid #1a4a8a; padding-bottom: 5px; }}
     .price-row {{ display: flex; justify-content: space-between; gap: 14px; margin-bottom: 3px; color: #90b8d8; }}
     .price-row .plabel {{ color: #6080a0; }}
@@ -206,13 +211,24 @@ def main():
     #hint {{ position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(15,30,60,0.88); border: 1px solid #1a4a8a; border-radius: 20px; padding: 4px 14px; font-size: 10.5px; color: #7090a8; pointer-events: none; z-index: 1000; white-space: nowrap; }}
     .leaflet-tooltip {{ background: #0f1e3c !important; border: 1px solid #1a4a8a !important; color: #c0d8f0 !important; font-size: 11px !important; padding: 3px 8px !important; border-radius: 3px !important; box-shadow: 0 2px 6px rgba(0,0,0,0.4) !important; }}
     .leaflet-tooltip::before {{ border-top-color: #1a4a8a !important; }}
+    @media (max-width: 700px) {{
+      #sidebar {{ position: fixed; top: 0; left: 0; height: 100%; z-index: 3000; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.6); }}
+      #sidebar.open {{ transform: translateX(0); }}
+      #sidebar-close {{ display: block; }}
+      #sidebar-toggle {{ display: block; }}
+      .price-tooltip {{ position: fixed; left: 12px; right: 12px; top: auto; bottom: 12px; width: auto; max-width: none; white-space: normal; }}
+    }}
   </style>
 </head>
 <body>
+<button id="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle ticket list">&#9776;</button>
 <div id="sidebar">
   <div id="sidebar-header">
-    <h1>Rail Rovers &amp; Rangers</h1>
-    <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply.</p>
+    <div>
+      <h1>Rail Rovers &amp; Rangers</h1>
+      <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply.</p>
+    </div>
+    <button id="sidebar-close" onclick="toggleSidebar()" aria-label="Close ticket list">&#10005;</button>
   </div>
   <div id="sidebar-controls">
     <button class="ctrl-btn" onclick="selectAll()">Select All</button>
@@ -276,6 +292,10 @@ function buildPriceTooltip(ticket) {{
   return html;
 }}
 
+const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+function toggleSidebar(){{ document.getElementById('sidebar').classList.toggle('open'); }}
+
 const map = L.map('map').setView([53.5,-2.5],6);
 L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png',{{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:18}}).addTo(map);
 map.createPane('stations');
@@ -293,14 +313,25 @@ TICKETS.forEach(ticket => {{
   ticketLayers[ticket.id] = group;
 }});
 
+let activeMarker = null;
 Object.entries(stationTickets).forEach(([name,tids]) => {{
   const c = COORDS[name]; if(!c) return;
   const m = L.circleMarker(c,{{radius:5,fillColor:'#fff',fillOpacity:0.9,color:'#334',weight:1.5,pane:'stations'}});
-  m.on('mouseover',()=>{{ m.setStyle({{radius:7}}); showPanel(name,tids); }});
-  m.on('mouseout', ()=>{{ m.setStyle({{radius:5}}); hidePanel(); }});
   m.bindTooltip(name,{{permanent:false,direction:'top',offset:[0,-6]}});
+  if (isTouch) {{
+    m.on('click',(e)=>{{
+      L.DomEvent.stopPropagation(e);
+      if (activeMarker === m) {{ m.setStyle({{radius:5}}); m.closeTooltip(); hidePanel(); activeMarker = null; return; }}
+      if (activeMarker) {{ activeMarker.setStyle({{radius:5}}); activeMarker.closeTooltip(); }}
+      m.setStyle({{radius:7}}); m.openTooltip(); showPanel(name,tids); activeMarker = m;
+    }});
+  }} else {{
+    m.on('mouseover',()=>{{ m.setStyle({{radius:7}}); showPanel(name,tids); }});
+    m.on('mouseout', ()=>{{ m.setStyle({{radius:5}}); hidePanel(); }});
+  }}
   m.addTo(map);
 }});
+if (isTouch) {{ map.on('click',()=>{{ if(activeMarker){{ activeMarker.setStyle({{radius:5}}); activeMarker.closeTooltip(); activeMarker=null; hidePanel(); }} }}); }}
 
 const panel=document.getElementById('hover-panel');
 const panelName=document.getElementById('hover-name');
@@ -325,7 +356,8 @@ TICKETS.forEach(ticket=>{{
   const price = priceSummary(ticket);
   const apStr = price != null ? ` &middot; ${{price}}` : '';
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
-  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
+  const priceToggleHtml = isTouch ? `<button class="price-toggle" title="Show prices" onclick="event.stopPropagation();this.classList.toggle('show');this.parentElement.querySelector('.price-tooltip').classList.toggle('show')">&pound;</button>` : '';
+  el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div>${{priceToggleHtml}}<a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
   el.addEventListener('click',()=>{{
     if(activeTickets.has(ticket.id)){{ activeTickets.delete(ticket.id); map.removeLayer(ticketLayers[ticket.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}
     else {{ activeTickets.add(ticket.id); ticketLayers[ticket.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=color; }}
