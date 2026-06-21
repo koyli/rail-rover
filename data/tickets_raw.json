@@ -1,22 +1,5 @@
 [
   {
-    "id": "c-2-c-senior-rover",
-    "name": "c2c Senior Rover",
-    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/c-2-c-senior-rover/",
-    "description": "Unlimited mid-week days travel for over 65's.",
-    "operator": "c2c",
-    "stations": [],
-    "stations_complete": true,
-    "applies_to_all_stations": false,
-    "validity_map_url": "https://www.c2c-online.co.uk/app/uploads/2019/05/c2c-route-map-may.pdf",
-    "pricing": [
-      {
-        "label": "Off-Peak weekdays",
-        "adultPrice": 10
-      }
-    ]
-  },
-  {
     "id": "waterside-wanderer-day-ranger",
     "name": "Waterside Wanderer Day Ranger",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/waterside-wanderer-day-ranger/",
@@ -5686,7 +5669,7 @@
       {
         "label": "-",
         "adultPrice": 949,
-        "childPrice": 180.3,
+        "childPrice": 474.5,
         "railcardPrices": [
           {
             "railcards": [
