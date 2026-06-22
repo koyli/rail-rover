@@ -2716,6 +2716,73 @@
           "childPrice": 49.5
         }
       ]
+    },
+    {
+      "id": "lakes-day-ranger",
+      "name": "Lakes Day Ranger",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/lakes-day-ranger/",
+      "description": "A car free day out in the lakes and Cumbria",
+      "operator": "Northern, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Arnside",
+        "Askam",
+        "Bare Lane",
+        "Barrow-in-Furness",
+        "Bootle (Cumbria)",
+        "Braystones",
+        "Burneside (Cumbria)",
+        "Cark & Cartmel",
+        "Carnforth",
+        "Corkickle",
+        "Dalton (Cumbria)",
+        "Drigg",
+        "Foxfield",
+        "Grange-over-Sands",
+        "Green Road",
+        "Harrington",
+        "Heysham Port",
+        "Kendal",
+        "Kents Bank",
+        "Kirkby-in-Furness",
+        "Lancaster",
+        "Millom",
+        "Morecambe",
+        "Nethertown",
+        "Oxenholme Lake District",
+        "Parton",
+        "Penrith (North Lakes)",
+        "Ravenglass for Eskdale",
+        "Roose",
+        "Seascale",
+        "Sellafield",
+        "Silecroft",
+        "Silverdale",
+        "St Bees",
+        "Staveley (Cumbria)",
+        "Ulverston",
+        "Whitehaven",
+        "Windermere",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 31.3,
+          "childPrice": 15.65,
+          "familyPrice": 61.5,
+          "railcardPrices": [
+            {
+              "railcards": [
+                "16-25 Railcard"
+              ],
+              "price": 20.8
+            }
+          ]
+        }
+      ]
     }
   ],
   "remove_stations": {
