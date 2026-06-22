@@ -131,6 +131,11 @@ def main():
 
     tickets = json.load(open(TICKETS_FILE))
 
+    # best ticket match seen for each feed rover code, regardless of whether
+    # it clears MATCH_THRESHOLD -- used below to report feed rovers with no
+    # corresponding ticket on the map at all (vs. just a fuzzy name mismatch)
+    code_best = {}
+
     result = {}
     for t in tickets:
         norm_name = normalise(t["name"])
@@ -141,6 +146,8 @@ def main():
             norm_desc = normalise(rec["description"])
             score = difflib.SequenceMatcher(None, norm_name, norm_desc).ratio()
             scored.append((score, code, rec, digits(norm_desc)))
+            if code not in code_best or score > code_best[code][0]:
+                code_best[code] = (score, t["id"], t["name"])
 
         # If the ticket name contains a day-count pattern (e.g. "3 in 7"),
         # prefer candidates whose description has the exact same digits --
@@ -165,6 +172,17 @@ def main():
     with open(OUTPUT, "w") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
     print(f"\nMatched {len(result)}/{len(tickets)} tickets (threshold {MATCH_THRESHOLD}); written to {OUTPUT}")
+
+    unmatched = sorted(
+        (code for code in current if code_best.get(code, (0,))[0] < MATCH_THRESHOLD),
+        key=lambda code: -code_best.get(code, (0,))[0],
+    )
+    print(f"\n{len(unmatched)} fares-feed rover(s) currently on sale with no ticket match "
+          f">= {MATCH_THRESHOLD}:")
+    for code in unmatched:
+        score, tid, tname = code_best.get(code, (0, None, None))
+        closest = f"closest: {score:.2f} {tname} ({tid})" if tid else "no tickets to compare against"
+        print(f"  {code} {current[code]['description']:<30} {closest}")
 
 
 if __name__ == "__main__":
