@@ -18,7 +18,7 @@ Only matches scoring >= MATCH_THRESHOLD against a normalised ticket name are
 used; everything else is left for overrides.json or the NR scrape.
 """
 
-import json, re, sys, difflib
+import json, os, re, sys, difflib
 from pathlib import Path
 from datetime import date
 
@@ -26,6 +26,11 @@ ROOT = Path(__file__).parent.parent
 TICKETS_FILE = ROOT / "data" / "tickets_raw.json"
 OUTPUT = ROOT / "data" / "rover_prices.json"
 TODAY = date.today()
+
+# If set (e.g. by the weekly workflow), tracked-ticket warnings are also
+# written here in plain text, one per line, so a later CI step can turn a
+# non-empty file into a GitHub issue without having to parse log output.
+WARNINGS_FILE = os.environ.get("ROVER_WARNINGS_FILE")
 
 MATCH_THRESHOLD = 0.85
 
@@ -209,21 +214,32 @@ def main():
 
     print(f"\nChecking {len(TRACKED_DISCONTINUED_TICKETS)} ticket(s) kept in overrides.json on the "
           f"strength of this feed:")
+    tracked_warnings = []
     for code, (ticket_id, ticket_name) in TRACKED_DISCONTINUED_TICKETS.items():
         rec = current_record(rovers.get(code, {}).get("records", []))
         if rec is None:
-            print(f"::warning::Feed code {code} (overrides.json ticket {ticket_id!r}, "
-                  f"{ticket_name!r}) no longer has a current validity record -- it may be "
-                  f"genuinely discontinued now. Check whether to remove it from "
-                  f"overrides.json's add_tickets.")
+            tracked_warnings.append(
+                f"Feed code {code} (overrides.json ticket {ticket_id!r}, {ticket_name!r}) no "
+                f"longer has a current validity record -- it may be genuinely discontinued "
+                f"now. Check whether to remove it from overrides.json's add_tickets.")
             continue
         score = difflib.SequenceMatcher(None, normalise(ticket_name), normalise(rec["description"])).ratio()
         if score < DESCRIPTION_DRIFT_THRESHOLD:
-            print(f"::warning::Feed code {code} now describes {rec['description']!r}, not "
-                  f"{ticket_name!r} (overrides.json ticket {ticket_id!r}) -- the code may have "
-                  f"been reused for a different product. Check overrides.json.")
+            tracked_warnings.append(
+                f"Feed code {code} now describes {rec['description']!r}, not {ticket_name!r} "
+                f"(overrides.json ticket {ticket_id!r}) -- the code may have been reused for a "
+                f"different product. Check overrides.json.")
             continue
         print(f"  OK: {code} ({rec['description']}) still current -> {ticket_id}")
+
+    for warning in tracked_warnings:
+        print(f"::warning::{warning}")
+
+    if WARNINGS_FILE:
+        if tracked_warnings:
+            Path(WARNINGS_FILE).write_text("\n".join(tracked_warnings) + "\n")
+        else:
+            Path(WARNINGS_FILE).unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

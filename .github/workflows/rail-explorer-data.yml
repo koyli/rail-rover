@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   refresh:
@@ -47,7 +48,29 @@ jobs:
         run: unzip -o data/fares.zip -d data/fares
 
       - name: Refresh rover/ranger pricing
+        env:
+          ROVER_WARNINGS_FILE: /tmp/rover_warnings.txt
         run: python3 scripts/fetch_rover_prices.py
+
+      - name: Open issue for tracked ticket warnings
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          WARNINGS_FILE=/tmp/rover_warnings.txt
+          if [ ! -s "$WARNINGS_FILE" ]; then
+            echo "No tracked-ticket warnings, nothing to do."
+            exit 0
+          fi
+          TITLE="Tracked rover/ranger ticket(s) may need removing from overrides.json"
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            echo "Issue #$EXISTING is already open; adding a comment instead of a duplicate."
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body-file "$WARNINGS_FILE"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body-file "$WARNINGS_FILE"
+          fi
 
       - name: Commit pricing data refresh
         run: |
