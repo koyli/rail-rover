@@ -63,7 +63,11 @@ def parse_trr(path):
 
 def current_record(records):
     """Pick the record valid as of today, preferring one with no end date."""
-    candidates = [r for r in records if parse_date(r["start_date"]) <= TODAY]
+    candidates = [
+        r for r in records
+        if parse_date(r["start_date"]) <= TODAY
+        and (r["end_date"] == "31122999" or parse_date(r["end_date"]) >= TODAY)
+    ]
     if not candidates:
         return None
     for r in candidates:
