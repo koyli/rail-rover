@@ -162,7 +162,7 @@ def main():
   <link rel="stylesheet" href="https://unpkg.com/leaflet@{lv}/dist/leaflet.css" integrity="{LEAFLET_CSS_SRI}" crossorigin="anonymous"/>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ display: flex; height: 100vh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; }}
+    body {{ display: flex; height: 100vh; height: 100dvh; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; }}
     #sidebar {{ width: 310px; min-width: 310px; display: flex; flex-direction: column; background: #16213e; border-right: 1px solid #0f3460; transition: transform 0.2s ease; }}
     #sidebar-header {{ padding: 14px 16px; background: #0f3460; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }}
     #sidebar-header h1 {{ font-size: 14px; font-weight: 700; color: #fff; }}
