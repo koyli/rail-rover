@@ -36,6 +36,30 @@ jobs:
             git push origin main
           fi
 
+      - name: Download RSP fares data feed
+        env:
+          NRDP_USERNAME: ${{ secrets.NRDP_USERNAME }}
+          NRDP_PASSWORD: ${{ secrets.NRDP_PASSWORD }}
+          OUTPUT_FILE: data/fares.zip
+        run: ./scripts/download_fares.sh
+
+      - name: Extract fares feed
+        run: unzip -o data/fares.zip -d data/fares
+
+      - name: Refresh rover/ranger pricing
+        run: python3 scripts/fetch_rover_prices.py
+
+      - name: Commit pricing data refresh
+        run: |
+          set -e
+          if ! git diff --quiet -- data/rover_prices.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/rover_prices.json
+            git commit -m "Refresh rover/ranger pricing from RSP fares feed ($(date -u +%Y-%m-%d))"
+            git push origin main
+          fi
+
       - name: Download CIF timetable feed
         working-directory: rail-explorer
         env:
