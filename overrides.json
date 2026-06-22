@@ -2313,6 +2313,409 @@
           ]
         }
       ]
+    },
+    {
+      "id": "cumbria-day-ranger",
+      "name": "Cumbria Day Ranger",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/cumbria-day-ranger/",
+      "description": "Travel in the designated area",
+      "operator": "Northern, ScotRail, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Annan",
+        "Arnside",
+        "Askam",
+        "Barrow-in-Furness",
+        "Bentham",
+        "Carfin",
+        "Carlisle",
+        "Dumfries",
+        "Grange-over-Sands",
+        "Gretna Green",
+        "Haltwhistle",
+        "Heysham Port",
+        "Kirkby Stephen",
+        "Lancaster",
+        "Lockerbie",
+        "Maryport",
+        "Millom",
+        "Morecambe",
+        "Penrith (North Lakes)",
+        "Preston (Lancs)",
+        "Ravenglass for Eskdale",
+        "Ribblehead",
+        "Seascale",
+        "Silverdale",
+        "St Bees",
+        "Ulverston",
+        "Whitehaven",
+        "Wigton",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 58.2,
+          "childPrice": 29.1,
+          "railcardPrices": [
+            {
+              "railcards": [
+                "16-25 Railcard"
+              ],
+              "price": 38.75
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cumbrian-coast-day-ranger",
+      "name": "Cumbrian Coast Day Ranger",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/cumbrian-coast-day-ranger/",
+      "description": "Travel in the designated Ranger area for 1 day",
+      "operator": "Northern",
+      "stations": [
+        "Askam",
+        "Aspatria",
+        "Barrow-in-Furness",
+        "Bootle (Cumbria)",
+        "Braystones",
+        "Carlisle",
+        "Corkickle",
+        "Dalston (Cumbria)",
+        "Drigg",
+        "Flimby",
+        "Foxfield",
+        "Green Road",
+        "Harrington",
+        "Kirkby-in-Furness",
+        "Maryport",
+        "Millom",
+        "Nethertown",
+        "Parton",
+        "Ravenglass for Eskdale",
+        "Seascale",
+        "Sellafield",
+        "Silecroft",
+        "St Bees",
+        "Whitehaven",
+        "Wigton",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 26.4,
+          "childPrice": 13.2,
+          "railcardPrices": [
+            {
+              "railcards": [
+                "16-25 Railcard"
+              ],
+              "price": 17.55
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cumbria-round-robin",
+      "name": "Cumbria Round Robin",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/cumbria-round-robin/",
+      "description": "Travel in the designated area",
+      "operator": "Northern, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Arnside",
+        "Askam",
+        "Aspatria",
+        "Bare Lane",
+        "Barrow-in-Furness",
+        "Bootle (Cumbria)",
+        "Braystones",
+        "Burneside (Cumbria)",
+        "Cark & Cartmel",
+        "Carlisle",
+        "Carnforth",
+        "Corkickle",
+        "Dalston (Cumbria)",
+        "Dalton (Cumbria)",
+        "Drigg",
+        "Flimby",
+        "Foxfield",
+        "Grange-over-Sands",
+        "Green Road",
+        "Harrington",
+        "Kendal",
+        "Kents Bank",
+        "Kirkby-in-Furness",
+        "Lancaster",
+        "Maryport",
+        "Millom",
+        "Nethertown",
+        "Oxenholme Lake District",
+        "Parton",
+        "Penrith (North Lakes)",
+        "Ravenglass for Eskdale",
+        "Roose",
+        "Seascale",
+        "Sellafield",
+        "Silecroft",
+        "Silverdale",
+        "St Bees",
+        "Staveley (Cumbria)",
+        "Ulverston",
+        "Whitehaven",
+        "Wigton",
+        "Windermere",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "-",
+          "adultPrice": 40.8,
+          "childPrice": 20.4,
+          "railcardPrices": [
+            {
+              "railcards": [
+                "16-25 Railcard"
+              ],
+              "price": 27.15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hadrians-wall-country-line-day-ranger",
+      "name": "Hadrians Wall Country Line Day Ranger",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/hadrians-wall-country-line-day-ranger/",
+      "description": "Travel in the designated area",
+      "operator": "Northern",
+      "stations": [
+        "Aspatria",
+        "Bardon Mill",
+        "Blaydon",
+        "Brampton (Cumbria)",
+        "Carlisle",
+        "Corbridge",
+        "Dalston (Cumbria)",
+        "Dunston",
+        "Flimby",
+        "Haltwhistle",
+        "Harrington",
+        "Haydon Bridge",
+        "Heworth",
+        "Hexham",
+        "Maryport",
+        "MetroCentre",
+        "Newcastle",
+        "Parton",
+        "Prudhoe",
+        "Riding Mill",
+        "Stocksfield",
+        "Sunderland",
+        "Wetheral",
+        "Whitehaven",
+        "Wigton",
+        "Workington",
+        "Wylam"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": "https://www.northernrailway.co.uk/sites/default/files/2022-10/Hadrian%27s%20Wall%20Country%20Line%20Day%20Ranger%20map%20NEW.pdf",
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 28.3,
+          "childPrice": 14.15,
+          "railcardPrices": [
+            {
+              "railcards": [
+                "16-25 Railcard"
+              ],
+              "price": 18.8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "settle-carlisle-line-day-ranger",
+      "name": "Settle & Carlisle Line Day Ranger",
+      "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/settle-carlisle-line-day-ranger/",
+      "description": "Unlimited day travel between Leeds/Bradford Forster Square and Carlisle, via Skipton, Settle and Appleby",
+      "operator": "Northern",
+      "stations": [
+        "Apperley Bridge",
+        "Appleby",
+        "Armathwaite",
+        "Bingley",
+        "Bradford Forster Square",
+        "Carlisle",
+        "Cononley",
+        "Crossflatts",
+        "Dent",
+        "Frizinghall",
+        "Gargrave",
+        "Garsdale",
+        "Hellifield",
+        "Horton-in-Ribblesdale",
+        "Keighley",
+        "Kirkby Stephen",
+        "Kirkstall Forge",
+        "Langwathby",
+        "Lazonby & Kirkoswald",
+        "Leeds",
+        "Long Preston",
+        "Ribblehead",
+        "Saltaire",
+        "Settle",
+        "Shipley (Yorks)",
+        "Skipton",
+        "Steeton & Silsden"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 40.8,
+          "childPrice": 20.4
+        }
+      ]
+    },
+    {
+      "id": "cumbria-travel-pass-1-day",
+      "name": "Cumbria Travel Pass (1 Day)",
+      "url": "https://www.nationalrail.co.uk/ticket-types/tickets/lf1/",
+      "description": "Unlimited 1 day travel on Northern, TransPennine Express and Avanti West Coast trains between Lancaster and Carlisle (via Barrow-in-Furness or via Penrith) and between Oxenholme and Windermere, plus all Stagecoach buses within Cumbria and a Lake Windermere cruise",
+      "operator": "Northern, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Arnside",
+        "Askam",
+        "Aspatria",
+        "Bare Lane",
+        "Barrow-in-Furness",
+        "Bootle (Cumbria)",
+        "Braystones",
+        "Burneside (Cumbria)",
+        "Cark & Cartmel",
+        "Carlisle",
+        "Carnforth",
+        "Corkickle",
+        "Dalston (Cumbria)",
+        "Dalton (Cumbria)",
+        "Drigg",
+        "Flimby",
+        "Foxfield",
+        "Grange-over-Sands",
+        "Green Road",
+        "Harrington",
+        "Kendal",
+        "Kents Bank",
+        "Kirkby-in-Furness",
+        "Lancaster",
+        "Maryport",
+        "Millom",
+        "Nethertown",
+        "Oxenholme Lake District",
+        "Parton",
+        "Penrith (North Lakes)",
+        "Ravenglass for Eskdale",
+        "Roose",
+        "Seascale",
+        "Sellafield",
+        "Silecroft",
+        "Silverdale",
+        "St Bees",
+        "Staveley (Cumbria)",
+        "Ulverston",
+        "Whitehaven",
+        "Wigton",
+        "Windermere",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "One Day",
+          "adultPrice": 40.0,
+          "childPrice": 20.0
+        }
+      ]
+    },
+    {
+      "id": "cumbria-travel-pass-3-day",
+      "name": "Cumbria Travel Pass (3 Day)",
+      "url": "https://www.nationalrail.co.uk/ticket-types/tickets/ct3/",
+      "description": "Unlimited 3 day travel on Northern, TransPennine Express and Avanti West Coast trains between Lancaster and Carlisle (via Barrow-in-Furness or via Penrith) and between Oxenholme and Windermere, plus all Stagecoach buses within Cumbria and a Lake Windermere cruise",
+      "operator": "Northern, TransPennine Express, Avanti West Coast",
+      "stations": [
+        "Arnside",
+        "Askam",
+        "Aspatria",
+        "Bare Lane",
+        "Barrow-in-Furness",
+        "Bootle (Cumbria)",
+        "Braystones",
+        "Burneside (Cumbria)",
+        "Cark & Cartmel",
+        "Carlisle",
+        "Carnforth",
+        "Corkickle",
+        "Dalston (Cumbria)",
+        "Dalton (Cumbria)",
+        "Drigg",
+        "Flimby",
+        "Foxfield",
+        "Grange-over-Sands",
+        "Green Road",
+        "Harrington",
+        "Kendal",
+        "Kents Bank",
+        "Kirkby-in-Furness",
+        "Lancaster",
+        "Maryport",
+        "Millom",
+        "Nethertown",
+        "Oxenholme Lake District",
+        "Parton",
+        "Penrith (North Lakes)",
+        "Ravenglass for Eskdale",
+        "Roose",
+        "Seascale",
+        "Sellafield",
+        "Silecroft",
+        "Silverdale",
+        "St Bees",
+        "Staveley (Cumbria)",
+        "Ulverston",
+        "Whitehaven",
+        "Wigton",
+        "Windermere",
+        "Workington"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "validity_map_url": null,
+      "pricing": [
+        {
+          "label": "Three Day",
+          "adultPrice": 99.0,
+          "childPrice": 49.5
+        }
+      ]
     }
   ],
   "remove_stations": {
@@ -2497,35 +2900,6 @@
       "West Street",
       "Bridge Street",
       "St Enoch"
-    ],
-    "settle-carlisle-line-day-ranger": [
-      "Leeds",
-      "Kirkstall Forge",
-      "Apperley Bridge",
-      "Shipley (Yorks)",
-      "Saltaire",
-      "Bingley",
-      "Crossflatts",
-      "Keighley",
-      "Steeton & Silsden",
-      "Cononley",
-      "Skipton",
-      "Gargrave",
-      "Hellifield",
-      "Long Preston",
-      "Settle",
-      "Horton-in-Ribblesdale",
-      "Ribblehead",
-      "Dent",
-      "Garsdale",
-      "Kirkby Stephen",
-      "Appleby",
-      "Langwathby",
-      "Lazonby & Kirkoswald",
-      "Armathwaite",
-      "Carlisle",
-      "Bradford Forster Square",
-      "Frizinghall"
     ],
     "cotswolds-one-day-discoverer": [
       "Hanborough",
