@@ -60,6 +60,20 @@ jobs:
             git push origin main
           fi
 
+      - name: Rebuild index.html
+        run: python3 scripts/build_html.py
+
+      - name: Commit index.html rebuild
+        run: |
+          set -e
+          if ! git diff --quiet -- index.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.html
+            git commit -m "Rebuild index.html from refreshed data ($(date -u +%Y-%m-%d))"
+            git push origin main
+          fi
+
       - name: Download CIF timetable feed
         working-directory: rail-explorer
         env:
