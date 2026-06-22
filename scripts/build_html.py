@@ -221,12 +221,14 @@ def main():
     #hint {{ position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(15,30,60,0.88); border: 1px solid #1a4a8a; border-radius: 20px; padding: 4px 14px; font-size: 10.5px; color: #7090a8; pointer-events: none; z-index: 1000; white-space: nowrap; }}
     .leaflet-tooltip {{ background: #0f1e3c !important; border: 1px solid #1a4a8a !important; color: #c0d8f0 !important; font-size: 11px !important; padding: 3px 8px !important; border-radius: 3px !important; box-shadow: 0 2px 6px rgba(0,0,0,0.4) !important; }}
     .leaflet-tooltip::before {{ border-top-color: #1a4a8a !important; }}
+    .leaflet-control-attribution {{ max-width: 60vw; white-space: normal; line-height: 1.3; }}
     @media (max-width: 700px) {{
       #sidebar {{ position: fixed; top: 0; left: 0; height: 100%; z-index: 3000; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.6); }}
       #sidebar.open {{ transform: translateX(0); }}
       #sidebar-close {{ display: block; }}
       #sidebar-toggle {{ display: block; }}
       .price-tooltip {{ position: fixed; left: 12px; right: 12px; top: auto; bottom: 12px; width: auto; max-width: none; white-space: normal; }}
+      .leaflet-control-attribution {{ max-width: 78vw; font-size: 9px; }}
     }}
   </style>
 </head>
