@@ -31,6 +31,25 @@ MATCH_THRESHOLD = 0.85
 
 STOPWORDS = r"\b(THE|RAILROVER|RAIL|ROVER|RANGER|TICKET|DAY|DAYS|IN|A|AND|OF|&)\b"
 
+# Tickets in overrides.json's add_tickets that were re-added on the strength
+# of this feed still showing them on sale, even though National Rail's own
+# website dropped them from its listing (see README.md). If a code below
+# stops resolving to a current record, or starts describing something else
+# (a feed code can be reused for an unrelated product once retired -- LF1
+# went from "LAKES DAY RANGER" to "CUMBRIA 1 DAY TRAVEL PASS" this way, which
+# is why lakes-day-ranger isn't tracked here), that's the signal the ticket
+# is genuinely gone and should be removed from overrides.json.
+TRACKED_DISCONTINUED_TICKETS = {
+    "CRR": ("cumbria-round-robin", "Cumbria Round Robin"),
+    "CAM": ("cumbria-day-ranger", "Cumbria Day Ranger"),
+    "CUC": ("cumbrian-coast-day-ranger", "Cumbrian Coast Day Ranger"),
+    "TV1": ("hadrians-wall-country-line-day-ranger", "Hadrians Wall Country Line Day Ranger"),
+    "SCU": ("settle-carlisle-line-day-ranger", "Settle & Carlisle Line Day Ranger"),
+    "LF1": ("cumbria-travel-pass-1-day", "Cumbria Travel Pass (1 Day)"),
+    "CT3": ("cumbria-travel-pass-3-day", "Cumbria Travel Pass (3 Day)"),
+}
+DESCRIPTION_DRIFT_THRESHOLD = 0.5
+
 
 def parse_date(s):
     return date(int(s[4:8]), int(s[2:4]), int(s[0:2]))
@@ -187,6 +206,24 @@ def main():
         score, tid, tname = code_best.get(code, (0, None, None))
         closest = f"closest: {score:.2f} {tname} ({tid})" if tid else "no tickets to compare against"
         print(f"  {code} {current[code]['description']:<30} {closest}")
+
+    print(f"\nChecking {len(TRACKED_DISCONTINUED_TICKETS)} ticket(s) kept in overrides.json on the "
+          f"strength of this feed:")
+    for code, (ticket_id, ticket_name) in TRACKED_DISCONTINUED_TICKETS.items():
+        rec = current_record(rovers.get(code, {}).get("records", []))
+        if rec is None:
+            print(f"::warning::Feed code {code} (overrides.json ticket {ticket_id!r}, "
+                  f"{ticket_name!r}) no longer has a current validity record -- it may be "
+                  f"genuinely discontinued now. Check whether to remove it from "
+                  f"overrides.json's add_tickets.")
+            continue
+        score = difflib.SequenceMatcher(None, normalise(ticket_name), normalise(rec["description"])).ratio()
+        if score < DESCRIPTION_DRIFT_THRESHOLD:
+            print(f"::warning::Feed code {code} now describes {rec['description']!r}, not "
+                  f"{ticket_name!r} (overrides.json ticket {ticket_id!r}) -- the code may have "
+                  f"been reused for a different product. Check overrides.json.")
+            continue
+        print(f"  OK: {code} ({rec['description']}) still current -> {ticket_id}")
 
 
 if __name__ == "__main__":
