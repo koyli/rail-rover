@@ -2971,6 +2971,42 @@
     "cotswolds-one-day-discoverer": [
       "Hanborough",
       "Combe (Oxon)"
+    ],
+    "oxfordshire-day-ranger": [
+      "Oxford Parkway"
+    ],
+    "thames-rover-3-day": [
+      "Oxford Parkway"
+    ],
+    "thames-rover-7-day": [
+      "Oxford Parkway"
+    ],
+    "lancashire-day-ranger": [
+      "Headbolt Lane"
+    ],
+    "freedom-of-north-east-7-days": [
+      "Northumberland Park (Tyne & Wear)",
+      "Blyth Bebside",
+      "Bedlington"
+    ],
+    "freedom-of-north-east-4-in-8-days": [
+      "Northumberland Park (Tyne & Wear)",
+      "Blyth Bebside",
+      "Bedlington"
+    ],
+    "tyne-tees-day-ranger": [
+      "Northumberland Park (Tyne & Wear)",
+      "Blyth Bebside",
+      "Bedlington"
+    ],
+    "coast-and-peaks-4-in-8-day-rover": [
+      "Headbolt Lane"
+    ],
+    "freedom-of-the-north-west-7-days": [
+      "Headbolt Lane"
+    ],
+    "freedom-of-the-north-west-4-in-8-day": [
+      "Headbolt Lane"
     ]
   },
   "pricing": {
