@@ -60,6 +60,12 @@ def main():
         tickets.append(new_ticket)
         print(f"Added ticket {new_ticket['name']!r} ({new_ticket['id']}) from overrides")
 
+    remove_tickets = set(overrides.get("remove_tickets", []))
+    if remove_tickets:
+        before = len(tickets)
+        tickets = [t for t in tickets if t["id"] not in remove_tickets]
+        print(f"Removed {before - len(tickets)} ticket(s) via overrides: {remove_tickets}")
+
     # Clean up names
     for t in tickets:
         t["name"] = re.sub(r"  +", " ", t["name"]).strip()

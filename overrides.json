@@ -1,4 +1,7 @@
 {
+  "remove_tickets": [
+    "borders-explorer"
+  ],
   "add_tickets": [
     {
       "id": "sy-connect",
