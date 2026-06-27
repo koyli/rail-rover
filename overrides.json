@@ -2786,6 +2786,284 @@
           ]
         }
       ]
+    },
+    {
+      "id": "merseytravel-saveaway-area-a",
+      "name": "Merseytravel Saveaway Area A",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on Merseyrail services within Zone A (Kirkby branch). Boundary stations between A and C (Aintree, Rice Lane, Walton, Orrell Park) are included.",
+      "operator": "Merseyrail",
+      "stations": [
+        "Aintree",
+        "Headbolt Lane",
+        "Kirkby (Merseyside)",
+        "Orrell Park",
+        "Rice Lane",
+        "Walton (Merseyside)"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 5.10,
+          "childPrice": 2.90
+        },
+        {
+          "label": "1 Day (16-18)",
+          "adultPrice": 2.90
+        }
+      ]
+    },
+    {
+      "id": "merseytravel-saveaway-area-b",
+      "name": "Merseytravel Saveaway Area B",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on Merseyrail services on the Wirral Line (Birkenhead/Wirral peninsula), including the city-centre tunnel stations to Liverpool Central.",
+      "operator": "Merseyrail",
+      "stations": [
+        "Bebington",
+        "Bidston",
+        "Birkenhead Central",
+        "Birkenhead Hamilton Square",
+        "Birkenhead North",
+        "Birkenhead Park",
+        "Bromborough",
+        "Bromborough Rake",
+        "Conway Park",
+        "Eastham Rake",
+        "Green Lane",
+        "Hooton",
+        "Hoylake",
+        "Leasowe",
+        "Liverpool Central",
+        "Liverpool James Street",
+        "Manor Road",
+        "Meols",
+        "Moreton (Merseyside)",
+        "New Brighton",
+        "Port Sunlight",
+        "Rock Ferry",
+        "Spital",
+        "Upton (Merseyside)",
+        "Wallasey Grove Road",
+        "Wallasey Village",
+        "West Kirby"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 5.10,
+          "childPrice": 2.90
+        },
+        {
+          "label": "1 Day (16-18)",
+          "adultPrice": 2.90
+        }
+      ]
+    },
+    {
+      "id": "merseytravel-saveaway-area-c",
+      "name": "Merseytravel Saveaway Area C",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on Merseyrail services within Zone C (central Liverpool, Hunts Cross branch and northern coastal route to Hall Road). Boundary stations between A and C (Aintree, Rice Lane, Walton, Orrell Park) are included.",
+      "operator": "Merseyrail",
+      "stations": [
+        "Aigburth",
+        "Aintree",
+        "Bank Hall",
+        "Blundellsands & Crosby",
+        "Bootle New Strand",
+        "Bootle Oriel Road",
+        "Broad Green",
+        "Brunswick",
+        "Cressington",
+        "Edge Hill",
+        "Fazakerley",
+        "Hall Road",
+        "Halewood",
+        "Hough Green",
+        "Hunts Cross",
+        "Kirkdale",
+        "Liverpool Central",
+        "Liverpool James Street",
+        "Liverpool South Parkway",
+        "Maghull",
+        "Moorfields",
+        "Mossley Hill",
+        "Old Roan",
+        "Orrell Park",
+        "Rice Lane",
+        "Sandhills",
+        "Seaforth & Litherland",
+        "St Michaels",
+        "Walton (Merseyside)",
+        "Waterloo (Merseyside)",
+        "Wavertree Technology Park",
+        "West Allerton"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 5.10,
+          "childPrice": 2.90
+        },
+        {
+          "label": "1 Day (16-18)",
+          "adultPrice": 2.90
+        }
+      ]
+    },
+    {
+      "id": "merseytravel-saveaway-area-d",
+      "name": "Merseytravel Saveaway Area D",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on Merseyrail services within Zone D (Southport coastal route from Hightown to Southport).",
+      "operator": "Merseyrail",
+      "stations": [
+        "Ainsdale",
+        "Birkdale",
+        "Formby",
+        "Freshfield",
+        "Hightown",
+        "Hillside",
+        "Meols Cop",
+        "Southport"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 5.10,
+          "childPrice": 2.90
+        },
+        {
+          "label": "1 Day (16-18)",
+          "adultPrice": 2.90
+        }
+      ]
+    },
+    {
+      "id": "merseytravel-saveaway-all-areas",
+      "name": "Merseytravel Saveaway All Areas",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on all Merseyrail services across all zones (A, B, C, D and Zone F Ormskirk branch).",
+      "operator": "Merseyrail",
+      "stations": [
+        "Aigburth",
+        "Aintree",
+        "Ainsdale",
+        "Aughton Park",
+        "Bank Hall",
+        "Bebington",
+        "Bidston",
+        "Birkdale",
+        "Birkenhead Central",
+        "Birkenhead Hamilton Square",
+        "Birkenhead North",
+        "Birkenhead Park",
+        "Blundellsands & Crosby",
+        "Bootle New Strand",
+        "Bootle Oriel Road",
+        "Broad Green",
+        "Bromborough",
+        "Bromborough Rake",
+        "Brunswick",
+        "Conway Park",
+        "Cressington",
+        "Eastham Rake",
+        "Edge Hill",
+        "Fazakerley",
+        "Formby",
+        "Freshfield",
+        "Green Lane",
+        "Hall Road",
+        "Halewood",
+        "Headbolt Lane",
+        "Hightown",
+        "Hillside",
+        "Hooton",
+        "Hough Green",
+        "Hoylake",
+        "Hunts Cross",
+        "Kirkby (Merseyside)",
+        "Kirkdale",
+        "Leasowe",
+        "Liverpool Central",
+        "Liverpool James Street",
+        "Liverpool South Parkway",
+        "Maghull",
+        "Maghull North",
+        "Manor Road",
+        "Meols",
+        "Meols Cop",
+        "Moorfields",
+        "Moreton (Merseyside)",
+        "Mossley Hill",
+        "New Brighton",
+        "Old Roan",
+        "Ormskirk",
+        "Orrell Park",
+        "Port Sunlight",
+        "Rice Lane",
+        "Rock Ferry",
+        "Sandhills",
+        "Seaforth & Litherland",
+        "Southport",
+        "Spital",
+        "St Michaels",
+        "Town Green",
+        "Upton (Merseyside)",
+        "Wallasey Grove Road",
+        "Wallasey Village",
+        "Walton (Merseyside)",
+        "Waterloo (Merseyside)",
+        "Wavertree Technology Park",
+        "West Allerton",
+        "West Kirby"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 6.80,
+          "childPrice": 3.40
+        },
+        {
+          "label": "1 Day (16-18)",
+          "adultPrice": 3.40
+        }
+      ]
+    },
+    {
+      "id": "merseytravel-saveaway-zone-g",
+      "name": "Merseytravel Saveaway Zone G",
+      "url": "https://www.merseyrail.org/tickets-passes/finding-the-best-fares/area-and-zone-calculator/",
+      "description": "Unlimited day travel on Merseyrail services within Zone G (Chester area, southern end of the Wirral Line).",
+      "operator": "Merseyrail",
+      "stations": [
+        "Bache",
+        "Capenhurst",
+        "Chester",
+        "Ellesmere Port",
+        "Little Sutton",
+        "Overpool"
+      ],
+      "stations_complete": true,
+      "applies_to_all_stations": false,
+      "pricing": [
+        {
+          "label": "1 Day",
+          "adultPrice": 4.80,
+          "childPrice": 2.40
+        }
+      ]
     }
   ],
   "remove_stations": {
