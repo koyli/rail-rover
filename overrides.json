@@ -2905,6 +2905,8 @@
       "Stow",
       "Galashiels",
       "Tweedbank",
+      "East Linton",
+      "Reston",
       "Exhibition Centre",
       "Caldercruix",
       "Blackridge",
@@ -2929,6 +2931,23 @@
       "Dunblane",
       "Cameron Bridge",
       "Leven",
+      "Springburn",
+      "Robroyston",
+      "Charing Cross (Glasgow)",
+      "Baillieston",
+      "Carntyne",
+      "Shettleston",
+      "Garrowhill",
+      "Easterhouse",
+      "Blairhill",
+      "Coatdyke",
+      "Livingston South",
+      "Edinburgh Gateway",
+      "Wallyford",
+      "Musselburgh",
+      "Prestonpans",
+      "Longniddry",
+      "Drem",
       "Brunstane",
       "Shawfair",
       "Eskbank",
@@ -2937,7 +2956,6 @@
       "Stow",
       "Galashiels",
       "Tweedbank",
-      "Hyndland",
       "Partick",
       "Exhibition Centre",
       "Anderston",
@@ -2971,6 +2989,29 @@
     "cotswolds-one-day-discoverer": [
       "Hanborough",
       "Combe (Oxon)"
+    ],
+    "freedom-of-the-south-west-3-in-7-day-rover": [
+      "Portway Park & Ride",
+      "Ashley Down"
+    ],
+    "freedom-of-the-south-west-8-in-15-day-rover": [
+      "Portway Park & Ride",
+      "Ashley Down"
+    ],
+    "heart-of-wessex-day-ranger": [
+      "Portway Park & Ride"
+    ],
+    "freedom-of-severn-solent-8-in-15-day-rover": [
+      "Portway Park & Ride",
+      "Ashley Down"
+    ],
+    "freedom-of-severn-solent-3-in-7-day-rover": [
+      "Portway Park & Ride",
+      "Ashley Down"
+    ],
+    "freedom-travelpass-bristol-area": [
+      "Portway Park & Ride",
+      "Ashley Down"
     ],
     "oxfordshire-day-ranger": [
       "Oxford Parkway"
