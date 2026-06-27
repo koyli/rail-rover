@@ -3372,10 +3372,36 @@
   },
   "restricted_pairs": {
     "cotswolds-one-day-discoverer": [
-      [
-        "Oxford",
-        "Swindon (Wilts)"
-      ]
+      ["Oxford", "Swindon (Wilts)"]
+    ],
+    "merseytravel-saveaway-area-a": [
+      ["Kirkby (Merseyside)", "Eccleston Park"],
+      ["Kirkby (Merseyside)", "Garswood"],
+      ["Kirkby (Merseyside)", "Huyton"],
+      ["Kirkby (Merseyside)", "Lea Green"],
+      ["Kirkby (Merseyside)", "Newton-le-Willows"],
+      ["Kirkby (Merseyside)", "Prescot"],
+      ["Kirkby (Merseyside)", "St Helens Central"],
+      ["Kirkby (Merseyside)", "St Helens Junction"],
+      ["Kirkby (Merseyside)", "Thatto Heath"],
+      ["Headbolt Lane", "Eccleston Park"],
+      ["Headbolt Lane", "Garswood"],
+      ["Headbolt Lane", "Huyton"],
+      ["Headbolt Lane", "Lea Green"],
+      ["Headbolt Lane", "Newton-le-Willows"],
+      ["Headbolt Lane", "Prescot"],
+      ["Headbolt Lane", "St Helens Central"],
+      ["Headbolt Lane", "St Helens Junction"],
+      ["Headbolt Lane", "Thatto Heath"],
+      ["Rainford", "Eccleston Park"],
+      ["Rainford", "Garswood"],
+      ["Rainford", "Huyton"],
+      ["Rainford", "Lea Green"],
+      ["Rainford", "Newton-le-Willows"],
+      ["Rainford", "Prescot"],
+      ["Rainford", "St Helens Central"],
+      ["Rainford", "St Helens Junction"],
+      ["Rainford", "Thatto Heath"]
     ]
   }
 }
