@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
 Import ticket + station data from the parent rail-rover repo, applying the
-same overrides.json corrections build_html.py does (add_tickets,
-remove_stations, add_stations, station_coords), so rail-explorer's ticket
-station lists match what rail-rover's map shows.
+same overrides.json corrections build_html.py does (remove_tickets,
+add_tickets, remove_stations, add_stations, station_coords), so
+rail-explorer's ticket station lists match what rail-rover's map shows.
 
 Output: data/tickets.json (id, name, operator, stations[]),
         data/coords.json  (station name -> [lat, lon], only stations used
@@ -35,6 +35,10 @@ def main():
         new_ticket.setdefault("stations_complete", True)
         new_ticket.setdefault("applies_to_all_stations", False)
         tickets.append(new_ticket)
+
+    remove_tickets = set(overrides.get("remove_tickets", []))
+    if remove_tickets:
+        tickets = [t for t in tickets if t["id"] not in remove_tickets]
 
     for t in tickets:
         t["name"] = re.sub(r"  +", " ", t["name"]).strip()
