@@ -1,5 +1,22 @@
 [
   {
+    "id": "c-2-c-senior-rover",
+    "name": "c2c Senior Rover",
+    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/c-2-c-senior-rover/",
+    "description": "Unlimited mid-week days travel for over 65's.",
+    "operator": "c2c",
+    "stations": [],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": "https://www.c2c-online.co.uk/app/uploads/2019/05/c2c-route-map-may.pdf",
+    "pricing": [
+      {
+        "label": "Off-Peak weekdays",
+        "adultPrice": 10
+      }
+    ]
+  },
+  {
     "id": "waterside-wanderer-day-ranger",
     "name": "Waterside Wanderer Day Ranger",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/waterside-wanderer-day-ranger/",
@@ -62,33 +79,6 @@
             "price": 11
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "island-line-steam-day-ranger",
-    "name": "Island Line & Steam Day Ranger",
-    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/island-line-steam-day-ranger/",
-    "description": "A day's unlimited travel on Island Line and Isle of Wight Steam Railway",
-    "operator": "Island Line",
-    "stations": [
-      "Brading",
-      "Lake",
-      "Ryde Esplanade",
-      "Ryde Pier Head",
-      "Ryde St Johns Road",
-      "Sandown",
-      "Shanklin",
-      "Smallbrook Junction"
-    ],
-    "stations_complete": true,
-    "applies_to_all_stations": false,
-    "validity_map_url": null,
-    "pricing": [
-      {
-        "label": "Date shown on ticket",
-        "adultPrice": 27.5,
-        "childPrice": 13.75
       }
     ]
   },
