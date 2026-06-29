@@ -1,6 +1,7 @@
 {
   "remove_tickets": [
-    "borders-explorer"
+    "borders-explorer",
+    "north-wales-rover-2-and-3-zones"
   ],
   "add_tickets": [
     {
@@ -2812,12 +2813,12 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 5.10,
-          "childPrice": 2.90
+          "adultPrice": 5.1,
+          "childPrice": 2.9
         },
         {
           "label": "1 Day (16-18)",
-          "adultPrice": 2.90
+          "adultPrice": 2.9
         }
       ]
     },
@@ -2862,12 +2863,12 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 5.10,
-          "childPrice": 2.90
+          "adultPrice": 5.1,
+          "childPrice": 2.9
         },
         {
           "label": "1 Day (16-18)",
-          "adultPrice": 2.90
+          "adultPrice": 2.9
         }
       ]
     },
@@ -2916,12 +2917,12 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 5.10,
-          "childPrice": 2.90
+          "adultPrice": 5.1,
+          "childPrice": 2.9
         },
         {
           "label": "1 Day (16-18)",
-          "adultPrice": 2.90
+          "adultPrice": 2.9
         }
       ]
     },
@@ -2946,12 +2947,12 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 5.10,
-          "childPrice": 2.90
+          "adultPrice": 5.1,
+          "childPrice": 2.9
         },
         {
           "label": "1 Day (16-18)",
-          "adultPrice": 2.90
+          "adultPrice": 2.9
         }
       ]
     },
@@ -3050,12 +3051,12 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 6.80,
-          "childPrice": 3.40
+          "adultPrice": 6.8,
+          "childPrice": 3.4
         },
         {
           "label": "1 Day (16-18)",
-          "adultPrice": 3.40
+          "adultPrice": 3.4
         }
       ]
     },
@@ -3079,13 +3080,20 @@
       "pricing": [
         {
           "label": "1 Day",
-          "adultPrice": 4.80,
-          "childPrice": 2.40
+          "adultPrice": 4.8,
+          "childPrice": 2.4
         }
       ]
     }
   ],
   "remove_stations": {
+    "heart-of-wessex-day-ranger": [
+      "Exton"
+    ],
+    "lincolnshire-day-ranger": [
+      "Goxhill",
+      "Habrough"
+    ],
     "thames-rover-7-day": [
       "Denby Dale"
     ],
@@ -3109,6 +3117,110 @@
     ]
   },
   "add_stations": {
+    "ffestiniog-round-robin": [
+      "Acton Bridge (Cheshire)",
+      "Alderley Edge",
+      "Altrincham",
+      "Ashley",
+      "Bache",
+      "Bangor (Gwynedd)",
+      "Bebington",
+      "Bilbrook",
+      "Bodorgan",
+      "Bromborough",
+      "Bromborough Rake",
+      "Capenhurst",
+      "Cheadle Hulme",
+      "Chelford (Cheshire)",
+      "Conwy",
+      "Coseley",
+      "Cuddington",
+      "Darlaston",
+      "Deganwy",
+      "Delamere",
+      "Dolwyddelan",
+      "Dudley Port",
+      "Dyffryn Ardudwy",
+      "Eastham Rake",
+      "Fairbourne",
+      "Glan Conwy",
+      "Goostrey",
+      "Green Lane",
+      "Greenbank",
+      "Hale (Manchester)",
+      "Handforth",
+      "Hartford (Cheshire)",
+      "Heaton Chapel",
+      "Heswall",
+      "Holmes Chapel",
+      "Knutsford",
+      "Levenshulme",
+      "Llanfairfechan",
+      "Llanfairpwll",
+      "Lostock Gralam",
+      "Mobberley",
+      "Mouldsworth",
+      "Navigation Road",
+      "Neston",
+      "Northwich",
+      "Penmaenmawr",
+      "Plumley",
+      "Pont-y-Pant",
+      "Port Sunlight",
+      "Prees",
+      "Rhosneigr",
+      "Rock Ferry",
+      "Roman Bridge",
+      "Sandbach",
+      "Sandwell & Dudley",
+      "Smethwick Rolfe Street",
+      "Spital",
+      "Tal-y-Cafn",
+      "Talsarnau",
+      "Talybont",
+      "Tame Bridge Parkway",
+      "Tipton",
+      "Tonfanau",
+      "Ty Croes",
+      "Upton (Merseyside)",
+      "Valley",
+      "Willenhall",
+      "Winsford",
+      "Yorton"
+    ],
+    "cumbria-day-ranger": [
+      "Appleby",
+      "Armathwaite",
+      "Aspatria",
+      "Bare Lane",
+      "Bootle (Cumbria)",
+      "Brampton (Cumbria)",
+      "Braystones",
+      "Cark & Cartmel",
+      "Carnforth",
+      "Corkickle",
+      "Dalston (Cumbria)",
+      "Dalton (Cumbria)",
+      "Dent",
+      "Drigg",
+      "Flimby",
+      "Foxfield",
+      "Garsdale",
+      "Green Road",
+      "Harrington",
+      "Kents Bank",
+      "Kirkby-in-Furness",
+      "Langwathby",
+      "Lazonby & Kirkoswald",
+      "Nethertown",
+      "Oxenholme Lake District",
+      "Parton",
+      "Roose",
+      "Sellafield",
+      "Silecroft",
+      "Wennington",
+      "Wetheral"
+    ],
     "c-2-c-senior-rover": [
       "Barking",
       "Basildon",
@@ -3174,24 +3286,44 @@
       "Dronfield"
     ],
     "heart-of-england-7-day-rover": [
+      "Bermuda Park",
+      "Coleshill Parkway",
+      "Coventry Arena",
+      "East Midlands Parkway",
       "Heyford",
+      "Kenilworth",
+      "Kings Heath",
       "Kings Sutton",
+      "Moseley Village",
       "Nantwich",
+      "Pineapple Road",
       "Prees",
+      "Stratford-upon-Avon Parkway",
       "Tackley",
       "Wem",
       "Whitchurch (Shropshire)",
+      "Worcestershire Parkway",
       "Wrenbury",
       "Yorton"
     ],
     "heart-of-england-3-in-7-days": [
+      "Bermuda Park",
+      "Coleshill Parkway",
+      "Coventry Arena",
+      "East Midlands Parkway",
       "Heyford",
+      "Kenilworth",
+      "Kings Heath",
       "Kings Sutton",
+      "Moseley Village",
       "Nantwich",
+      "Pineapple Road",
       "Prees",
+      "Stratford-upon-Avon Parkway",
       "Tackley",
       "Wem",
       "Whitchurch (Shropshire)",
+      "Worcestershire Parkway",
       "Wrenbury",
       "Yorton"
     ],
@@ -3224,7 +3356,13 @@
       "Shields Road",
       "West Street",
       "Bridge Street",
-      "St Enoch"
+      "St Enoch",
+      "Conon Bridge",
+      "Edinburgh Gateway",
+      "Inverness Airport",
+      "Kintore",
+      "Laurencekirk",
+      "Robroyston"
     ],
     "central-scotland-rover": [
       "Bridge of Allan",
@@ -3286,80 +3424,502 @@
       "Bridge Street",
       "St Enoch"
     ],
+    "highland-rover": [
+      "Arbroath",
+      "Blair Atholl",
+      "Bridge of Allan",
+      "Broughty Ferry",
+      "Carnoustie",
+      "Conon Bridge",
+      "Dalwhinnie",
+      "Dunblane",
+      "Dundee",
+      "Dunkeld & Birnam",
+      "Gleneagles",
+      "Invergowrie",
+      "Inverness Airport",
+      "Kingussie",
+      "Kintore",
+      "Larbert",
+      "Laurencekirk",
+      "Lenzie",
+      "Monifieth",
+      "Montrose",
+      "Newtonmore",
+      "Perth",
+      "Pitlochry",
+      "Portlethen",
+      "Stirling",
+      "Stonehaven"
+    ],
     "cotswolds-one-day-discoverer": [
       "Hanborough",
       "Combe (Oxon)"
     ],
     "freedom-of-the-south-west-3-in-7-day-rover": [
       "Portway Park & Ride",
-      "Ashley Down"
+      "Ashley Down",
+      "Cranbrook (Devon)",
+      "Marsh Barton",
+      "Newcourt"
     ],
     "freedom-of-the-south-west-8-in-15-day-rover": [
       "Portway Park & Ride",
-      "Ashley Down"
+      "Ashley Down",
+      "Cranbrook (Devon)",
+      "Marsh Barton",
+      "Newcourt"
+    ],
+    "day-save-southern": [
+      "Ashurst (Kent)",
+      "Betchworth",
+      "Bosham",
+      "Cowden (Kent)",
+      "Edenbridge Town",
+      "Hastings",
+      "Ockley",
+      "St Leonards Warrior Square"
+    ],
+    "east-midlands-day-ranger": [
+      "East Midlands Parkway",
+      "Ilkeston"
+    ],
+    "east-midlands-7-day-rover": [
+      "Bermuda Park",
+      "Corby",
+      "Coventry Arena",
+      "East Midlands Parkway",
+      "Ilkeston",
+      "Mansfield",
+      "Shirebrook"
+    ],
+    "east-midlands-rover-3-in-7-days": [
+      "Bermuda Park",
+      "Corby",
+      "Coventry Arena",
+      "East Midlands Parkway",
+      "Ilkeston",
+      "Mansfield",
+      "Shirebrook"
+    ],
+    "devon-day-ranger": [
+      "Cranbrook (Devon)",
+      "Marsh Barton",
+      "Newcourt"
+    ],
+    "freedom-of-devon-cornwall-rover-3-in-7-days": [
+      "Bere Ferrers",
+      "Cranbrook (Devon)",
+      "Marsh Barton",
+      "Newcourt"
+    ],
+    "freedom-of-devon-cornwall-rover-8-in-15-days": [
+      "Bere Ferrers",
+      "Cranbrook (Devon)",
+      "Marsh Barton",
+      "Newcourt"
     ],
     "heart-of-wessex-day-ranger": [
+      "Ashley Down",
+      "Filton Abbey Wood",
       "Portway Park & Ride"
     ],
     "freedom-of-severn-solent-8-in-15-day-rover": [
-      "Portway Park & Ride",
-      "Ashley Down"
+      "Ashley Down",
+      "Botley",
+      "Hedge End",
+      "Portway Park & Ride"
     ],
     "freedom-of-severn-solent-3-in-7-day-rover": [
-      "Portway Park & Ride",
-      "Ashley Down"
+      "Ashley Down",
+      "Botley",
+      "Hedge End",
+      "Portway Park & Ride"
     ],
     "freedom-travelpass-bristol-area": [
+      "Ashley Down",
       "Portway Park & Ride",
-      "Ashley Down"
+      "St Andrews Road"
+    ],
+    "cheshire-day-ranger": [
+      "Aigburth",
+      "Belle Vue",
+      "Bredbury",
+      "Brinnington",
+      "Brunswick",
+      "Cressington",
+      "Reddish North",
+      "Ryder Brow",
+      "Salford Central",
+      "Salford Crescent",
+      "St Michaels",
+      "Warrington West"
+    ],
+    "explore-cambrian-coast": [
+      "Bow Street",
+      "Penychain"
+    ],
+    "explore-cardiff-valleys": [
+      "Energlyn & Churchill Park",
+      "Pontypridd",
+      "Pye Corner"
+    ],
+    "explore-north-and-mid-wales": [
+      "Bow Street",
+      "Crewe",
+      "Penychain",
+      "Whitchurch (Shropshire)"
     ],
     "explore-west-wales": [
       "Fishguard & Goodwick"
     ],
     "explore-wales": [
-      "Fishguard & Goodwick"
+      "Bow Street",
+      "Caldicot",
+      "Church Stretton",
+      "Crewe",
+      "Energlyn & Churchill Park",
+      "Fishguard & Goodwick",
+      "Llantwit Major",
+      "Llwynypia",
+      "Penychain",
+      "Pontypridd",
+      "Pye Corner",
+      "Rhoose Cardiff International Airport",
+      "Severn Tunnel Junction",
+      "Whitchurch (Shropshire)"
     ],
     "explore-south-wales": [
-      "Fishguard & Goodwick"
+      "Energlyn & Churchill Park",
+      "Fishguard & Goodwick",
+      "Pontypridd",
+      "Pye Corner"
+    ],
+    "east-yorkshire-round-robin": [
+      "Church Fenton",
+      "Sherburn-in-Elmet",
+      "Ulleskelf"
+    ],
+    "kennet-day-ranger": [
+      "Reading Green Park"
     ],
     "oxfordshire-day-ranger": [
       "Oxford Parkway"
     ],
     "thames-rover-3-day": [
-      "Oxford Parkway"
+      "Burnham (Buckinghamshire)",
+      "Dorking (Deepdene)",
+      "Langley (Berks)",
+      "Oxford Parkway",
+      "Reading Green Park"
     ],
     "thames-rover-7-day": [
-      "Oxford Parkway"
+      "Dorking (Deepdene)",
+      "Langley (Berks)",
+      "Oxford Parkway",
+      "Reading Green Park"
     ],
     "lancashire-day-ranger": [
-      "Headbolt Lane"
+      "Adlington (Lancashire)",
+      "Buckshaw Parkway",
+      "Headbolt Lane",
+      "Todmorden",
+      "Walsden"
     ],
     "freedom-of-north-east-7-days": [
       "Northumberland Park (Tyne & Wear)",
       "Blyth Bebside",
-      "Bedlington"
+      "Bedlington",
+      "Apperley Bridge",
+      "Horden",
+      "James Cook University Hospital",
+      "Kirkstall Forge",
+      "Low Moor",
+      "Scunthorpe",
+      "Sherburn-in-Elmet",
+      "South Milford",
+      "Ulleskelf",
+      "York"
     ],
     "freedom-of-north-east-4-in-8-days": [
       "Northumberland Park (Tyne & Wear)",
       "Blyth Bebside",
-      "Bedlington"
+      "Bedlington",
+      "Apperley Bridge",
+      "Horden",
+      "James Cook University Hospital",
+      "Kirkstall Forge",
+      "Low Moor",
+      "Scunthorpe",
+      "Sherburn-in-Elmet",
+      "South Milford",
+      "Ulleskelf",
+      "York"
     ],
     "tyne-tees-day-ranger": [
       "Northumberland Park (Tyne & Wear)",
       "Blyth Bebside",
-      "Bedlington"
+      "Bedlington",
+      "Horden",
+      "James Cook University Hospital"
     ],
     "coast-and-peaks-4-in-8-day-rover": [
-      "Headbolt Lane"
+      "Bolton",
+      "Cheadle Hulme",
+      "Clifton (Manchester)",
+      "Eccles (Manchester)",
+      "Farnworth",
+      "Headbolt Lane",
+      "Kearsley (Manchester)",
+      "Liverpool South Parkway",
+      "Moses Gate",
+      "Walton (Merseyside)",
+      "Warrington West",
+      "Westhoughton"
     ],
     "freedom-of-the-north-west-7-days": [
-      "Headbolt Lane"
+      "Apperley Bridge",
+      "Bentham",
+      "Buckshaw Parkway",
+      "Burnage",
+      "Clapham (North Yorkshire)",
+      "Darwen",
+      "Denton",
+      "East Didsbury",
+      "Eccles (Manchester)",
+      "Entwistle",
+      "Frodsham",
+      "Giggleswick",
+      "Headbolt Lane",
+      "Helsby",
+      "Horton-in-Ribblesdale",
+      "Ince & Elton (Cheshire)",
+      "Kirkstall Forge",
+      "Liverpool South Parkway",
+      "Low Moor",
+      "Maghull North",
+      "Mauldeth Road",
+      "Normanton",
+      "Reddish South",
+      "Ribblehead",
+      "Runcorn",
+      "Runcorn East",
+      "Sankey for Penketh",
+      "Settle",
+      "Stanlow & Thornton",
+      "Upholland",
+      "Wakefield Kirkgate",
+      "Warrington West",
+      "Wennington",
+      "Widnes",
+      "Wilmslow"
     ],
     "freedom-of-the-north-west-4-in-8-day": [
-      "Headbolt Lane"
+      "Apperley Bridge",
+      "Buckshaw Parkway",
+      "Burnage",
+      "Darwen",
+      "Denton",
+      "East Didsbury",
+      "Eccles (Manchester)",
+      "Entwistle",
+      "Headbolt Lane",
+      "Kirkstall Forge",
+      "Low Moor",
+      "Maghull North",
+      "Mauldeth Road",
+      "Normanton",
+      "Reddish South",
+      "Ribblehead",
+      "Runcorn",
+      "Runcorn East",
+      "Sankey for Penketh",
+      "Wakefield Kirkgate",
+      "Warrington West",
+      "Widnes",
+      "Wilmslow"
+    ],
+    "anglia-plus-day-ranger": [
+      "Waterbeach"
+    ],
+    "anglia-plus-3-days-in-7-flexi-rover": [
+      "Waterbeach"
+    ],
+    "anglia-plus-7-day-season": [
+      "Waterbeach"
+    ],
+    "anglia-plus-annual-season": [
+      "Waterbeach"
+    ],
+    "anglia-plus-monthly-season": [
+      "Waterbeach"
+    ],
+    "merseytravel-saveaway-area-a": [
+      "Earlestown",
+      "Rainhill",
+      "Whiston"
+    ],
+    "merseytravel-saveaway-area-b": [
+      "Moorfields"
+    ],
+    "merseytravel-saveaway-all-areas": [
+      "Earlestown",
+      "Rainhill",
+      "Roby",
+      "Whiston"
+    ],
+    "dales-rambler-day-ranger": [
+      "Apperley Bridge",
+      "Kirkstall Forge"
+    ],
+    "north-wales-rover": [
+      "Bidston",
+      "Heswall",
+      "Llandudno Junction",
+      "Llanaber",
+      "Llandanwg",
+      "Neston",
+      "Penychain",
+      "Upton (Merseyside)"
+    ],
+    "north-country-4-in-8-day-rover": [
+      "Apperley Bridge",
+      "Bentham",
+      "Clapham (North Yorkshire)",
+      "Dunston",
+      "Giggleswick",
+      "Horden",
+      "James Cook University Hospital",
+      "Kirkstall Forge",
+      "Low Moor",
+      "MetroCentre",
+      "Sherburn-in-Elmet",
+      "Wennington",
+      "Yarm"
+    ],
+    "north-east-round-robin": [
+      "Apperley Bridge",
+      "Burley Park",
+      "Castleford",
+      "Cattal",
+      "Hammerton",
+      "Harrogate",
+      "Headingley",
+      "Hornbeam Park",
+      "Horsforth",
+      "Kirkstall Forge",
+      "Knaresborough",
+      "MetroCentre",
+      "Pannal",
+      "Poppleton",
+      "South Milford",
+      "Starbeck",
+      "Weeton",
+      "Wennington",
+      "Yarm"
+    ],
+    "north-west-round-robin": [
+      "Apperley Bridge",
+      "Garsdale",
+      "Kirkstall Forge",
+      "Low Moor"
+    ],
+    "northern-explorer": [
+      "Denton",
+      "Durham",
+      "Great Coates",
+      "Grimsby Docks",
+      "Healing",
+      "Reddish South"
+    ],
+    "south-pennines-day-ranger": [
+      "Ardwick",
+      "Bredbury",
+      "Low Moor",
+      "Salford Central"
+    ],
+    "west-midlands-any-train-offpeak-ato": [
+      "Birmingham International",
+      "Birmingham Moor Street",
+      "Birmingham New Street",
+      "Kings Heath",
+      "Moseley Village",
+      "Pineapple Road",
+      "Solihull"
+    ],
+    "west-midlands-any-train-ata": [
+      "Kings Heath",
+      "Moseley Village",
+      "Pineapple Road"
+    ],
+    "west-midlands-day-ranger": [
+      "Bermuda Park",
+      "Church Stretton",
+      "Coleshill Parkway",
+      "Coventry Arena",
+      "Craven Arms",
+      "Kenilworth",
+      "Kings Heath",
+      "Leominster",
+      "Ludlow",
+      "Moseley Village",
+      "Nantwich",
+      "Pineapple Road",
+      "Prees",
+      "Stone (Staffs)",
+      "Stratford-upon-Avon Parkway",
+      "Wem",
+      "Whitchurch (Shropshire)",
+      "Wrenbury",
+      "Yorton"
+    ],
+    "west-midlands-family-day-ranger": [
+      "Bermuda Park",
+      "Church Stretton",
+      "Coventry Arena",
+      "Craven Arms",
+      "Kenilworth",
+      "Kings Heath",
+      "Leominster",
+      "Ludlow",
+      "Moseley Village",
+      "Nantwich",
+      "Pineapple Road",
+      "Prees",
+      "Wem",
+      "Whitchurch (Shropshire)",
+      "Wrenbury",
+      "Yorton"
+    ],
+    "west-yorkshire-day-saver-train-bus": [
+      "Apperley Bridge",
+      "Kirkstall Forge",
+      "Low Moor"
+    ],
+    "west-yorkshire-train-day-saver": [
+      "Apperley Bridge",
+      "Kirkstall Forge",
+      "Low Moor"
     ]
   },
   "pricing": {
+    "north-wales-rover": [
+      {
+        "label": "1 day (2 zones)",
+        "adultPrice": 16.5,
+        "childPrice": 8.25
+      },
+      {
+        "label": "1 day (3 zones)",
+        "adultPrice": 28.1,
+        "childPrice": 14.05
+      },
+      {
+        "label": "1 day (all zones)",
+        "adultPrice": 45.0,
+        "childPrice": 22.5
+      }
+    ],
     "spirit-of-scotland-travelpass": [
       {
         "label": "4 in 8 days",
@@ -3373,98 +3933,404 @@
   },
   "restricted_pairs": {
     "cotswolds-one-day-discoverer": [
-      ["Oxford", "Swindon (Wilts)"],
-      ["Oxford", "Kemble"],
-      ["Oxford", "Stroud (Glos)"],
-      ["Oxford", "Stonehouse"],
-      ["Oxford", "Gloucester"],
-      ["Oxford", "Cheltenham Spa"],
-      ["Oxford", "Ashchurch for Tewkesbury"],
-      ["Hanborough", "Swindon (Wilts)"],
-      ["Hanborough", "Kemble"],
-      ["Hanborough", "Stroud (Glos)"],
-      ["Hanborough", "Stonehouse"],
-      ["Hanborough", "Gloucester"],
-      ["Hanborough", "Cheltenham Spa"],
-      ["Hanborough", "Ashchurch for Tewkesbury"],
-      ["Combe (Oxon)", "Swindon (Wilts)"],
-      ["Combe (Oxon)", "Kemble"],
-      ["Combe (Oxon)", "Stroud (Glos)"],
-      ["Combe (Oxon)", "Stonehouse"],
-      ["Combe (Oxon)", "Gloucester"],
-      ["Combe (Oxon)", "Cheltenham Spa"],
-      ["Combe (Oxon)", "Ashchurch for Tewkesbury"],
-      ["Finstock", "Swindon (Wilts)"],
-      ["Finstock", "Kemble"],
-      ["Finstock", "Stroud (Glos)"],
-      ["Finstock", "Stonehouse"],
-      ["Finstock", "Gloucester"],
-      ["Finstock", "Cheltenham Spa"],
-      ["Finstock", "Ashchurch for Tewkesbury"],
-      ["Charlbury", "Swindon (Wilts)"],
-      ["Charlbury", "Kemble"],
-      ["Charlbury", "Stroud (Glos)"],
-      ["Charlbury", "Stonehouse"],
-      ["Charlbury", "Gloucester"],
-      ["Charlbury", "Cheltenham Spa"],
-      ["Charlbury", "Ashchurch for Tewkesbury"],
-      ["Shipton", "Swindon (Wilts)"],
-      ["Shipton", "Kemble"],
-      ["Shipton", "Stroud (Glos)"],
-      ["Shipton", "Stonehouse"],
-      ["Shipton", "Gloucester"],
-      ["Shipton", "Cheltenham Spa"],
-      ["Shipton", "Ashchurch for Tewkesbury"],
-      ["Ascott-under-Wychwood", "Swindon (Wilts)"],
-      ["Ascott-under-Wychwood", "Kemble"],
-      ["Ascott-under-Wychwood", "Stroud (Glos)"],
-      ["Ascott-under-Wychwood", "Stonehouse"],
-      ["Ascott-under-Wychwood", "Gloucester"],
-      ["Ascott-under-Wychwood", "Cheltenham Spa"],
-      ["Ascott-under-Wychwood", "Ashchurch for Tewkesbury"],
-      ["Kingham", "Swindon (Wilts)"],
-      ["Kingham", "Kemble"],
-      ["Kingham", "Stroud (Glos)"],
-      ["Kingham", "Stonehouse"],
-      ["Kingham", "Gloucester"],
-      ["Kingham", "Cheltenham Spa"],
-      ["Kingham", "Ashchurch for Tewkesbury"],
-      ["Moreton-in-Marsh", "Swindon (Wilts)"],
-      ["Moreton-in-Marsh", "Kemble"],
-      ["Moreton-in-Marsh", "Stroud (Glos)"],
-      ["Moreton-in-Marsh", "Stonehouse"],
-      ["Moreton-in-Marsh", "Gloucester"],
-      ["Moreton-in-Marsh", "Cheltenham Spa"],
-      ["Moreton-in-Marsh", "Ashchurch for Tewkesbury"]
+      [
+        "Oxford",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Oxford",
+        "Kemble"
+      ],
+      [
+        "Oxford",
+        "Stroud (Glos)"
+      ],
+      [
+        "Oxford",
+        "Stonehouse"
+      ],
+      [
+        "Oxford",
+        "Gloucester"
+      ],
+      [
+        "Oxford",
+        "Cheltenham Spa"
+      ],
+      [
+        "Oxford",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Hanborough",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Hanborough",
+        "Kemble"
+      ],
+      [
+        "Hanborough",
+        "Stroud (Glos)"
+      ],
+      [
+        "Hanborough",
+        "Stonehouse"
+      ],
+      [
+        "Hanborough",
+        "Gloucester"
+      ],
+      [
+        "Hanborough",
+        "Cheltenham Spa"
+      ],
+      [
+        "Hanborough",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Combe (Oxon)",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Combe (Oxon)",
+        "Kemble"
+      ],
+      [
+        "Combe (Oxon)",
+        "Stroud (Glos)"
+      ],
+      [
+        "Combe (Oxon)",
+        "Stonehouse"
+      ],
+      [
+        "Combe (Oxon)",
+        "Gloucester"
+      ],
+      [
+        "Combe (Oxon)",
+        "Cheltenham Spa"
+      ],
+      [
+        "Combe (Oxon)",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Finstock",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Finstock",
+        "Kemble"
+      ],
+      [
+        "Finstock",
+        "Stroud (Glos)"
+      ],
+      [
+        "Finstock",
+        "Stonehouse"
+      ],
+      [
+        "Finstock",
+        "Gloucester"
+      ],
+      [
+        "Finstock",
+        "Cheltenham Spa"
+      ],
+      [
+        "Finstock",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Charlbury",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Charlbury",
+        "Kemble"
+      ],
+      [
+        "Charlbury",
+        "Stroud (Glos)"
+      ],
+      [
+        "Charlbury",
+        "Stonehouse"
+      ],
+      [
+        "Charlbury",
+        "Gloucester"
+      ],
+      [
+        "Charlbury",
+        "Cheltenham Spa"
+      ],
+      [
+        "Charlbury",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Shipton",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Shipton",
+        "Kemble"
+      ],
+      [
+        "Shipton",
+        "Stroud (Glos)"
+      ],
+      [
+        "Shipton",
+        "Stonehouse"
+      ],
+      [
+        "Shipton",
+        "Gloucester"
+      ],
+      [
+        "Shipton",
+        "Cheltenham Spa"
+      ],
+      [
+        "Shipton",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Kemble"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Stroud (Glos)"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Stonehouse"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Gloucester"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Cheltenham Spa"
+      ],
+      [
+        "Ascott-under-Wychwood",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Kingham",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Kingham",
+        "Kemble"
+      ],
+      [
+        "Kingham",
+        "Stroud (Glos)"
+      ],
+      [
+        "Kingham",
+        "Stonehouse"
+      ],
+      [
+        "Kingham",
+        "Gloucester"
+      ],
+      [
+        "Kingham",
+        "Cheltenham Spa"
+      ],
+      [
+        "Kingham",
+        "Ashchurch for Tewkesbury"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Swindon (Wilts)"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Kemble"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Stroud (Glos)"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Stonehouse"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Gloucester"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Cheltenham Spa"
+      ],
+      [
+        "Moreton-in-Marsh",
+        "Ashchurch for Tewkesbury"
+      ]
     ],
     "merseytravel-saveaway-area-a": [
-      ["Kirkby (Merseyside)", "Eccleston Park"],
-      ["Kirkby (Merseyside)", "Garswood"],
-      ["Kirkby (Merseyside)", "Huyton"],
-      ["Kirkby (Merseyside)", "Lea Green"],
-      ["Kirkby (Merseyside)", "Newton-le-Willows"],
-      ["Kirkby (Merseyside)", "Prescot"],
-      ["Kirkby (Merseyside)", "St Helens Central"],
-      ["Kirkby (Merseyside)", "St Helens Junction"],
-      ["Kirkby (Merseyside)", "Thatto Heath"],
-      ["Headbolt Lane", "Eccleston Park"],
-      ["Headbolt Lane", "Garswood"],
-      ["Headbolt Lane", "Huyton"],
-      ["Headbolt Lane", "Lea Green"],
-      ["Headbolt Lane", "Newton-le-Willows"],
-      ["Headbolt Lane", "Prescot"],
-      ["Headbolt Lane", "St Helens Central"],
-      ["Headbolt Lane", "St Helens Junction"],
-      ["Headbolt Lane", "Thatto Heath"],
-      ["Rainford", "Eccleston Park"],
-      ["Rainford", "Garswood"],
-      ["Rainford", "Huyton"],
-      ["Rainford", "Lea Green"],
-      ["Rainford", "Newton-le-Willows"],
-      ["Rainford", "Prescot"],
-      ["Rainford", "St Helens Central"],
-      ["Rainford", "St Helens Junction"],
-      ["Rainford", "Thatto Heath"]
+      [
+        "Kirkby (Merseyside)",
+        "Eccleston Park"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Garswood"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Huyton"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Lea Green"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Newton-le-Willows"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Prescot"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "St Helens Central"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "St Helens Junction"
+      ],
+      [
+        "Kirkby (Merseyside)",
+        "Thatto Heath"
+      ],
+      [
+        "Headbolt Lane",
+        "Eccleston Park"
+      ],
+      [
+        "Headbolt Lane",
+        "Garswood"
+      ],
+      [
+        "Headbolt Lane",
+        "Huyton"
+      ],
+      [
+        "Headbolt Lane",
+        "Lea Green"
+      ],
+      [
+        "Headbolt Lane",
+        "Newton-le-Willows"
+      ],
+      [
+        "Headbolt Lane",
+        "Prescot"
+      ],
+      [
+        "Headbolt Lane",
+        "St Helens Central"
+      ],
+      [
+        "Headbolt Lane",
+        "St Helens Junction"
+      ],
+      [
+        "Headbolt Lane",
+        "Thatto Heath"
+      ],
+      [
+        "Rainford",
+        "Eccleston Park"
+      ],
+      [
+        "Rainford",
+        "Garswood"
+      ],
+      [
+        "Rainford",
+        "Huyton"
+      ],
+      [
+        "Rainford",
+        "Lea Green"
+      ],
+      [
+        "Rainford",
+        "Newton-le-Willows"
+      ],
+      [
+        "Rainford",
+        "Prescot"
+      ],
+      [
+        "Rainford",
+        "St Helens Central"
+      ],
+      [
+        "Rainford",
+        "St Helens Junction"
+      ],
+      [
+        "Rainford",
+        "Thatto Heath"
+      ]
+    ],
+    "thames-rover-7-day": [
+      [
+        "Guildford",
+        "Basingstoke"
+      ],
+      [
+        "Banbury",
+        "Bicester Village"
+      ]
+    ],
+    "highland-rover": [
+      [
+        "Glasgow Queen Street",
+        "Aviemore"
+      ],
+      [
+        "Glasgow Central",
+        "Aviemore"
+      ]
+    ],
+    "north-wales-rover": [
+      [
+        "Chester",
+        "Bidston"
+      ]
+    ],
+    "lincolnshire-day-ranger": [
+      [
+        "Doncaster",
+        "Barnetby"
+      ],
+      [
+        "Doncaster",
+        "Grantham"
+      ]
     ]
   }
 }
