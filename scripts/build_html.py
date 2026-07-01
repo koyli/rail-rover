@@ -66,6 +66,15 @@ def main():
         tickets = [t for t in tickets if t["id"] not in remove_tickets]
         print(f"Removed {before - len(tickets)} ticket(s) via overrides: {remove_tickets}")
 
+    patch_map = overrides.get("patch_tickets", {})
+    ticket_index = {t["id"]: t for t in tickets}
+    for ticket_id, fields in patch_map.items():
+        if ticket_id in ticket_index:
+            ticket_index[ticket_id].update(fields)
+            print(f"Patched ticket {ticket_id!r}: {list(fields.keys())}")
+        else:
+            print(f"WARNING: patch_tickets entry {ticket_id!r} does not match any ticket id")
+
     # Clean up names
     for t in tickets:
         t["name"] = re.sub(r"  +", " ", t["name"]).strip()
