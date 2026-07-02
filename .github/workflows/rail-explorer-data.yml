@@ -126,6 +126,7 @@ jobs:
           set -e
           OUT=$(mktemp -d)
           cp data/tickets.json data/coords.json data/station_crs.json data/timetable_export.json.gz "$OUT/"
+          printf '{"generated": "%s"}\n' "$(date -u +%Y-%m-%d)" > "$OUT/meta.json"
           cd "$OUT"
           git init -q -b rail-explorer-data
           git config user.name "github-actions[bot]"

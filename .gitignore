@@ -16,4 +16,5 @@ rail-explorer/__pycache__/
 rail-explorer/data/tickets.json
 rail-explorer/data/coords.json
 rail-explorer/data/station_crs.json
+rail-explorer/data/meta.json
 
