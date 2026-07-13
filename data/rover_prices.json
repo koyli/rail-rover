@@ -1,21 +1,4 @@
 {
-  "waterside-wanderer-day-ranger": [
-    {
-      "adultPrice": 13.5,
-      "childPrice": 6.75
-    }
-  ],
-  "west-midlands-family-day-ranger": [
-    {
-      "adultPrice": 70.0
-    }
-  ],
-  "heart-of-england-7-day-rover": [
-    {
-      "adultPrice": 150.0,
-      "childPrice": 99.9
-    }
-  ],
   "heart-of-england-3-in-7-days": [
     {
       "adultPrice": 114.0,
@@ -98,11 +81,6 @@
     {
       "adultPrice": 13.5,
       "childPrice": 6.75
-    }
-  ],
-  "northern-explorer-55-west-day-ranger": [
-    {
-      "adultPrice": 19.2
     }
   ],
   "glasgow-conference-rover": [
