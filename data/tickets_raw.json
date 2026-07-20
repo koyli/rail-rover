@@ -3097,6 +3097,23 @@
     ]
   },
   {
+    "id": "northern-explorer-55-west-day-ranger",
+    "name": "Northern Explorer 55 West Day Ranger",
+    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/northern-explorer-55-west-day-ranger/",
+    "description": "Day Ranger ticket for 55-year old's and over, allows days unlimited travel on Northern services only Off-Peak in the Central and West Regions of the Northern network.",
+    "operator": "Northern",
+    "stations": [],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": null,
+    "pricing": [
+      {
+        "label": "One Day",
+        "adultPrice": 19.2
+      }
+    ]
+  },
+  {
     "id": "looe-valley-line-day-ranger",
     "name": "Looe Valley Line Day Ranger",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/looe-valley-line-day-ranger/",
