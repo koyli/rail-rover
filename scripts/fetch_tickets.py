@@ -89,6 +89,15 @@ def collect_slugs():
     # (used for client-side pagination) still honours it, so page 1 is fetched
     # as HTML to discover the current buildId and every page after that goes
     # through the JSON endpoint.
+    #
+    # Whatever this returns is necessarily a snapshot, not the full picture:
+    # NR's listing backend has been observed to omit ~15 genuine ranger/rover
+    # tickets from one scrape and include them (with others missing instead)
+    # in another taken later the same day -- stable for minutes at a time,
+    # confirmed to shift over roughly an hour, with no practical way to force
+    # or wait out a refresh from here. main() compensates by reconciling
+    # against the previously-committed ticket list rather than trusting a
+    # single pass to be complete.
     page1 = extract_next_data(fetch_html(LISTING_URL.format(page=1)))
     if not page1:
         return []
@@ -101,10 +110,13 @@ def collect_slugs():
         results = data["props"]["pageProps"].get("allPromotionResults", [])
         if not results:
             break
-        # NR's listing occasionally repeats an entry across pages since the
-        # redesign (drift in their sort order between requests); de-dupe here
-        # rather than trust each page to be disjoint.
         for p in results:
+            # The promotionType=ranger-rover query param is itself a bit
+            # loose (it lets some railcards/fare products through), and NR's
+            # listing occasionally repeats an entry across pages; re-check
+            # the type and de-dupe here rather than trust either.
+            if p.get("promotionType", {}).get("promotionTypeCode") != "RangerRover":
+                continue
             if p["slug"] not in seen:
                 seen.add(p["slug"])
                 slugs.append(p["slug"])
@@ -113,6 +125,16 @@ def collect_slugs():
         raw = json.loads(fetch_html(LISTING_DATA_URL.format(build_id=build_id, page=page + 1)))
         data = {"props": {"pageProps": raw["pageProps"]}}
     return slugs
+
+
+def previously_committed_slugs():
+    result = subprocess.run(
+        ["git", "-C", str(OUTPUT.parent.parent), "show", "HEAD:data/tickets_raw.json"],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        return set()
+    return {t["id"] for t in json.loads(result.stdout)}
 
 
 def fetch_ticket(slug):
@@ -145,13 +167,24 @@ def fetch_ticket(slug):
 def main():
     print("Collecting ticket slugs...")
     slugs = collect_slugs()
-    print(f"Total: {len(slugs)} tickets\n")
+    print(f"Listing returned: {len(slugs)} tickets")
+
+    # The listing is a flaky snapshot (see collect_slugs' docstring): a
+    # ticket present last time this ran but absent from today's listing
+    # might just be a listing gap, not a real removal. Rather than trust
+    # this run's listing alone, also re-check every previously-committed
+    # ticket id that didn't show up in it -- keep it if its detail page is
+    # still live, drop it (it's genuinely gone) otherwise.
+    recheck = sorted(previously_committed_slugs() - set(slugs))
+    if recheck:
+        print(f"Re-checking {len(recheck)} previously-known ticket(s) missing from this listing: {recheck}\n")
+    slugs = slugs + recheck
 
     tickets = []
     for i, slug in enumerate(slugs):
         ticket = fetch_ticket(slug)
         if not ticket:
-            print(f"[{i+1}/{len(slugs)}] {slug}: FAILED", flush=True)
+            print(f"[{i+1}/{len(slugs)}] {slug}: FAILED (no longer live -- dropped)", flush=True)
             continue
         adult = next((p.get("adultPrice") for p in ticket["pricing"] if p.get("adultPrice")), None)
         print(f"[{i+1}/{len(slugs)}] {ticket['name']}: {len(ticket['stations'])} stations"
