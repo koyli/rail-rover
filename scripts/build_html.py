@@ -53,12 +53,17 @@ def main():
     # ticket-types section of the site with no station list or pricing
     # embedded in the page at all. Inject whole tickets here; combine with
     # add_stations/pricing overrides below to fill in their coverage and fares
+    existing_ids = {t["id"] for t in tickets}
     for new_ticket in overrides.get("add_tickets", []):
+        if new_ticket["id"] in existing_ids:
+            print(f"Skipped add_tickets override {new_ticket['name']!r} ({new_ticket['id']}) -- NR's scrape already has it this run")
+            continue
         new_ticket.setdefault("stations", [])
         new_ticket.setdefault("stations_complete", True)
         new_ticket.setdefault("applies_to_all_stations", False)
         new_ticket.setdefault("pricing", [])
         tickets.append(new_ticket)
+        existing_ids.add(new_ticket["id"])
         print(f"Added ticket {new_ticket['name']!r} ({new_ticket['id']}) from overrides")
 
     remove_tickets = set(overrides.get("remove_tickets", []))

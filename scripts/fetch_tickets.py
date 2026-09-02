@@ -95,13 +95,19 @@ def collect_slugs():
     build_id = page1["buildId"]
 
     slugs = []
+    seen = set()
     data = page1
     for page in range(1, 20):
         results = data["props"]["pageProps"].get("allPromotionResults", [])
         if not results:
             break
+        # NR's listing occasionally repeats an entry across pages since the
+        # redesign (drift in their sort order between requests); de-dupe here
+        # rather than trust each page to be disjoint.
         for p in results:
-            slugs.append(p["slug"])
+            if p["slug"] not in seen:
+                seen.add(p["slug"])
+                slugs.append(p["slug"])
         print(f"  Page {page}: {len(results)} tickets", flush=True)
         time.sleep(0.5)
         raw = json.loads(fetch_html(LISTING_DATA_URL.format(build_id=build_id, page=page + 1)))
