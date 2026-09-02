@@ -1,7 +1,11 @@
 {
   "remove_tickets": [
     "borders-explorer",
-    "north-wales-rover-2-and-3-zones"
+    "north-wales-rover-2-and-3-zones",
+    "16-17-saver",
+    "accompanied-child-flat-fare-great-northern-thameslink",
+    "two-together-railcard",
+    "senior-railcard"
   ],
   "add_tickets": [
     {
