@@ -1,4 +1,22 @@
 {
+  "lancashire-day-ranger": [
+    {
+      "adultPrice": 31.2,
+      "childPrice": 15.6
+    }
+  ],
+  "north-west-round-robin": [
+    {
+      "adultPrice": 51.5,
+      "childPrice": 25.75
+    }
+  ],
+  "cumbria-travel-pass": [
+    {
+      "adultPrice": 99.0,
+      "childPrice": 49.5
+    }
+  ],
   "west-midlands-family-day-ranger": [
     {
       "adultPrice": 70.0
@@ -20,48 +38,6 @@
     {
       "adultPrice": 36.0,
       "childPrice": 18.0
-    }
-  ],
-  "ride-cornwall": [
-    {
-      "adultPrice": 21.0,
-      "childPrice": 10.5
-    }
-  ],
-  "cornwall-ranger": [
-    {
-      "adultPrice": 17.0,
-      "childPrice": 8.5
-    }
-  ],
-  "explore-cambrian-coast": [
-    {
-      "adultPrice": 21.0,
-      "childPrice": 10.5
-    }
-  ],
-  "explore-west-wales": [
-    {
-      "adultPrice": 15.0,
-      "childPrice": 7.5
-    }
-  ],
-  "explore-north-and-mid-wales": [
-    {
-      "adultPrice": 129.0,
-      "childPrice": 64.5
-    }
-  ],
-  "explore-wales": [
-    {
-      "adultPrice": 169.0,
-      "childPrice": 84.5
-    }
-  ],
-  "explore-south-wales": [
-    {
-      "adultPrice": 129.0,
-      "childPrice": 64.5
     }
   ],
   "st-ives-bay-line-ranger": [
