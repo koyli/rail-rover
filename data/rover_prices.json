@@ -1,1 +1,263 @@
-{}
+{
+  "west-midlands-family-day-ranger": [
+    {
+      "adultPrice": 70.0
+    }
+  ],
+  "heart-of-england-7-day-rover": [
+    {
+      "adultPrice": 150.0,
+      "childPrice": 99.9
+    }
+  ],
+  "heart-of-england-3-in-7-days": [
+    {
+      "adultPrice": 114.0,
+      "childPrice": 75.9
+    }
+  ],
+  "west-midlands-day-ranger": [
+    {
+      "adultPrice": 36.0,
+      "childPrice": 18.0
+    }
+  ],
+  "ride-cornwall": [
+    {
+      "adultPrice": 21.0,
+      "childPrice": 10.5
+    }
+  ],
+  "cornwall-ranger": [
+    {
+      "adultPrice": 17.0,
+      "childPrice": 8.5
+    }
+  ],
+  "explore-cambrian-coast": [
+    {
+      "adultPrice": 21.0,
+      "childPrice": 10.5
+    }
+  ],
+  "explore-west-wales": [
+    {
+      "adultPrice": 15.0,
+      "childPrice": 7.5
+    }
+  ],
+  "explore-north-and-mid-wales": [
+    {
+      "adultPrice": 129.0,
+      "childPrice": 64.5
+    }
+  ],
+  "explore-wales": [
+    {
+      "adultPrice": 169.0,
+      "childPrice": 84.5
+    }
+  ],
+  "explore-south-wales": [
+    {
+      "adultPrice": 129.0,
+      "childPrice": 64.5
+    }
+  ],
+  "st-ives-bay-line-ranger": [
+    {
+      "adultPrice": 4.2,
+      "childPrice": 2.1
+    }
+  ],
+  "heart-of-wessex-day-ranger": [
+    {
+      "adultPrice": 27.5,
+      "childPrice": 13.75
+    }
+  ],
+  "central-scotland-rover": [
+    {
+      "adultPrice": 57.0,
+      "childPrice": 28.5
+    }
+  ],
+  "bittern-line-ranger": [
+    {
+      "adultPrice": 13.5,
+      "childPrice": 6.75
+    }
+  ],
+  "northern-explorer-55-west-day-ranger": [
+    {
+      "adultPrice": 19.2
+    }
+  ],
+  "glasgow-conference-rover": [
+    {
+      "adultPrice": 5.0
+    }
+  ],
+  "east-suffolk-day-ranger": [
+    {
+      "adultPrice": 24.9,
+      "childPrice": 12.45
+    }
+  ],
+  "devon-day-ranger": [
+    {
+      "adultPrice": 17.0,
+      "childPrice": 8.5
+    }
+  ],
+  "dales-rambler-day-ranger": [
+    {
+      "adultPrice": 15.1,
+      "childPrice": 7.55
+    }
+  ],
+  "oxfordshire-day-ranger": [
+    {
+      "adultPrice": 22.0,
+      "childPrice": 11.0
+    }
+  ],
+  "thames-rover-3-day": [
+    {
+      "adultPrice": 67.0,
+      "childPrice": 33.5
+    }
+  ],
+  "north-downs-day-ranger": [
+    {
+      "adultPrice": 22.0,
+      "childPrice": 11.0
+    }
+  ],
+  "coast-and-peaks-4-in-8-day-rover": [
+    {
+      "adultPrice": 101.3,
+      "childPrice": 50.65
+    }
+  ],
+  "derbyshire-wayfarer-ranger": [
+    {
+      "adultPrice": 17.0,
+      "childPrice": 8.5
+    }
+  ],
+  "kent-rover": [
+    {
+      "adultPrice": 60.0,
+      "childPrice": 30.0
+    }
+  ],
+  "anglia-plus-day-ranger": [
+    {
+      "adultPrice": 29.7,
+      "childPrice": 14.85
+    }
+  ],
+  "all-line-rover-7-days": [
+    {
+      "adultPrice": 625.0,
+      "childPrice": 312.5
+    }
+  ],
+  "all-line-rover-14-days": [
+    {
+      "adultPrice": 949.0,
+      "childPrice": 474.5
+    }
+  ],
+  "explore-cardiff-valleys": [
+    {
+      "adultPrice": 18.0,
+      "childPrice": 9.0
+    }
+  ],
+  "east-midlands-7-day-rover": [
+    {
+      "adultPrice": 151.1,
+      "childPrice": 75.55
+    }
+  ],
+  "east-midlands-rover-3-in-7-days": [
+    {
+      "adultPrice": 116.1,
+      "childPrice": 58.05
+    }
+  ],
+  "wherry-line-ranger": [
+    {
+      "adultPrice": 13.5,
+      "childPrice": 6.75
+    }
+  ],
+  "east-midlands-day-ranger": [
+    {
+      "adultPrice": 50.7,
+      "childPrice": 25.4
+    }
+  ],
+  "lincolnshire-day-ranger": [
+    {
+      "adultPrice": 38.3,
+      "childPrice": 19.15
+    }
+  ],
+  "thames-branches-day-ranger": [
+    {
+      "adultPrice": 27.5,
+      "childPrice": 13.75
+    }
+  ],
+  "kennet-day-ranger": [
+    {
+      "adultPrice": 17.5,
+      "childPrice": 8.75
+    }
+  ],
+  "scottish-grand-tour": [
+    {
+      "adultPrice": 92.0,
+      "childPrice": 46.0
+    }
+  ],
+  "south-pennines-day-ranger": [
+    {
+      "adultPrice": 31.2,
+      "childPrice": 15.6
+    }
+  ],
+  "west-wight-wanderer-day-ranger": [
+    {
+      "adultPrice": 30.0,
+      "childPrice": 18.0
+    }
+  ],
+  "yorkshire-coast-day-ranger": [
+    {
+      "adultPrice": 27.9,
+      "childPrice": 13.95
+    }
+  ],
+  "north-country-4-in-8-day-rover": [
+    {
+      "adultPrice": 126.1,
+      "childPrice": 63.05
+    }
+  ],
+  "east-yorkshire-round-robin": [
+    {
+      "adultPrice": 32.6,
+      "childPrice": 16.3
+    }
+  ],
+  "highland-rover": [
+    {
+      "adultPrice": 99.0,
+      "childPrice": 49.5
+    }
+  ]
+}
