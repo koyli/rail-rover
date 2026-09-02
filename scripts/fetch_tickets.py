@@ -13,13 +13,20 @@ from pathlib import Path
 
 BASE_URL = "https://www.nationalrail.co.uk"
 LISTING_URL = BASE_URL + "/ticket-types/promotions/?promotionType=ranger-rover&page={page}"
+LISTING_DATA_URL = BASE_URL + "/_next/data/{build_id}/tickets-railcards-and-offers/ticket-types/promotions.json?promotionType=ranger-rover&page={page}"
 DETAIL_URL  = BASE_URL + "/tickets-railcards-offers/promotions/{slug}/"
 
 OUTPUT = Path(__file__).parent.parent / "data" / "tickets_raw.json"
 
 
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+
+
 def fetch_html(url):
-    r = subprocess.run(["curl", "-s", "--max-time", "15", url], capture_output=True, text=True)
+    r = subprocess.run(
+        ["curl", "-s", "-L", "--max-time", "15", "-A", USER_AGENT, url],
+        capture_output=True, text=True,
+    )
     return r.stdout
 
 
@@ -77,11 +84,19 @@ def get_pricing(promo):
 
 
 def collect_slugs():
+    # The HTML listing route's getServerSideProps ignores ?page (always returns
+    # page 1) since NR's site redesign; its own Next.js data-fetch JSON endpoint
+    # (used for client-side pagination) still honours it, so page 1 is fetched
+    # as HTML to discover the current buildId and every page after that goes
+    # through the JSON endpoint.
+    page1 = extract_next_data(fetch_html(LISTING_URL.format(page=1)))
+    if not page1:
+        return []
+    build_id = page1["buildId"]
+
     slugs = []
+    data = page1
     for page in range(1, 20):
-        data = extract_next_data(fetch_html(LISTING_URL.format(page=page)))
-        if not data:
-            break
         results = data["props"]["pageProps"].get("allPromotionResults", [])
         if not results:
             break
@@ -89,6 +104,8 @@ def collect_slugs():
             slugs.append(p["slug"])
         print(f"  Page {page}: {len(results)} tickets", flush=True)
         time.sleep(0.5)
+        raw = json.loads(fetch_html(LISTING_DATA_URL.format(build_id=build_id, page=page + 1)))
+        data = {"props": {"pageProps": raw["pageProps"]}}
     return slugs
 
 
