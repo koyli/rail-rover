@@ -23,6 +23,31 @@ jobs:
       - name: Fetch latest ticket data
         run: python3 scripts/fetch_tickets.py
 
+      - name: Sanity-check ticket count
+        id: ticket_count_check
+        run: python3 scripts/check_ticket_count.py
+
+      - name: Discard bad ticket data and alert
+        if: steps.ticket_count_check.outputs.significant == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          git checkout -- data/tickets_raw.json
+          NEW="${{ steps.ticket_count_check.outputs.new_count }}"
+          OLD="${{ steps.ticket_count_check.outputs.old_count }}"
+          PCT="${{ steps.ticket_count_check.outputs.drop_pct }}"
+          TITLE="fetch_tickets.py: ticket count dropped significantly"
+          BODY=$(printf 'The latest scrape returned %s tickets, down from %s (a %s%% drop, exceeding the 10%% threshold). `data/tickets_raw.json` and the `index.html` rebuild for this run were discarded to avoid publishing broken data.\n\nThis usually means National Rail changed the ranger-rover listing page or its pagination -- see the 2026-08 outage where a site redesign broke scraping silently for a month. Run `python3 scripts/fetch_tickets.py` locally and compare its output against the committed `data/tickets_raw.json` to diagnose.\n' "$NEW" "$OLD" "$PCT")
+          EXISTING=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$TITLE\"" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            echo "Issue #$EXISTING is already open; adding a comment instead of a duplicate."
+            gh issue comment "$EXISTING" --repo "$GITHUB_REPOSITORY" --body "$BODY"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$TITLE" --body "$BODY"
+          fi
+          exit 1
+
       - name: Fetch latest station coordinates
         run: python3 scripts/fetch_coords.py
 
