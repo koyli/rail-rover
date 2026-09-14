@@ -1,4 +1,10 @@
 {
+  "northern-explorer": [
+    {
+      "adultPrice": 35.0,
+      "childPrice": 17.5
+    }
+  ],
   "west-midlands-family-day-ranger": [
     {
       "adultPrice": 70.0
@@ -206,12 +212,6 @@
       "childPrice": 19.15
     }
   ],
-  "thames-branches-day-ranger": [
-    {
-      "adultPrice": 27.5,
-      "childPrice": 13.75
-    }
-  ],
   "kennet-day-ranger": [
     {
       "adultPrice": 17.5,
@@ -275,6 +275,12 @@
   "sy-connect": [
     {
       "adultPrice": 12.2
+    }
+  ],
+  "thames-branches-day-ranger": [
+    {
+      "adultPrice": 27.5,
+      "childPrice": 13.75
     }
   ],
   "thames-rover-7-day": [
