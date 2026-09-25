@@ -240,6 +240,21 @@ def main():
     .hover-dot {{ width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }}
     .hover-ticket-name {{ color: #b0c8e0; font-size: 10.5px; }}
     .hover-ticket-price {{ color: #7090a8; font-size: 10px; margin-left: auto; padding-left: 8px; white-space: nowrap; }}
+    #hover-head {{ display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }}
+    #hover-close, #hover-actions {{ display: none; }}
+    #hover-close {{ border: none; background: transparent; color: #90a8c0; font-size: 14px; line-height: 1; cursor: pointer; padding: 0 2px; }}
+    #hover-close:hover {{ color: #fff; }}
+    #hover-actions {{ gap: 8px; margin: -3px 0 7px; font-size: 10px; color: #506070; }}
+    #hover-actions button {{ border: none; background: none; color: #90b8d8; font-size: 10px; cursor: pointer; padding: 0; text-decoration: underline; }}
+    #hover-actions button:hover {{ color: #fff; }}
+    #hover-panel.pinned {{ pointer-events: auto; max-height: 60vh; overflow-y: auto; }}
+    #hover-panel.pinned #hover-close {{ display: block; }}
+    #hover-panel.pinned #hover-actions {{ display: flex; }}
+    #hover-panel.pinned .hover-ticket {{ cursor: pointer; margin: 0 -6px 1px; padding: 3px 6px; border-radius: 3px; border-left: 3px solid transparent; }}
+    #hover-panel.pinned .hover-ticket:hover {{ background: #1e2e50; }}
+    .hover-ticket.active {{ background: #1a3060; }}
+    .hover-ticket.active .hover-ticket-name {{ color: #fff; font-weight: 600; }}
+    .hover-ticket.active .hover-dot {{ box-shadow: 0 0 0 2px rgba(255,255,255,0.6); }}
     #hint {{ position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(15,30,60,0.88); border: 1px solid #1a4a8a; border-radius: 20px; padding: 4px 14px; font-size: 10.5px; color: #7090a8; pointer-events: none; z-index: 1000; white-space: nowrap; }}
     .leaflet-tooltip {{ background: #0f1e3c !important; border: 1px solid #1a4a8a !important; color: #c0d8f0 !important; font-size: 11px !important; padding: 3px 8px !important; border-radius: 3px !important; box-shadow: 0 2px 6px rgba(0,0,0,0.4) !important; }}
     .leaflet-tooltip::before {{ border-top-color: #1a4a8a !important; }}
@@ -260,7 +275,7 @@ def main():
   <div id="sidebar-header">
     <div>
       <h1>Rail Rovers &amp; Rangers</h1>
-      <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply.</p>
+      <p>Toggle tickets to highlight coverage. Hover stations to see which tickets apply; click a station to select from its tickets.</p>
       <a class="nav-link" href="rail-explorer/"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg> Rail Explorer</a>
     </div>
     <button id="sidebar-close" onclick="toggleSidebar()" aria-label="Close ticket list">&#10005;</button>
@@ -273,8 +288,8 @@ def main():
 </div>
 <div id="map-wrap">
   <div id="map"></div>
-  <div id="hint">Hover a station marker to see applicable tickets</div>
-  <div id="hover-panel"><h3 id="hover-name"></h3><div id="hover-tickets"></div></div>
+  <div id="hint">Hover a station to see its tickets &middot; click it to select them</div>
+  <div id="hover-panel"><div id="hover-head"><h3 id="hover-name"></h3><button id="hover-close" onclick="unpinStation()" aria-label="Close">&#10005;</button></div><div id="hover-actions">Click tickets to highlight &middot; <button onclick="setStationTickets(true)">all</button><button onclick="setStationTickets(false)">none</button></div><div id="hover-tickets"></div></div>
 </div>
 <script src="https://unpkg.com/leaflet@{lv}/dist/leaflet.js" integrity="{LEAFLET_JS_SRI}" crossorigin="anonymous"></script>
 <script>
@@ -348,42 +363,74 @@ TICKETS.forEach(ticket => {{
   ticketLayers[ticket.id] = group;
 }});
 
-let activeMarker = null;
+// Clicking (or tapping) a station pins its ticket panel open, making the
+// ticket rows clickable to toggle them just like the sidebar list
+let pinned = null; // {{marker, name, tids}}
 Object.entries(stationTickets).forEach(([name,tids]) => {{
   const c = COORDS[name]; if(!c) return;
   const m = L.circleMarker(c,{{radius:5,fillColor:'#fff',fillOpacity:0.9,color:'#334',weight:1.5,pane:'stations'}});
   m.bindTooltip(name,{{permanent:false,direction:'top',offset:[0,-6]}});
-  if (isTouch) {{
-    m.on('click',(e)=>{{
-      L.DomEvent.stopPropagation(e);
-      if (activeMarker === m) {{ m.setStyle({{radius:5}}); m.closeTooltip(); hidePanel(); activeMarker = null; return; }}
-      if (activeMarker) {{ activeMarker.setStyle({{radius:5}}); activeMarker.closeTooltip(); }}
-      m.setStyle({{radius:7}}); m.openTooltip(); showPanel(name,tids); activeMarker = m;
-    }});
-  }} else {{
-    m.on('mouseover',()=>{{ m.setStyle({{radius:7}}); showPanel(name,tids); }});
-    m.on('mouseout', ()=>{{ m.setStyle({{radius:5}}); hidePanel(); }});
+  m.on('click',(e)=>{{
+    L.DomEvent.stopPropagation(e);
+    if (pinned && pinned.marker === m) {{ unpinStation(); return; }}
+    pinStation(m,name,tids);
+  }});
+  if (!isTouch) {{
+    m.on('mouseover',()=>{{ m.setStyle({{radius:7}}); if(!pinned) showPanel(name,tids); }});
+    m.on('mouseout', ()=>{{ if(!pinned || pinned.marker!==m) m.setStyle({{radius:5}}); if(!pinned) hidePanel(); }});
   }}
   m.addTo(map);
 }});
-if (isTouch) {{ map.on('click',()=>{{ if(activeMarker){{ activeMarker.setStyle({{radius:5}}); activeMarker.closeTooltip(); activeMarker=null; hidePanel(); }} }}); }}
+map.on('click',()=>unpinStation());
 
 const panel=document.getElementById('hover-panel');
 const panelName=document.getElementById('hover-name');
 const panelList=document.getElementById('hover-tickets');
+function pinStation(m,name,tids){{
+  if (pinned) {{ pinned.marker.setStyle({{radius:5}}); pinned.marker.closeTooltip(); }}
+  pinned = {{marker:m,name,tids}};
+  m.setStyle({{radius:7}}); if (isTouch) m.openTooltip();
+  panel.classList.add('pinned');
+  showPanel(name,tids);
+}}
+function unpinStation(){{
+  if (!pinned) return;
+  pinned.marker.setStyle({{radius:5}}); pinned.marker.closeTooltip();
+  pinned = null;
+  panel.classList.remove('pinned');
+  hidePanel();
+}}
+function setStationTickets(on){{ if(pinned) pinned.tids.forEach(id=>setTicket(id,on)); }}
 function showPanel(name,tids){{
   panelName.textContent=name; panelList.innerHTML='';
   tids.forEach(id=>{{
     const t=TICKETS.find(x=>x.id===id); if(!t) return;
     const price = priceSummary(t);
-    const row=document.createElement('div'); row.className='hover-ticket';
+    const row=document.createElement('div'); row.className='hover-ticket'; row.dataset.id=id;
     row.innerHTML=`<div class="hover-dot" style="background:${{COLORS[id]}}"></div><span class="hover-ticket-name">${{t.name}}</span>${{price!=null?`<span class="hover-ticket-price">${{price}}</span>`:''}}`;
+    row.addEventListener('click',()=>{{ if(pinned) toggleTicket(id); }});
     panelList.appendChild(row);
   }});
   if(!tids.length) panelList.innerHTML='<span style="color:#506070;font-size:10.5px;font-style:italic">No tickets</span>';
+  refreshPanel();
   panel.style.display='block';
 }}
+function refreshPanel(){{
+  panelList.querySelectorAll('.hover-ticket').forEach(row=>{{
+    const on=activeTickets.has(row.dataset.id);
+    row.classList.toggle('active',on);
+    row.style.borderLeftColor = on ? COLORS[row.dataset.id] : 'transparent';
+  }});
+}}
 function hidePanel(){{ panel.style.display='none'; }}
+
+function setTicket(id,on){{
+  const el=listEl.querySelector(`[data-id="${{id}}"]`);
+  if(on){{ activeTickets.add(id); ticketLayers[id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=COLORS[id]; }}
+  else {{ activeTickets.delete(id); map.removeLayer(ticketLayers[id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}
+  refreshPanel();
+}}
+function toggleTicket(id){{ setTicket(id,!activeTickets.has(id)); }}
 
 const listEl=document.getElementById('ticket-list');
 TICKETS.forEach(ticket=>{{
@@ -393,15 +440,12 @@ TICKETS.forEach(ticket=>{{
   const el=document.createElement('div'); el.className='ticket-item'; el.dataset.id=ticket.id;
   const priceToggleHtml = isTouch ? `<button class="price-toggle" title="Show prices" onclick="event.stopPropagation();this.classList.toggle('show');this.parentElement.querySelector('.price-tooltip').classList.toggle('show')">&pound;</button>` : '';
   el.innerHTML=`<div class="ticket-swatch" style="background:${{color}}"></div><div class="ticket-info"><div class="ticket-name">${{ticket.name}}</div><div class="ticket-meta">${{ticket.operator||'National Rail'}} &middot; ${{coverageLabel(ticket)}}${{apStr}}</div></div>${{priceToggleHtml}}<a class="ticket-link" href="rail-explorer/?ticket=${{encodeURIComponent(ticket.id)}}" target="_blank" rel="noopener" title="Explore where this ticket can take you" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></a><a class="ticket-link" href="${{ticket.url}}" target="_blank" rel="noopener" title="Open on National Rail website" onclick="event.stopPropagation()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>${{buildPriceTooltip(ticket)}}`;
-  el.addEventListener('click',()=>{{
-    if(activeTickets.has(ticket.id)){{ activeTickets.delete(ticket.id); map.removeLayer(ticketLayers[ticket.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}
-    else {{ activeTickets.add(ticket.id); ticketLayers[ticket.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=color; }}
-  }});
+  el.addEventListener('click',()=>toggleTicket(ticket.id));
   listEl.appendChild(el);
 }});
 
-function selectAll(){{ TICKETS.forEach(t=>{{ const el=listEl.querySelector(`[data-id="${{t.id}}"]`); if(!activeTickets.has(t.id)){{ activeTickets.add(t.id); ticketLayers[t.id].addTo(map); el.classList.add('active'); el.style.borderLeftColor=COLORS[t.id]; }} }}); }}
-function clearAll(){{ TICKETS.forEach(t=>{{ const el=listEl.querySelector(`[data-id="${{t.id}}"]`); activeTickets.delete(t.id); map.removeLayer(ticketLayers[t.id]); el.classList.remove('active'); el.style.borderLeftColor='transparent'; }}); }}
+function selectAll(){{ TICKETS.forEach(t=>setTicket(t.id,true)); }}
+function clearAll(){{ TICKETS.forEach(t=>setTicket(t.id,false)); }}
 </script>
 </body>
 </html>"""
