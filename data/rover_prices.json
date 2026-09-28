@@ -1,4 +1,10 @@
 {
+  "cumbria-travel-pass": [
+    {
+      "adultPrice": 99.0,
+      "childPrice": 49.5
+    }
+  ],
   "northern-explorer": [
     {
       "adultPrice": 35.0,
@@ -176,12 +182,6 @@
       "childPrice": 474.5
     }
   ],
-  "explore-cardiff-valleys": [
-    {
-      "adultPrice": 18.0,
-      "childPrice": 9.0
-    }
-  ],
   "east-midlands-7-day-rover": [
     {
       "adultPrice": 151.1,
@@ -258,6 +258,12 @@
     {
       "adultPrice": 99.0,
       "childPrice": 49.5
+    }
+  ],
+  "explore-cardiff-valleys": [
+    {
+      "adultPrice": 18.0,
+      "childPrice": 9.0
     }
   ],
   "island-line-day-ranger": [
