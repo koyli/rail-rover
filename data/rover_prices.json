@@ -1,67 +1,56 @@
 {
-  "cumbria-travel-pass": [
+  "explore-cardiff-valleys": [
     {
-      "adultPrice": 99.0,
-      "childPrice": 49.5
+      "adultPrice": 18.0,
+      "childPrice": 9.0
     }
   ],
-  "northern-explorer": [
+  "thames-branches-day-ranger": [
     {
-      "adultPrice": 35.0,
-      "childPrice": 17.5
+      "adultPrice": 27.5,
+      "childPrice": 13.75
     }
   ],
-  "west-midlands-family-day-ranger": [
+  "thames-rover-7-day": [
     {
-      "adultPrice": 70.0
+      "adultPrice": 121.0,
+      "childPrice": 60.5
     }
   ],
-  "heart-of-england-7-day-rover": [
+  "island-line-steam-day-ranger": [
     {
-      "adultPrice": 150.0,
-      "childPrice": 99.9
+      "adultPrice": 27.5,
+      "childPrice": 13.75
     }
   ],
-  "heart-of-england-3-in-7-days": [
+  "island-line-day-ranger": [
     {
-      "adultPrice": 114.0,
-      "childPrice": 75.9
+      "adultPrice": 7.0,
+      "childPrice": 3.2
     }
   ],
-  "west-midlands-day-ranger": [
+  "tyne-tees-day-ranger": [
     {
-      "adultPrice": 36.0,
-      "childPrice": 18.0
+      "adultPrice": 29.8,
+      "childPrice": 14.9
     }
   ],
-  "ride-cornwall": [
+  "lancashire-day-ranger": [
     {
-      "adultPrice": 21.0,
-      "childPrice": 10.5
+      "adultPrice": 31.2,
+      "childPrice": 15.6
     }
   ],
-  "cornwall-ranger": [
+  "north-west-round-robin": [
     {
-      "adultPrice": 17.0,
-      "childPrice": 8.5
+      "adultPrice": 51.5,
+      "childPrice": 25.75
     }
   ],
-  "explore-cambrian-coast": [
+  "north-east-round-robin": [
     {
-      "adultPrice": 21.0,
-      "childPrice": 10.5
-    }
-  ],
-  "explore-west-wales": [
-    {
-      "adultPrice": 15.0,
-      "childPrice": 7.5
-    }
-  ],
-  "explore-north-and-mid-wales": [
-    {
-      "adultPrice": 129.0,
-      "childPrice": 64.5
+      "adultPrice": 65.2,
+      "childPrice": 32.6
     }
   ],
   "explore-wales": [
@@ -260,22 +249,58 @@
       "childPrice": 49.5
     }
   ],
-  "explore-cardiff-valleys": [
+  "cornwall-ranger": [
     {
-      "adultPrice": 18.0,
-      "childPrice": 9.0
+      "adultPrice": 17.0,
+      "childPrice": 8.5
     }
   ],
-  "island-line-day-ranger": [
+  "cumbria-travel-pass": [
     {
-      "adultPrice": 7.0,
-      "childPrice": 3.2
+      "adultPrice": 99.0,
+      "childPrice": 49.5
     }
   ],
-  "island-line-steam-day-ranger": [
+  "explore-cambrian-coast": [
     {
-      "adultPrice": 27.5,
-      "childPrice": 13.75
+      "adultPrice": 21.0,
+      "childPrice": 10.5
+    }
+  ],
+  "explore-north-and-mid-wales": [
+    {
+      "adultPrice": 129.0,
+      "childPrice": 64.5
+    }
+  ],
+  "explore-west-wales": [
+    {
+      "adultPrice": 15.0,
+      "childPrice": 7.5
+    }
+  ],
+  "heart-of-england-3-in-7-days": [
+    {
+      "adultPrice": 114.0,
+      "childPrice": 75.9
+    }
+  ],
+  "heart-of-england-7-day-rover": [
+    {
+      "adultPrice": 150.0,
+      "childPrice": 99.9
+    }
+  ],
+  "northern-explorer": [
+    {
+      "adultPrice": 35.0,
+      "childPrice": 17.5
+    }
+  ],
+  "ride-cornwall": [
+    {
+      "adultPrice": 21.0,
+      "childPrice": 10.5
     }
   ],
   "sy-connect": [
@@ -283,16 +308,15 @@
       "adultPrice": 12.2
     }
   ],
-  "thames-branches-day-ranger": [
+  "west-midlands-day-ranger": [
     {
-      "adultPrice": 27.5,
-      "childPrice": 13.75
+      "adultPrice": 36.0,
+      "childPrice": 18.0
     }
   ],
-  "thames-rover-7-day": [
+  "west-midlands-family-day-ranger": [
     {
-      "adultPrice": 121.0,
-      "childPrice": 60.5
+      "adultPrice": 70.0
     }
   ]
 }
