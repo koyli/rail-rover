@@ -1,67 +1,26 @@
 {
-  "west-midlands-family-day-ranger": [
+  "thames-rover-3-day": [
     {
-      "adultPrice": 70.0
+      "adultPrice": 67.0,
+      "childPrice": 33.5
     }
   ],
-  "heart-of-england-7-day-rover": [
+  "thames-rover-7-day": [
     {
-      "adultPrice": 150.0,
-      "childPrice": 99.9
+      "adultPrice": 121.0,
+      "childPrice": 60.5
     }
   ],
-  "heart-of-england-3-in-7-days": [
+  "explore-cardiff-valleys": [
     {
-      "adultPrice": 114.0,
-      "childPrice": 75.9
+      "adultPrice": 18.0,
+      "childPrice": 9.0
     }
   ],
-  "west-midlands-day-ranger": [
+  "explore-north-and-mid-wales": [
     {
-      "adultPrice": 36.0,
-      "childPrice": 18.0
-    }
-  ],
-  "coast-and-peaks-4-in-8-day-rover": [
-    {
-      "adultPrice": 101.3,
-      "childPrice": 50.65
-    }
-  ],
-  "derbyshire-wayfarer-ranger": [
-    {
-      "adultPrice": 17.0,
-      "childPrice": 8.5
-    }
-  ],
-  "all-line-rover-7-days": [
-    {
-      "adultPrice": 625.0,
-      "childPrice": 312.5
-    }
-  ],
-  "all-line-rover-14-days": [
-    {
-      "adultPrice": 949.0,
-      "childPrice": 474.5
-    }
-  ],
-  "east-midlands-7-day-rover": [
-    {
-      "adultPrice": 151.1,
-      "childPrice": 75.55
-    }
-  ],
-  "east-midlands-rover-3-in-7-days": [
-    {
-      "adultPrice": 116.1,
-      "childPrice": 58.05
-    }
-  ],
-  "east-midlands-day-ranger": [
-    {
-      "adultPrice": 50.7,
-      "childPrice": 25.4
+      "adultPrice": 129.0,
+      "childPrice": 64.5
     }
   ],
   "explore-wales": [
@@ -134,16 +93,22 @@
       "childPrice": 11.0
     }
   ],
-  "thames-rover-3-day": [
-    {
-      "adultPrice": 67.0,
-      "childPrice": 33.5
-    }
-  ],
   "north-downs-day-ranger": [
     {
       "adultPrice": 22.0,
       "childPrice": 11.0
+    }
+  ],
+  "coast-and-peaks-4-in-8-day-rover": [
+    {
+      "adultPrice": 101.3,
+      "childPrice": 50.65
+    }
+  ],
+  "derbyshire-wayfarer-ranger": [
+    {
+      "adultPrice": 17.0,
+      "childPrice": 8.5
     }
   ],
   "kent-rover": [
@@ -158,10 +123,40 @@
       "childPrice": 14.85
     }
   ],
+  "all-line-rover-7-days": [
+    {
+      "adultPrice": 625.0,
+      "childPrice": 312.5
+    }
+  ],
+  "all-line-rover-14-days": [
+    {
+      "adultPrice": 949.0,
+      "childPrice": 474.5
+    }
+  ],
+  "east-midlands-7-day-rover": [
+    {
+      "adultPrice": 151.1,
+      "childPrice": 75.55
+    }
+  ],
+  "east-midlands-rover-3-in-7-days": [
+    {
+      "adultPrice": 116.1,
+      "childPrice": 58.05
+    }
+  ],
   "wherry-line-ranger": [
     {
       "adultPrice": 13.5,
       "childPrice": 6.75
+    }
+  ],
+  "east-midlands-day-ranger": [
+    {
+      "adultPrice": 50.7,
+      "childPrice": 25.4
     }
   ],
   "lincolnshire-day-ranger": [
@@ -236,22 +231,22 @@
       "childPrice": 10.5
     }
   ],
-  "explore-cardiff-valleys": [
-    {
-      "adultPrice": 18.0,
-      "childPrice": 9.0
-    }
-  ],
-  "explore-north-and-mid-wales": [
-    {
-      "adultPrice": 129.0,
-      "childPrice": 64.5
-    }
-  ],
   "explore-west-wales": [
     {
       "adultPrice": 15.0,
       "childPrice": 7.5
+    }
+  ],
+  "heart-of-england-3-in-7-days": [
+    {
+      "adultPrice": 114.0,
+      "childPrice": 75.9
+    }
+  ],
+  "heart-of-england-7-day-rover": [
+    {
+      "adultPrice": 150.0,
+      "childPrice": 99.9
     }
   ],
   "island-line-day-ranger": [
@@ -307,16 +302,21 @@
       "childPrice": 13.75
     }
   ],
-  "thames-rover-7-day": [
-    {
-      "adultPrice": 121.0,
-      "childPrice": 60.5
-    }
-  ],
   "tyne-tees-day-ranger": [
     {
       "adultPrice": 29.8,
       "childPrice": 14.9
+    }
+  ],
+  "west-midlands-day-ranger": [
+    {
+      "adultPrice": 36.0,
+      "childPrice": 18.0
+    }
+  ],
+  "west-midlands-family-day-ranger": [
+    {
+      "adultPrice": 70.0
     }
   ]
 }
