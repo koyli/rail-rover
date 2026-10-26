@@ -1,22 +1,4 @@
 {
-  "thames-rover-3-day": [
-    {
-      "adultPrice": 67.0,
-      "childPrice": 33.5
-    }
-  ],
-  "thames-rover-7-day": [
-    {
-      "adultPrice": 121.0,
-      "childPrice": 60.5
-    }
-  ],
-  "explore-cardiff-valleys": [
-    {
-      "adultPrice": 18.0,
-      "childPrice": 9.0
-    }
-  ],
   "explore-north-and-mid-wales": [
     {
       "adultPrice": 129.0,
@@ -231,6 +213,12 @@
       "childPrice": 10.5
     }
   ],
+  "explore-cardiff-valleys": [
+    {
+      "adultPrice": 18.0,
+      "childPrice": 9.0
+    }
+  ],
   "explore-west-wales": [
     {
       "adultPrice": 15.0,
@@ -300,6 +288,18 @@
     {
       "adultPrice": 27.5,
       "childPrice": 13.75
+    }
+  ],
+  "thames-rover-3-day": [
+    {
+      "adultPrice": 67.0,
+      "childPrice": 33.5
+    }
+  ],
+  "thames-rover-7-day": [
+    {
+      "adultPrice": 121.0,
+      "childPrice": 60.5
     }
   ],
   "tyne-tees-day-ranger": [
