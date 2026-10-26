@@ -1,381 +1,5 @@
 [
   {
-    "id": "thames-rover-3-day",
-    "name": "Thames Rover (3 Day)",
-    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/thames-rover-3-day/",
-    "description": "Travel in the designated area",
-    "operator": "Great Western Railway",
-    "stations": [
-      "Acton Main Line",
-      "Aldermaston",
-      "Appleford",
-      "Ascott-under-Wychwood",
-      "Ash",
-      "Bedwyn",
-      "Betchworth",
-      "Blackwater",
-      "Bourne End",
-      "Bramley (Hampshire)",
-      "Castle Bar Park",
-      "Charlbury",
-      "Chilworth",
-      "Cholsey",
-      "Combe (Oxon)",
-      "Cookham",
-      "Crowthorne",
-      "Culham",
-      "Didcot Parkway",
-      "Dorking West",
-      "Drayton Green",
-      "Ealing Broadway",
-      "Earley",
-      "Farnborough North",
-      "Finstock",
-      "Furze Platt",
-      "Gomshall",
-      "Goring & Streatley",
-      "Greenford",
-      "Guildford",
-      "Hanborough",
-      "Hanwell",
-      "Hayes & Harlington",
-      "Henley-on-Thames",
-      "Heyford",
-      "Hungerford",
-      "Islip",
-      "Iver",
-      "Kingham",
-      "Kings Sutton",
-      "Kintbury",
-      "London Paddington",
-      "Maidenhead",
-      "Marlow",
-      "Midgham",
-      "Moreton-in-Marsh",
-      "Mortimer",
-      "Newbury",
-      "Newbury Racecourse",
-      "North Camp",
-      "Oxford",
-      "Pangbourne",
-      "Radley",
-      "Reading",
-      "Reading West",
-      "Redhill",
-      "Reigate",
-      "Sandhurst (Berks)",
-      "Shalford (Surrey)",
-      "Shiplake",
-      "Shipton",
-      "Slough",
-      "South Greenford",
-      "Southall",
-      "Tackley",
-      "Taplow",
-      "Thatcham",
-      "Theale",
-      "Tilehurst",
-      "Twyford",
-      "Wanborough",
-      "Wargrave",
-      "West Drayton",
-      "West Ealing",
-      "Windsor & Eton Central",
-      "Winnersh",
-      "Winnersh Triangle",
-      "Wokingham"
-    ],
-    "stations_complete": true,
-    "applies_to_all_stations": false,
-    "validity_map_url": "https://www.gwr.com/-/media/gwr-sc-website/files/your-tickets/choosing-your-ticket/rangers-and-rovers/Discover-Map-October-2025.pdf",
-    "pricing": [
-      {
-        "label": "3 day",
-        "adultPrice": 67,
-        "childPrice": 33.5,
-        "railcardPrices": [
-          {
-            "railcards": [
-              "Two Together Railcard"
-            ],
-            "price": 44.6
-          },
-          {
-            "railcards": [
-              "Disabled Persons Railcard"
-            ],
-            "price": 44.6
-          },
-          {
-            "railcards": [
-              "16-25 Railcard"
-            ],
-            "price": 44.6
-          },
-          {
-            "railcards": [
-              "Network Railcard"
-            ],
-            "price": 44.6
-          },
-          {
-            "railcards": [
-              "Senior Railcard"
-            ],
-            "price": 44.6
-          },
-          {
-            "railcards": [
-              "HM Forces Railcard"
-            ],
-            "price": 44.6
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "thames-rover-7-day",
-    "name": "Thames  Rover (7 Day)",
-    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/thames-rover-7-day/",
-    "description": "Travel in the designated area",
-    "operator": "Chiltern Railways, CrossCountry, Great Western Railway, South Western Railway, Southern, Elizabeth line",
-    "stations": [
-      "Acton Main Line",
-      "Aldermaston",
-      "Appleford",
-      "Ascott-under-Wychwood",
-      "Ash",
-      "Banbury",
-      "Basingstoke",
-      "Bedwyn",
-      "Betchworth",
-      "Bicester Village",
-      "Blackwater",
-      "Bourne End",
-      "Bramley (Hampshire)",
-      "Burnham (Buckinghamshire)",
-      "Castle Bar Park",
-      "Charlbury",
-      "Chilworth",
-      "Cholsey",
-      "Combe (Oxon)",
-      "Cookham",
-      "Crowthorne",
-      "Culham",
-      "Didcot Parkway",
-      "Dorking West",
-      "Drayton Green",
-      "Ealing Broadway",
-      "Earley",
-      "Farnborough North",
-      "Finstock",
-      "Furze Platt",
-      "Gomshall",
-      "Goring & Streatley",
-      "Greenford",
-      "Guildford",
-      "Hanborough",
-      "Hanwell",
-      "Hayes & Harlington",
-      "Henley-on-Thames",
-      "Heyford",
-      "Hungerford",
-      "Islip",
-      "Iver",
-      "Kingham",
-      "Kings Sutton",
-      "Kintbury",
-      "London Paddington",
-      "Maidenhead",
-      "Marlow",
-      "Midgham",
-      "Moreton-in-Marsh",
-      "Mortimer",
-      "Newbury",
-      "Newbury Racecourse",
-      "North Camp",
-      "Oxford",
-      "Pangbourne",
-      "Radley",
-      "Reading",
-      "Reading West",
-      "Redhill",
-      "Reigate",
-      "Sandhurst (Berks)",
-      "Shalford (Surrey)",
-      "Shiplake",
-      "Shipton",
-      "Slough",
-      "South Greenford",
-      "Southall",
-      "Tackley",
-      "Taplow",
-      "Thatcham",
-      "Theale",
-      "Tilehurst",
-      "Twyford",
-      "Wanborough",
-      "Wargrave",
-      "West Drayton",
-      "West Ealing",
-      "Windsor & Eton Central",
-      "Winnersh",
-      "Winnersh Triangle",
-      "Wokingham"
-    ],
-    "stations_complete": true,
-    "applies_to_all_stations": false,
-    "validity_map_url": "https://www.gwr.com/-/media/gwr-sc-website/files/your-tickets/choosing-your-ticket/rangers-and-rovers/Discover-Map-October-2025.pdf",
-    "pricing": [
-      {
-        "label": "7 days",
-        "adultPrice": 121,
-        "childPrice": 60.5,
-        "railcardPrices": [
-          {
-            "railcards": [
-              "Two Together Railcard"
-            ],
-            "price": 80.6
-          },
-          {
-            "railcards": [
-              "Disabled Persons Railcard"
-            ],
-            "price": 80.6
-          },
-          {
-            "railcards": [
-              "16-25 Railcard"
-            ],
-            "price": 80.6
-          },
-          {
-            "railcards": [
-              "Network Railcard"
-            ],
-            "price": 80.6
-          },
-          {
-            "railcards": [
-              "Senior Railcard"
-            ],
-            "price": 80.6
-          },
-          {
-            "railcards": [
-              "HM Forces Railcard"
-            ],
-            "price": 80.6
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "explore-cardiff-valleys",
-    "name": "Explore Cardiff & Valleys",
-    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/explore-cardiff-valleys/",
-    "description": "Enjoy unlimited travel in the designated geographical area for a day on Transport for Wales services.",
-    "operator": "Transport for Wales",
-    "stations": [
-      "Aber",
-      "Abercynon",
-      "Aberdare",
-      "Bargoed",
-      "Barry",
-      "Barry Docks",
-      "Barry Island",
-      "Birchgrove",
-      "Bridgend",
-      "Brithdir",
-      "Cadoxton",
-      "Caerphilly",
-      "Cardiff Bay",
-      "Cardiff Central",
-      "Cardiff Queen Street",
-      "Cathays",
-      "Cogan",
-      "Coryton",
-      "Crosskeys",
-      "Cwmbach",
-      "Danescourt",
-      "Dinas (Rhondda)",
-      "Dinas Powys",
-      "Dingle Road",
-      "Eastbrook",
-      "Ebbw Vale Parkway",
-      "Fairwater",
-      "Fernhill",
-      "Garth (Bridgend County)",
-      "Gilfach Fargoed",
-      "Grangetown (Cardiff)",
-      "Heath High Level",
-      "Heath Low Level",
-      "Hengoed",
-      "Lisvane & Thornhill",
-      "Llanbradach",
-      "Llandaf",
-      "Llanharan",
-      "Llanhilleth",
-      "Llanishen",
-      "Llantwit Major",
-      "Llwynypia",
-      "Maesteg",
-      "Maesteg (Ewenny Road)",
-      "Merthyr Tydfil",
-      "Merthyr Vale",
-      "Mountain Ash",
-      "Newbridge",
-      "Ninian Park",
-      "Penarth",
-      "Pencoed",
-      "Pengam",
-      "Penrhiwceiber",
-      "Pentre-Bach",
-      "Pontlottyn",
-      "Pontyclun",
-      "Porth",
-      "Quakers Yard",
-      "Radyr",
-      "Rhiwbina",
-      "Rhoose Cardiff International Airport",
-      "Rhymney",
-      "Risca & Pontymister",
-      "Rogerstone",
-      "Sarn",
-      "Taffs Well",
-      "Tir-Phil",
-      "Ton Pentre",
-      "Tondu",
-      "Tonypandy",
-      "Trefforest",
-      "Trefforest Estate",
-      "Trehafod",
-      "Treherbert",
-      "Treorchy",
-      "Troed-y-rhiw",
-      "Ty Glas",
-      "Waun-Gron Park",
-      "Whitchurch (Cardiff)",
-      "Wildmill",
-      "Ynyswen",
-      "Ystrad Mynach",
-      "Ystrad Rhondda"
-    ],
-    "stations_complete": true,
-    "applies_to_all_stations": false,
-    "validity_map_url": "https://tfw.wales/sites/default/files/2018-10/Valley%20Explorer%20LG_1.pdf",
-    "pricing": [
-      {
-        "label": "Valid for one day of unlimited travel within the designated geographical area on Transport for Wales services.",
-        "adultPrice": 18,
-        "childPrice": 9
-      }
-    ]
-  },
-  {
     "id": "explore-north-and-mid-wales",
     "name": "Explore North and Mid Wales",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/explore-north-and-mid-wales/",
@@ -6423,6 +6047,108 @@
     ]
   },
   {
+    "id": "explore-cardiff-valleys",
+    "name": "Explore Cardiff & Valleys",
+    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/explore-cardiff-valleys/",
+    "description": "Enjoy unlimited travel in the designated geographical area for a day on Transport for Wales services.",
+    "operator": "Transport for Wales",
+    "stations": [
+      "Aber",
+      "Abercynon",
+      "Aberdare",
+      "Bargoed",
+      "Barry",
+      "Barry Docks",
+      "Barry Island",
+      "Birchgrove",
+      "Bridgend",
+      "Brithdir",
+      "Cadoxton",
+      "Caerphilly",
+      "Cardiff Bay",
+      "Cardiff Central",
+      "Cardiff Queen Street",
+      "Cathays",
+      "Cogan",
+      "Coryton",
+      "Crosskeys",
+      "Cwmbach",
+      "Danescourt",
+      "Dinas (Rhondda)",
+      "Dinas Powys",
+      "Dingle Road",
+      "Eastbrook",
+      "Ebbw Vale Parkway",
+      "Fairwater",
+      "Fernhill",
+      "Garth (Bridgend County)",
+      "Gilfach Fargoed",
+      "Grangetown (Cardiff)",
+      "Heath High Level",
+      "Heath Low Level",
+      "Hengoed",
+      "Lisvane & Thornhill",
+      "Llanbradach",
+      "Llandaf",
+      "Llanharan",
+      "Llanhilleth",
+      "Llanishen",
+      "Llantwit Major",
+      "Llwynypia",
+      "Maesteg",
+      "Maesteg (Ewenny Road)",
+      "Merthyr Tydfil",
+      "Merthyr Vale",
+      "Mountain Ash",
+      "Newbridge",
+      "Ninian Park",
+      "Penarth",
+      "Pencoed",
+      "Pengam",
+      "Penrhiwceiber",
+      "Pentre-Bach",
+      "Pontlottyn",
+      "Pontyclun",
+      "Porth",
+      "Quakers Yard",
+      "Radyr",
+      "Rhiwbina",
+      "Rhoose Cardiff International Airport",
+      "Rhymney",
+      "Risca & Pontymister",
+      "Rogerstone",
+      "Sarn",
+      "Taffs Well",
+      "Tir-Phil",
+      "Ton Pentre",
+      "Tondu",
+      "Tonypandy",
+      "Trefforest",
+      "Trefforest Estate",
+      "Trehafod",
+      "Treherbert",
+      "Treorchy",
+      "Troed-y-rhiw",
+      "Ty Glas",
+      "Waun-Gron Park",
+      "Whitchurch (Cardiff)",
+      "Wildmill",
+      "Ynyswen",
+      "Ystrad Mynach",
+      "Ystrad Rhondda"
+    ],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": "https://tfw.wales/sites/default/files/2018-10/Valley%20Explorer%20LG_1.pdf",
+    "pricing": [
+      {
+        "label": "Valid for one day of unlimited travel within the designated geographical area on Transport for Wales services.",
+        "adultPrice": 18,
+        "childPrice": 9
+      }
+    ]
+  },
+  {
     "id": "explore-west-wales",
     "name": "Explore West Wales",
     "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/explore-west-wales/",
@@ -9023,6 +8749,280 @@
               "HM Forces Railcard"
             ],
             "price": 18.3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "thames-rover-3-day",
+    "name": "Thames Rover (3 Day)",
+    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/thames-rover-3-day/",
+    "description": "Travel in the designated area",
+    "operator": "Great Western Railway",
+    "stations": [
+      "Acton Main Line",
+      "Aldermaston",
+      "Appleford",
+      "Ascott-under-Wychwood",
+      "Ash",
+      "Bedwyn",
+      "Betchworth",
+      "Blackwater",
+      "Bourne End",
+      "Bramley (Hampshire)",
+      "Castle Bar Park",
+      "Charlbury",
+      "Chilworth",
+      "Cholsey",
+      "Combe (Oxon)",
+      "Cookham",
+      "Crowthorne",
+      "Culham",
+      "Didcot Parkway",
+      "Dorking West",
+      "Drayton Green",
+      "Ealing Broadway",
+      "Earley",
+      "Farnborough North",
+      "Finstock",
+      "Furze Platt",
+      "Gomshall",
+      "Goring & Streatley",
+      "Greenford",
+      "Guildford",
+      "Hanborough",
+      "Hanwell",
+      "Hayes & Harlington",
+      "Henley-on-Thames",
+      "Heyford",
+      "Hungerford",
+      "Islip",
+      "Iver",
+      "Kingham",
+      "Kings Sutton",
+      "Kintbury",
+      "London Paddington",
+      "Maidenhead",
+      "Marlow",
+      "Midgham",
+      "Moreton-in-Marsh",
+      "Mortimer",
+      "Newbury",
+      "Newbury Racecourse",
+      "North Camp",
+      "Oxford",
+      "Pangbourne",
+      "Radley",
+      "Reading",
+      "Reading West",
+      "Redhill",
+      "Reigate",
+      "Sandhurst (Berks)",
+      "Shalford (Surrey)",
+      "Shiplake",
+      "Shipton",
+      "Slough",
+      "South Greenford",
+      "Southall",
+      "Tackley",
+      "Taplow",
+      "Thatcham",
+      "Theale",
+      "Tilehurst",
+      "Twyford",
+      "Wanborough",
+      "Wargrave",
+      "West Drayton",
+      "West Ealing",
+      "Windsor & Eton Central",
+      "Winnersh",
+      "Winnersh Triangle",
+      "Wokingham"
+    ],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": "https://www.gwr.com/-/media/gwr-sc-website/files/your-tickets/choosing-your-ticket/rangers-and-rovers/Discover-Map-October-2025.pdf",
+    "pricing": [
+      {
+        "label": "3 day",
+        "adultPrice": 67,
+        "childPrice": 33.5,
+        "railcardPrices": [
+          {
+            "railcards": [
+              "Two Together Railcard"
+            ],
+            "price": 44.6
+          },
+          {
+            "railcards": [
+              "Disabled Persons Railcard"
+            ],
+            "price": 44.6
+          },
+          {
+            "railcards": [
+              "16-25 Railcard"
+            ],
+            "price": 44.6
+          },
+          {
+            "railcards": [
+              "Network Railcard"
+            ],
+            "price": 44.6
+          },
+          {
+            "railcards": [
+              "Senior Railcard"
+            ],
+            "price": 44.6
+          },
+          {
+            "railcards": [
+              "HM Forces Railcard"
+            ],
+            "price": 44.6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "thames-rover-7-day",
+    "name": "Thames  Rover (7 Day)",
+    "url": "https://www.nationalrail.co.uk/tickets-railcards-offers/promotions/thames-rover-7-day/",
+    "description": "Travel in the designated area",
+    "operator": "Chiltern Railways, CrossCountry, Great Western Railway, South Western Railway, Southern, Elizabeth line",
+    "stations": [
+      "Acton Main Line",
+      "Aldermaston",
+      "Appleford",
+      "Ascott-under-Wychwood",
+      "Ash",
+      "Banbury",
+      "Basingstoke",
+      "Bedwyn",
+      "Betchworth",
+      "Bicester Village",
+      "Blackwater",
+      "Bourne End",
+      "Bramley (Hampshire)",
+      "Burnham (Buckinghamshire)",
+      "Castle Bar Park",
+      "Charlbury",
+      "Chilworth",
+      "Cholsey",
+      "Combe (Oxon)",
+      "Cookham",
+      "Crowthorne",
+      "Culham",
+      "Didcot Parkway",
+      "Dorking West",
+      "Drayton Green",
+      "Ealing Broadway",
+      "Earley",
+      "Farnborough North",
+      "Finstock",
+      "Furze Platt",
+      "Gomshall",
+      "Goring & Streatley",
+      "Greenford",
+      "Guildford",
+      "Hanborough",
+      "Hanwell",
+      "Hayes & Harlington",
+      "Henley-on-Thames",
+      "Heyford",
+      "Hungerford",
+      "Islip",
+      "Iver",
+      "Kingham",
+      "Kings Sutton",
+      "Kintbury",
+      "London Paddington",
+      "Maidenhead",
+      "Marlow",
+      "Midgham",
+      "Moreton-in-Marsh",
+      "Mortimer",
+      "Newbury",
+      "Newbury Racecourse",
+      "North Camp",
+      "Oxford",
+      "Pangbourne",
+      "Radley",
+      "Reading",
+      "Reading West",
+      "Redhill",
+      "Reigate",
+      "Sandhurst (Berks)",
+      "Shalford (Surrey)",
+      "Shiplake",
+      "Shipton",
+      "Slough",
+      "South Greenford",
+      "Southall",
+      "Tackley",
+      "Taplow",
+      "Thatcham",
+      "Theale",
+      "Tilehurst",
+      "Twyford",
+      "Wanborough",
+      "Wargrave",
+      "West Drayton",
+      "West Ealing",
+      "Windsor & Eton Central",
+      "Winnersh",
+      "Winnersh Triangle",
+      "Wokingham"
+    ],
+    "stations_complete": true,
+    "applies_to_all_stations": false,
+    "validity_map_url": "https://www.gwr.com/-/media/gwr-sc-website/files/your-tickets/choosing-your-ticket/rangers-and-rovers/Discover-Map-October-2025.pdf",
+    "pricing": [
+      {
+        "label": "7 days",
+        "adultPrice": 121,
+        "childPrice": 60.5,
+        "railcardPrices": [
+          {
+            "railcards": [
+              "Two Together Railcard"
+            ],
+            "price": 80.6
+          },
+          {
+            "railcards": [
+              "Disabled Persons Railcard"
+            ],
+            "price": 80.6
+          },
+          {
+            "railcards": [
+              "16-25 Railcard"
+            ],
+            "price": 80.6
+          },
+          {
+            "railcards": [
+              "Network Railcard"
+            ],
+            "price": 80.6
+          },
+          {
+            "railcards": [
+              "Senior Railcard"
+            ],
+            "price": 80.6
+          },
+          {
+            "railcards": [
+              "HM Forces Railcard"
+            ],
+            "price": 80.6
           }
         ]
       }
