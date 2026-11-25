@@ -1,57 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Download fares data from National Rail Data Portal.
-# Requires an account at https://opendata.nationalrail.co.uk
+# Download the RSP Fares Data Feed (RJFAF*) from our Rail Data Marketplace
+# feeds bucket.
+#
+# RDM's "Fares - Full Refresh - Weekly" product
+# (P-03ed70e9-cc9d-45f3-949b-45adffc70791) has no download API; instead RDM
+# copies each new release into our own S3 bucket as fares_full.zip. Needs the
+# AWS CLI with credentials that can read the bucket -- a local `aws configure`
+# profile, or the OIDC role the GitHub Actions workflow assumes.
 #
 # Usage:
-#   NRDP_USERNAME=you@example.com NRDP_PASSWORD=secret ./download_fares.sh
-#   ./download_fares.sh                   # prompts for credentials
+#   ./download_fares.sh
+#   RDM_BUCKET=other-bucket ./download_fares.sh
 #
 # Output: fares.zip in the current directory (or OUTPUT_FILE if set)
 
-AUTHENTICATE_URL="https://opendata.nationalrail.co.uk/authenticate"
-FARES_URL="https://opendata.nationalrail.co.uk/api/staticfeeds/2.0/fares"
+RDM_BUCKET="${RDM_BUCKET:-rdm-feeds}"
+RDM_FARES_KEY="${RDM_FARES_KEY:-fares_full.zip}"
 OUTPUT_FILE="${OUTPUT_FILE:-fares.zip}"
 
-# --- credentials ---
-if [[ -z "${NRDP_USERNAME:-}" ]]; then
-  read -rp "NRDP username (email): " NRDP_USERNAME
-fi
-
-if [[ -z "${NRDP_PASSWORD:-}" ]]; then
-  read -rsp "NRDP password: " NRDP_PASSWORD
-  echo
-fi
-
-# --- authenticate ---
-echo "Authenticating as ${NRDP_USERNAME}..."
-
-AUTH_RESPONSE=$(curl  --fail \
-  --data-urlencode "username=${NRDP_USERNAME}" \
-  --data-urlencode "password=${NRDP_PASSWORD}" \
-  "${AUTHENTICATE_URL}")
-
-# Extract token — works with or without jq
-if command -v jq &>/dev/null; then
-  TOKEN=$(echo "${AUTH_RESPONSE}" | jq -r '.token')
-else
-  TOKEN=$(echo "${AUTH_RESPONSE}" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
-fi
-
-if [[ -z "${TOKEN}" || "${TOKEN}" == "null" ]]; then
-  echo "Error: authentication failed. Response was:" >&2
-  echo "${AUTH_RESPONSE}" >&2
-  exit 1
-fi
-
-echo "Authenticated. Downloading fares data..."
-
-# --- download ---
-curl  --fail --show-error \
-  --progress-bar \
-  -H "X-Auth-Token: ${TOKEN}" \
-  --output "${OUTPUT_FILE}" \
-  "${FARES_URL}"
+echo "Downloading s3://${RDM_BUCKET}/${RDM_FARES_KEY}..."
+aws s3 cp --only-show-errors "s3://${RDM_BUCKET}/${RDM_FARES_KEY}" "${OUTPUT_FILE}"
 
 echo "Saved to ${OUTPUT_FILE}"

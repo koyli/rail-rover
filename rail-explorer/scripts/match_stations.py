@@ -35,7 +35,8 @@ def normalise(name):
 
 
 def find_msn():
-    candidates = sorted(CIF_DIR.glob("*.MSN")) + sorted(CIF_DIR.glob("*.msn"))
+    # NRDP shipped RJTTFnnn.MSN; RDM ships RJTTFnnnMSN.txt
+    candidates = sorted(CIF_DIR.glob("*.MSN")) + sorted(CIF_DIR.glob("*.msn")) + sorted(CIF_DIR.glob("*MSN.txt"))
     if not candidates:
         raise SystemExit(f"No .MSN file found in {CIF_DIR} -- run download_timetable.py first")
     return candidates[0]

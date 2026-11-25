@@ -38,7 +38,8 @@ def cif_date(s):
 
 
 def find_mca():
-    candidates = sorted(CIF_DIR.glob("*.MCA")) + sorted(CIF_DIR.glob("*.mca"))
+    # NRDP shipped RJTTFnnn.MCA; RDM ships RJTTFnnnMCA.txt
+    candidates = sorted(CIF_DIR.glob("*.MCA")) + sorted(CIF_DIR.glob("*.mca")) + sorted(CIF_DIR.glob("*MCA.txt"))
     if not candidates:
         sys.exit(f"No .MCA file found in {CIF_DIR} -- run download_timetable.py first")
     return candidates[0]

@@ -4,7 +4,7 @@ Extract current rover/ranger pricing from the RSP Fares Data Feed's Rail
 Rovers file (.TRR, record types 'R'/'P' -- see RSPS5045 02-00 section 4.12)
 and match it against data/tickets_raw.json by name.
 
-Requires data/fares/RJFAF*.TRR, obtained via:
+Requires data/fares/RJFAF*.TRR (RJFAF*TRR.txt in RDM releases), obtained via:
   scripts/download_fares.sh   (produces fares.zip)
   unzip fares.zip -d data/fares
 
@@ -139,9 +139,11 @@ def main():
     if trr_arg:
         trr_path = Path(trr_arg)
     else:
-        candidates = sorted((ROOT / "data" / "fares").glob("RJFAF*.TRR"))
+        # NRDP shipped RJFAFnnn.TRR; RDM ships RJFAFnnnTRR.txt
+        fares_dir = ROOT / "data" / "fares"
+        candidates = sorted([*fares_dir.glob("RJFAF*.TRR"), *fares_dir.glob("RJFAF*TRR.txt")])
         if not candidates:
-            sys.exit("No RJFAF*.TRR file found in data/fares/ "
+            sys.exit("No RJFAF*.TRR / RJFAF*TRR.txt file found in data/fares/ "
                      "(run download_fares.sh and unzip fares.zip into data/fares/)")
         trr_path = candidates[-1]
 

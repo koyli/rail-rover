@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   issues: write
+  id-token: write  # OIDC, to assume the AWS role that reads the RDM feeds bucket
 
 jobs:
   refresh:
@@ -62,10 +63,14 @@ jobs:
             git push origin main
           fi
 
+      - name: Configure AWS credentials for RDM feeds bucket
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::395278352017:role/github-rdm-reads
+          aws-region: eu-west-1
+
       - name: Download RSP fares data feed
         env:
-          NRDP_USERNAME: ${{ secrets.NRDP_USERNAME }}
-          NRDP_PASSWORD: ${{ secrets.NRDP_PASSWORD }}
           OUTPUT_FILE: data/fares.zip
         run: ./scripts/download_fares.sh
 
@@ -124,9 +129,6 @@ jobs:
 
       - name: Download CIF timetable feed
         working-directory: rail-explorer
-        env:
-          NRDP_USERNAME: ${{ secrets.NRDP_USERNAME }}
-          NRDP_PASSWORD: ${{ secrets.NRDP_PASSWORD }}
         run: python3 scripts/download_timetable.py
 
       - name: Import ticket/station data from rail-rover

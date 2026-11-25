@@ -2,7 +2,6 @@
 data/fares/
 data/fares.zip
 
-rail-explorer/config.json
 rail-explorer/data/cif/
 rail-explorer/data/timetable.db
 rail-explorer/data/timetable_export.json

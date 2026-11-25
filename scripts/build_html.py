@@ -347,7 +347,7 @@ const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 function toggleSidebar(){{ document.getElementById('sidebar').classList.toggle('open'); }}
 
 const map = L.map('map').setView([53.5,-2.5],6);
-L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png',{{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &middot; Ticket and fares data from <a href="https://www.nationalrail.co.uk/">National Rail</a> / <a href="https://opendata.nationalrail.co.uk/">National Rail Data Portal</a> &middot; Last updated {build_date}',maxZoom:18}}).addTo(map);
+L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png',{{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &middot; Ticket and fares data from <a href="https://www.nationalrail.co.uk/">National Rail</a> / <a href="https://raildata.org.uk/">Rail Data Marketplace</a> &middot; Last updated {build_date}',maxZoom:18}}).addTo(map);
 map.createPane('stations');
 map.getPane('stations').style.zIndex = 650;
 

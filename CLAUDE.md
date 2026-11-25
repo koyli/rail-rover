@@ -18,7 +18,7 @@ python3 scripts/fetch_tickets.py        # -> data/tickets_raw.json
 python3 scripts/fetch_coords.py         # -> data/coords.json
 
 # 3. (Optional) Extract current rover/ranger pricing from the RSP Fares Data Feed
-NRDP_USERNAME=... OUTPUT_FILE=data/fares.zip ./scripts/download_fares.sh
+OUTPUT_FILE=data/fares.zip ./scripts/download_fares.sh   # needs AWS CLI access to s3://rdm-feeds
 unzip -o data/fares.zip -d data/fares
 python3 scripts/fetch_rover_prices.py   # -> data/rover_prices.json
 
@@ -32,8 +32,15 @@ self-contained (Leaflet loaded from a CDN with SRI hashes). After editing
 warnings (missing coordinates, override results, etc.) before considering the
 change done.
 
-`download_fares.sh` requires NRDP credentials and downloads a ~300MB feed
-(`data/fares/`, gitignored) — not run as part of a normal rebuild.
+`download_fares.sh` downloads the fares feed (~45MB zip, ~290MB extracted
+into `data/fares/`, gitignored) — not run as part of a normal rebuild. Rail
+Data Marketplace has no download API for its file products: RDM copies each
+new release of its "Fares - Full Refresh - Weekly" and "Timetable - Full
+Refresh - Weekly" products into the `rdm-feeds` S3 bucket (eu-west-1) as
+`fares_full.zip` / `timetable_full.zip`, and the weekly workflow reads them
+via the OIDC role `github-rdm-reads`. RDM's releases name files
+`RJFAFnnnTRR.txt` rather than NRDP's old `RJFAFnnn.TRR`; the scripts accept
+both.
 `fetch_rover_prices.py` matches the feed's Rail Rovers file against ticket
 names; only matches scoring ≥0.85 are written to `data/rover_prices.json`
 (committed, small). See README.md for how this interacts with

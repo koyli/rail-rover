@@ -26,7 +26,7 @@ data/
 scripts/
   fetch_tickets.py       # Scrapes NR website for all tickets (reads __NEXT_DATA__ JSON)
   fetch_coords.py        # Fetches station coordinates from OSM Overpass API
-  download_fares.sh      # Downloads the RSP Fares Data Feed (fares.zip) -- needs NRDP credentials
+  download_fares.sh      # Downloads the RSP Fares Data Feed (fares.zip) from the RDM feeds S3 bucket
   fetch_rover_prices.py  # Extracts current rover/ranger pricing from the feed's Rail Rovers file
   build_html.py          # Generates index.html from the data files
 ```
@@ -41,7 +41,7 @@ python3 scripts/fetch_tickets.py
 python3 scripts/fetch_coords.py
 
 # 3. (Optional) Get current rover/ranger pricing from the RSP Fares Data Feed
-NRDP_USERNAME=you@example.com OUTPUT_FILE=data/fares.zip ./scripts/download_fares.sh
+OUTPUT_FILE=data/fares.zip ./scripts/download_fares.sh   # needs AWS CLI access to s3://rdm-feeds
 unzip -o data/fares.zip -d data/fares
 python3 scripts/fetch_rover_prices.py
 
